@@ -6,10 +6,15 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    return supabaseResponse;
+  }
+
+  try {
+    const supabase = createServerClient(url, key, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -26,28 +31,28 @@ export async function updateSession(request: NextRequest) {
           );
         },
       },
+    });
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (
+      request.nextUrl.pathname.startsWith("/admin") &&
+      !user
+    ) {
+      const redir = request.nextUrl.clone();
+      redir.pathname = "/login";
+      return NextResponse.redirect(redir);
     }
-  );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Protect admin routes
-  if (
-    request.nextUrl.pathname.startsWith("/admin") &&
-    !user
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
-
-  // If logged in and visiting login, go to dashboard
-  if (request.nextUrl.pathname === "/login" && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin";
-    return NextResponse.redirect(url);
+    if (request.nextUrl.pathname === "/login" && user) {
+      const redir = request.nextUrl.clone();
+      redir.pathname = "/admin";
+      return NextResponse.redirect(redir);
+    }
+  } catch {
+    // If Supabase fails, still allow the request through
   }
 
   return supabaseResponse;
