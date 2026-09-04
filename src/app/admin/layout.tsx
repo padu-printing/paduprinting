@@ -35,16 +35,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex min-h-svh bg-neutral-100">
+    <div className="flex h-svh overflow-hidden bg-neutral-100">
       {/* Sidebar */}
-      <aside className="w-60 shrink-0 border-r border-neutral-200 bg-white">
-        <div className="flex h-16 items-center border-b border-neutral-200 px-5">
-          <span className="text-lg font-extrabold text-[#1A2340]">
-            PADU{" "}
-            <span className="text-[#6B2C91]">Admin</span>
-          </span>
+      <aside className="flex w-60 shrink-0 flex-col border-r border-neutral-200 bg-white">
+        <div className="flex h-16 shrink-0 items-center border-b border-neutral-200 px-5">
+          <img src="/logo-horizontal.png" alt="PADU Printing Admin" className="h-8 w-auto" />
         </div>
-        <nav className="flex flex-col gap-1 p-3">
+        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
           {navItems.map((item) => {
             const active =
               pathname === item.href ||
@@ -84,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Content */}
-      <main className="flex-1 overflow-x-hidden">
+      <main className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-5xl p-6 sm:p-8">{children}</div>
       </main>
     </div>
