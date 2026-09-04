@@ -6,22 +6,22 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
-    image: "https://i.pinimg.com/736x/8a/e6/ab/8ae6ab3540d57cadca6565df2ea3b795.jpg",
+    image: "/logo-horizontal.png",
     alt: "PADU Printing - Percetakan Digital",
     link: "/produk",
   },
   {
-    image: "https://i.pinimg.com/736x/8a/e6/ab/8ae6ab3540d57cadca6565df2ea3b795.jpg",
+    image: "/logo-horizontal.png",
     alt: "Banner & Spanduk",
     link: "/produk/banner-spanduk",
   },
   {
-    image: "https://i.pinimg.com/736x/8a/e6/ab/8ae6ab3540d57cadca6565df2ea3b795.jpg",
+    image: "/logo-horizontal.png",
     alt: "Kartu Nama",
     link: "/produk/kartu-nama",
   },
   {
-    image: "https://i.pinimg.com/736x/8a/e6/ab/8ae6ab3540d57cadca6565df2ea3b795.jpg",
+    image: "/logo-horizontal.png",
     alt: "Stiker & Label",
     link: "/produk/stiker-label",
   },
