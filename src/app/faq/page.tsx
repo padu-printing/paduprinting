@@ -19,7 +19,7 @@ export default function FAQPage() {
   return (
     <>
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <div className="grid items-start gap-8" style={{ gridTemplateColumns: "240px minmax(0,1fr)" }}>
           {/* Sidebar */}
           <aside className="lg:sticky lg:top-4">
             <nav className="flex w-full flex-col gap-2">
