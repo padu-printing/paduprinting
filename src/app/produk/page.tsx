@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Package, Megaphone, CreditCard, Tag, Gift, Mail, Shirt, Coffee } from "lucide-react";
-import { categories, products } from "@/data/seed";
+import { useContent } from "@/data/content";
 import ProductInfiniteGrid from "@/components/ProductInfiniteGrid";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -17,6 +17,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export default function ProdukPage() {
+  const { content } = useContent();
+  const { categories, products } = content;
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const filteredProducts = products.filter(

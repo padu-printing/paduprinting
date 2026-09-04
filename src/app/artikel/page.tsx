@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, ArrowRight } from "lucide-react";
-import { articles } from "@/data/seed";
+import { getAllArticles } from "@/lib/data";
 import { readTime, formatDate, shortDate } from "@/lib/article";
 import ArticleCard from "@/components/article/ArticleCard";
 import ArticleFeatured from "@/components/article/ArticleFeatured";
@@ -26,15 +26,16 @@ export const metadata: Metadata = {
   },
 };
 
-const sorted = [...articles].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
+export default async function ArtikelPage() {
+  const articles = await getAllArticles();
+  const sorted = [...articles].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
-const featured = sorted[0];
-const sideArticles = sorted.slice(1, 4);
-const latest = sorted.slice(0, 4);
+  const featured = sorted[0];
+  const sideArticles = sorted.slice(1, 4);
+  const latest = sorted.slice(0, 4);
 
-export default function ArtikelPage() {
   return (
     <main>
       <div className="w-full px-4 py-10">

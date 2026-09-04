@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, Calendar, User, Clock, MessageCircle } from "lucide-react";
-import { articles, getArticleBySlug } from "@/data/seed";
+import { getAllArticles, getArticleBySlug } from "@/lib/data";
 import { readTime, shortDate, extractHeadings } from "@/lib/article";
 import ArticleBody from "@/components/article/ArticleBody";
 import ArticleToc from "@/components/article/ArticleToc";
@@ -17,6 +17,7 @@ import {
 } from "@/lib/seo";
 
 export async function generateStaticParams() {
+  const articles = await getAllArticles();
   return articles.map((article) => ({ slug: article.slug }));
 }
 
@@ -26,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) return { title: "Artikel Tidak Ditemukan" };
   const url = `${SITE_URL}/artikel/${article.slug}`;
   return {
@@ -56,11 +57,12 @@ export default async function ArtikelDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
   const headings = extractHeadings(article.content);
-  const related = articles
+  const allArticles = await getAllArticles();
+  const related = allArticles
     .filter((a) => a.slug !== article.slug)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3);

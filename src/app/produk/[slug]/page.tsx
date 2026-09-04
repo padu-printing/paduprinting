@@ -2,12 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Package, ChevronRight, Eye } from "lucide-react";
 import {
-  categories,
-  products,
+  getAllCategories,
+  getAllProducts,
   getCategoryBySlug,
   getProductsByCategory,
   getProductBySlug,
-} from "@/data/seed";
+} from "@/lib/data";
+import type { Category, Product } from "@/data/seed";
 import ProductDetailClient from "@/components/ProductDetailClient";
 import ProductImage from "@/components/ProductImage";
 import type { Metadata } from "next";
@@ -20,6 +21,8 @@ import {
 } from "@/lib/seo";
 
 export async function generateStaticParams() {
+  const categories = await getAllCategories();
+  const products = await getAllProducts();
   const categoryParams = categories.map((c) => ({ slug: c.slug }));
   const productParams = products.map((p) => ({ slug: p.slug }));
   return [...categoryParams, ...productParams];
@@ -31,7 +34,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
   if (category) {
     const url = `${SITE_URL}/produk/${category.slug}`;
     return {
@@ -52,7 +55,7 @@ export async function generateMetadata({
       },
     };
   }
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (product) {
     const url = `${SITE_URL}/produk/${product.slug}`;
     return {
@@ -85,12 +88,12 @@ export default async function ProdukSlugPage({
 }) {
   const { slug } = await params;
 
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
   if (category) {
     return <CategoryView category={category} />;
   }
 
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (product) {
     return <ProductView product={product} />;
   }
@@ -98,12 +101,12 @@ export default async function ProdukSlugPage({
   notFound();
 }
 
-function CategoryView({
+async function CategoryView({
   category,
 }: {
-  category: (typeof categories)[0];
+  category: Category;
 }) {
-  const categoryProducts = getProductsByCategory(category.slug);
+  const categoryProducts = await getProductsByCategory(category.slug);
   const url = `${SITE_URL}/produk/${category.slug}`;
   const orgSchema = getOrganizationSchema();
 
@@ -196,7 +199,8 @@ function CategoryView({
   );
 }
 
-function ProductView({ product }: { product: (typeof products)[0] }) {
+async function ProductView({ product }: { product: Product }) {
+  const categories = await getAllCategories();
   const category = categories.find((c) => c.slug === product.categorySlug);
   const url = `${SITE_URL}/produk/${product.slug}`;
   const orgSchema = getOrganizationSchema();
@@ -270,8 +274,10 @@ function ProductView({ product }: { product: (typeof products)[0] }) {
   );
 }
 
-function RelatedProducts({ currentProduct }: { currentProduct: (typeof products)[0] }) {
-  const related = products
+async function RelatedProducts({ currentProduct }: { currentProduct: Product }) {
+  const allProducts = await getAllProducts();
+  const categories = await getAllCategories();
+  const related = allProducts
     .filter(
       (p) =>
         p.categorySlug === currentProduct.categorySlug &&

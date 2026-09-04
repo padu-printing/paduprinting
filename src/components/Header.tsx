@@ -10,11 +10,13 @@ import {
   ChevronRight,
   MessageCircle,
 } from "lucide-react";
-import { categories, products } from "@/data/seed";
+import { useContent } from "@/data/content";
 
 const WHATSAPP_NUMBER = "6282123496469";
 
 export default function Header() {
+  const { content } = useContent();
+  const { categories, products } = content;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [kategoriOpen, setKategoriOpen] = useState(false);

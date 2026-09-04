@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import CategoryShowcaseBlock from "./CategoryShowcaseBlock";
-import { categories, products } from "@/data/seed";
+import { useContent } from "@/data/content";
 
 export default function AutoRotatingCategoryShowcase() {
+  const { content } = useContent();
+  const { categories, products } = content;
   const activeCategories = categories;
   const [currentIndex, setCurrentIndex] = useState(0);
 

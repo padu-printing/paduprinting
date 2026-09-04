@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { MapPin, Phone, Mail } from "lucide-react";
-import { categories } from "@/data/seed";
+import { useContent } from "@/data/content";
 
 export default function Footer() {
+  const { content } = useContent();
+  const { categories } = content;
   return (
     <footer className="bg-[#0D1220] text-neutral-300">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

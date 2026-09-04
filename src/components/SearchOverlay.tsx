@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
-import { products } from "@/data/seed";
+import { useContent } from "@/data/content";
 import type { Product } from "@/data/seed";
 
 interface SearchOverlayProps {
@@ -11,7 +11,7 @@ interface SearchOverlayProps {
   onClose: () => void;
 }
 
-function searchProducts(query: string): Product[] {
+function searchProducts(products: Product[], query: string): Product[] {
   const lowerQuery = query.toLowerCase();
   return products.filter(
     (product) =>
@@ -23,6 +23,8 @@ function searchProducts(query: string): Product[] {
 }
 
 export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
+  const { content } = useContent();
+  const { products } = content;
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,11 +43,11 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
 
   useEffect(() => {
     if (query.trim().length >= 2) {
-      setResults(searchProducts(query));
+      setResults(searchProducts(products, query));
     } else {
       setResults([]);
     }
-  }, [query]);
+  }, [query, products]);
 
   if (!open) return null;
 

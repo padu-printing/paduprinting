@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { categories, products, getBestSellers } from "@/data/seed";
+import { categories as seedCategories, products as seedProducts } from "@/data/seed";
+import { useContent } from "@/data/content";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import AutoRotatingCategoryShowcase from "@/components/AutoRotatingCategoryShowcase";
 import CaraOrderSection from "@/components/CaraOrderSection";
@@ -20,7 +21,7 @@ import GallerySection from "@/components/GallerySection";
 import FinalCtaSection from "@/components/FinalCtaSection";
 import ProductImage from "@/components/ProductImage";
 
-function CategoryCard({ category }: { category: typeof categories[0] }) {
+function CategoryCard({ category }: { category: typeof seedCategories[0] }) {
   return (
     <Link href={`/produk/${category.slug}`} className="card-hover block rounded-xl bg-white border border-neutral-200 p-6 text-center">
       <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
@@ -32,7 +33,7 @@ function CategoryCard({ category }: { category: typeof categories[0] }) {
   );
 }
 
-function ProductCard({ product }: { product: typeof products[0] }) {
+function ProductCard({ product }: { product: typeof seedProducts[0] }) {
   return (
     <Link href={`/produk/${product.slug}`} className="card-hover block min-w-[200px] max-w-[220px] rounded-xl bg-white border border-neutral-200 overflow-hidden">
       <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden">
@@ -56,7 +57,9 @@ function ProductCard({ product }: { product: typeof products[0] }) {
 }
 
 export default function Home() {
-  const bestSellers = getBestSellers();
+  const { content } = useContent();
+  const { categories, products } = content;
+  const bestSellers = products.filter((p) => p.isBestSeller);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollProducts = (direction: "left" | "right") => {
