@@ -11,6 +11,13 @@ import {
 import ProductDetailClient from "@/components/ProductDetailClient";
 import ProductImage from "@/components/ProductImage";
 import type { Metadata } from "next";
+import {
+  SITE_URL,
+  BRAND,
+  getProductSchema,
+  getBreadcrumbSchema,
+  getOrganizationSchema,
+} from "@/lib/seo";
 
 export async function generateStaticParams() {
   const categoryParams = categories.map((c) => ({ slug: c.slug }));
@@ -26,19 +33,49 @@ export async function generateMetadata({
   const { slug } = await params;
   const category = getCategoryBySlug(slug);
   if (category) {
+    const url = `${SITE_URL}/produk/${category.slug}`;
     return {
-      title: `${category.name} - PADU Printing`,
+      title: `${category.name} Jakarta Timur | ${BRAND}`,
       description: category.description,
+      alternates: { canonical: url },
+      openGraph: {
+        title: `${category.name} Jakarta Timur | ${BRAND}`,
+        description: category.description,
+        url,
+        siteName: BRAND,
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${category.name} Jakarta Timur | ${BRAND}`,
+        description: category.description,
+      },
     };
   }
   const product = getProductBySlug(slug);
   if (product) {
+    const url = `${SITE_URL}/produk/${product.slug}`;
     return {
-      title: `${product.name} - PADU Printing`,
+      title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
       description: product.shortDescription,
+      alternates: { canonical: url },
+      openGraph: {
+        title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
+        description: product.shortDescription,
+        url,
+        siteName: BRAND,
+        type: "website",
+        images: [{ url: product.image }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
+        description: product.shortDescription,
+        images: [product.image],
+      },
     };
   }
-  return { title: "Tidak Ditemukan - PADU Printing" };
+  return { title: "Tidak Ditemukan" };
 }
 
 export default async function ProdukSlugPage({
@@ -67,26 +104,45 @@ function CategoryView({
   category: (typeof categories)[0];
 }) {
   const categoryProducts = getProductsByCategory(category.slug);
+  const url = `${SITE_URL}/produk/${category.slug}`;
+  const orgSchema = getOrganizationSchema();
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      getBreadcrumbSchema([
+        { name: "Home", url: `${SITE_URL}/` },
+        { name: "Produk", url: `${SITE_URL}/produk` },
+        { name: category.name, url },
+      ]),
+      orgSchema,
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+
       <div className="bg-neutral-50 border-b border-neutral-200">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-neutral-500">
-            <Link href="/" className="hover:text-padu-orange transition-colors">
+            <Link href="/" className="hover:text-[#6B2C91] transition-colors">
               Home
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <Link href="/produk" className="hover:text-padu-orange transition-colors">
+            <Link href="/produk" className="hover:text-[#6B2C91] transition-colors">
               Produk
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <span className="text-padu-navy font-medium">{category.name}</span>
+            <span className="text-[#1A2340] font-medium">{category.name}</span>
           </nav>
         </div>
       </div>
 
-      <section className="bg-gradient-to-br from-padu-navy to-padu-purple py-16">
+      <section className="bg-gradient-to-br from-[#1A2340] to-[#6B2C91] py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 text-white">
@@ -114,10 +170,10 @@ function CategoryView({
                 className="card-hover group block rounded-xl bg-white border border-neutral-200 overflow-hidden"
               >
                 <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden">
-                  <ProductImage src={product.image} alt={product.name} iconClassName="h-10 w-10 text-neutral-300" />
+                  <ProductImage src={product.image} alt={`Cetak ${product.name} - ${BRAND}`} iconClassName="h-10 w-10 text-neutral-300" />
                 </div>
                 <div className="p-3">
-                  <h3 className="text-sm font-bold text-padu-navy group-hover:text-padu-orange transition-colors line-clamp-1">
+                  <h3 className="text-sm font-bold text-[#1A2340] group-hover:text-[#6B2C91] transition-colors line-clamp-1">
                     {product.name}
                   </h3>
                   <div className="mt-1 flex items-center justify-between">
@@ -142,17 +198,50 @@ function CategoryView({
 
 function ProductView({ product }: { product: (typeof products)[0] }) {
   const category = categories.find((c) => c.slug === product.categorySlug);
+  const url = `${SITE_URL}/produk/${product.slug}`;
+  const orgSchema = getOrganizationSchema();
+
+  const breadcrumbItems = [
+    { name: "Home", url: `${SITE_URL}/` },
+    { name: "Produk", url: `${SITE_URL}/produk` },
+  ];
+  if (category) {
+    breadcrumbItems.push({ name: category.name, url: `${SITE_URL}/produk/${category.slug}` });
+  }
+  breadcrumbItems.push({ name: product.name, url });
+
+  const productSchema = getProductSchema({
+    name: product.name,
+    description: product.description,
+    url,
+    image: [product.image],
+    price: product.basePrice,
+  });
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      productSchema,
+      getBreadcrumbSchema(breadcrumbItems),
+      orgSchema,
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+
       <div className="bg-neutral-50 border-b border-neutral-200">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-neutral-500">
-            <Link href="/" className="hover:text-padu-orange transition-colors">
+            <Link href="/" className="hover:text-[#6B2C91] transition-colors">
               Home
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <Link href="/produk" className="hover:text-padu-orange transition-colors">
+            <Link href="/produk" className="hover:text-[#6B2C91] transition-colors">
               Produk
             </Link>
             {category && (
@@ -160,14 +249,14 @@ function ProductView({ product }: { product: (typeof products)[0] }) {
                 <ChevronRight className="h-4 w-4" />
                 <Link
                   href={`/produk/${category.slug}`}
-                  className="hover:text-padu-orange transition-colors"
+                  className="hover:text-[#6B2C91] transition-colors"
                 >
                   {category.name}
                 </Link>
               </>
             )}
             <ChevronRight className="h-4 w-4" />
-            <span className="text-padu-navy font-medium">{product.name}</span>
+            <span className="text-[#1A2340] font-medium">{product.name}</span>
           </nav>
         </div>
       </div>
@@ -197,7 +286,7 @@ function RelatedProducts({ currentProduct }: { currentProduct: (typeof products)
   return (
     <section className="border-t border-neutral-200 bg-neutral-50 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold text-padu-navy">
+        <h2 className="text-2xl font-bold text-[#1A2340]">
           Produk Lain di {category?.name || "Kategori Ini"}
         </h2>
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -208,10 +297,10 @@ function RelatedProducts({ currentProduct }: { currentProduct: (typeof products)
               className="card-hover block rounded-xl bg-white border border-neutral-200 overflow-hidden"
             >
               <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden">
-                <ProductImage src={product.image} alt={product.name} iconClassName="h-10 w-10 text-neutral-300" />
+                <ProductImage src={product.image} alt={`Cetak ${product.name} - ${BRAND}`} iconClassName="h-10 w-10 text-neutral-300" />
               </div>
               <div className="p-3">
-                <h3 className="text-sm font-bold text-padu-navy line-clamp-1">{product.name}</h3>
+                <h3 className="text-sm font-bold text-[#1A2340] line-clamp-1">{product.name}</h3>
                 <div className="mt-1 flex items-center justify-between">
                   <span className="text-xs text-neutral-500">Harga Mulai dari</span>
                   <div className="flex items-center gap-1 text-xs text-neutral-400">

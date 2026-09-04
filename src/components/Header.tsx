@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { categories, products } from "@/data/seed";
 
-const WHATSAPP_NUMBER = "6282123496469";
+const WHATSAPP_NUMBER = "6285280059274";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);

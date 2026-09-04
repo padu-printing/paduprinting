@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { MessageCircle } from "lucide-react";
+import { WHATSAPP_PHONE } from "@/lib/seo";
 
 export default function FloatingWhatsApp() {
   const [visible, setVisible] = useState(false);
@@ -18,7 +19,7 @@ export default function FloatingWhatsApp() {
 
   return (
     <a
-      href="https://wa.me/6282123496469?text=Halo%20PADU%20Printing%2C%20saya%20ingin%20bertanya%20tentang%20produk%20cetakan."
+      href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Halo PADU Printing, saya ingin bertanya tentang produk cetakan.")}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 group"

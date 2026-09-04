@@ -118,7 +118,7 @@ export default function FinalCtaSection() {
             {/* CTA Buttons */}
             <div className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6285280059274"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 sm:w-auto"
@@ -132,7 +132,7 @@ export default function FinalCtaSection() {
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
-                href="https://wa.me/6281234567890?text=Halo PADU Printing, saya ingin meminta penawaran."
+                href="https://wa.me/6285280059274?text=Halo PADU Printing, saya ingin meminta penawaran."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/25 px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-white/10 sm:w-auto"

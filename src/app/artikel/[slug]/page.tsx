@@ -7,8 +7,14 @@ import ArticleBody from "@/components/article/ArticleBody";
 import ArticleToc from "@/components/article/ArticleToc";
 import ArticleCard from "@/components/article/ArticleCard";
 import type { Metadata } from "next";
-
-const SITE = "https://paduprinting.example.com";
+import {
+  SITE_URL,
+  BRAND,
+  WHATSAPP_PHONE,
+  getBlogPostingSchema,
+  getBreadcrumbSchema,
+  getOrganizationSchema,
+} from "@/lib/seo";
 
 export async function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
@@ -22,9 +28,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = getArticleBySlug(slug);
   if (!article) return { title: "Artikel Tidak Ditemukan" };
-  const url = `${SITE}/artikel/${article.slug}`;
+  const url = `${SITE_URL}/artikel/${article.slug}`;
   return {
-    title: `${article.title} - PADU Printing`,
+    title: article.title,
     description: article.excerpt,
     alternates: { canonical: url },
     openGraph: {
@@ -32,6 +38,7 @@ export async function generateMetadata({
       description: article.excerpt,
       type: "article",
       url,
+      siteName: BRAND,
       images: [{ url: article.coverImage }],
     },
     twitter: {
@@ -57,30 +64,28 @@ export default async function ArtikelDetailPage({
     .filter((a) => a.slug !== article.slug)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3);
-  const url = `${SITE}/artikel/${article.slug}`;
+  const url = `${SITE_URL}/artikel/${article.slug}`;
+  const orgSchema = getOrganizationSchema();
+
+  const blogSchema = getBlogPostingSchema({
+    title: article.title,
+    description: article.excerpt,
+    url,
+    image: article.coverImage,
+    datePublished: article.date,
+    dateModified: article.date,
+    author: article.author,
+  });
+
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: `${SITE_URL}/` },
+    { name: "Artikel", url: `${SITE_URL}/artikel` },
+    { name: article.title, url },
+  ]);
 
   const schema = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BlogPosting",
-        headline: article.title,
-        description: article.excerpt,
-        image: article.coverImage,
-        author: { "@type": "Organization", name: article.author },
-        datePublished: article.date,
-        dateModified: article.date,
-        mainEntityOfPage: url,
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE },
-          { "@type": "ListItem", position: 2, name: "Artikel", item: `${SITE}/artikel` },
-          { "@type": "ListItem", position: 3, name: article.category, item: url },
-        ],
-      },
-    ],
+    "@graph": [blogSchema, breadcrumbSchema, orgSchema],
   };
 
   return (
@@ -167,7 +172,7 @@ export default async function ArtikelDetailPage({
                 Konsultasikan kebutuhan Anda langsung dengan tim kami.
               </p>
               <a
-                href="https://wa.me/6282123496469"
+                href={`https://wa.me/${WHATSAPP_PHONE}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-5 inline-flex items-center gap-2 rounded-[10px] bg-[#25D366] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#1EBE57]"

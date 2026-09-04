@@ -5,6 +5,26 @@ import { readTime, formatDate, shortDate } from "@/lib/article";
 import ArticleCard from "@/components/article/ArticleCard";
 import ArticleFeatured from "@/components/article/ArticleFeatured";
 import FinalCtaSection from "@/components/FinalCtaSection";
+import type { Metadata } from "next";
+import { SITE_URL, BRAND } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: `Artikel & Tips Percetakan | ${BRAND}`,
+  description: `Kumpulan artikel, tips, dan panduan seputar percetakan, desain, branding, dan digital printing dari ${BRAND}.`,
+  alternates: { canonical: `${SITE_URL}/artikel` },
+  openGraph: {
+    title: `Artikel & Tips Percetakan | ${BRAND}`,
+    description: `Kumpulan artikel, tips, dan panduan seputar percetakan, desain, branding, dan digital printing dari ${BRAND}.`,
+    url: `${SITE_URL}/artikel`,
+    siteName: BRAND,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Artikel & Tips Percetakan | ${BRAND}`,
+    description: `Kumpulan artikel, tips, dan panduan seputar percetakan, desain, branding, dan digital printing dari ${BRAND}.`,
+  },
+};
 
 const sorted = [...articles].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -86,7 +106,7 @@ export default function ArtikelPage() {
                 Cetak Berkualitas untuk Bisnis Anda
               </h2>
               <p className="mt-1 text-sm text-[#C7C7D1]">
-                Banner · Sticker · Brosur · Merchandise · Packaging
+                Banner &middot; Sticker &middot; Brosur &middot; Merchandise &middot; Packaging
               </p>
             </div>
             <Link
