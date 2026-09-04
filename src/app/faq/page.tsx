@@ -18,21 +18,11 @@ export default function FAQPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1A2340] to-[#6B2C91] py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold text-white">FAQ</h1>
-          <p className="mt-3 text-lg text-neutral-300">
-            Pertanyaan yang sering ditanyakan tentang layanan kami.
-          </p>
-        </div>
-      </section>
-
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
+        <div className="grid items-start gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
           {/* Sidebar */}
-          <aside className="lg:sticky lg:top-4 lg:self-start">
-            <nav className="space-y-1">
+          <aside className="lg:sticky lg:top-4">
+            <nav className="flex w-full flex-col gap-2">
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -40,7 +30,7 @@ export default function FAQPage() {
                     setActiveCategory(cat);
                     setOpenIndex(null);
                   }}
-                  className={`block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors ${
+                  className={`flex w-full items-center rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors ${
                     activeCategory === cat
                       ? "bg-[#6B2C91] text-white"
                       : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
@@ -53,17 +43,17 @@ export default function FAQPage() {
           </aside>
 
           {/* FAQ List */}
-          <div className="space-y-3">
+          <div className="min-w-0 w-full space-y-3">
             {filteredFAQs.map((faq, idx) => (
               <div
-                key={idx}
-                className="rounded-xl border border-neutral-200 bg-white overflow-hidden"
+                key={`${activeCategory}-${idx}`}
+                className="w-full max-w-full rounded-xl border border-neutral-200 bg-white overflow-hidden"
               >
                 <button
                   onClick={() => toggleFAQ(idx)}
-                  className="flex w-full items-center justify-between px-6 py-4 text-left"
+                  className="flex w-full min-h-[56px] items-center justify-between px-6 py-4 text-left"
                 >
-                  <span className="font-semibold text-[#1A2340] pr-4">
+                  <span className="min-w-0 font-semibold text-[#1A2340] pr-4">
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -73,7 +63,7 @@ export default function FAQPage() {
                   />
                 </button>
                 {openIndex === idx && (
-                  <div className="px-6 pb-4 text-neutral-600 leading-relaxed border-t border-neutral-100 pt-4">
+                  <div className="min-w-0 px-6 pb-4 text-neutral-600 leading-relaxed border-t border-neutral-100 pt-4 break-words">
                     {faq.answer}
                   </div>
                 )}
