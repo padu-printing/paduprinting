@@ -39,7 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="flex w-60 shrink-0 flex-col border-r border-neutral-200 bg-white">
         <div className="flex h-16 shrink-0 items-center border-b border-neutral-200 px-5">
-          <img src="/logo-horizontal.png" alt="PADU Printing Admin" className="h-8 w-auto" />
+          <img src="/logo-horizontal.png" alt="PADU Printing Admin" className="h-full max-h-16 w-auto py-2 object-contain" />
         </div>
         <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
           {navItems.map((item) => {
