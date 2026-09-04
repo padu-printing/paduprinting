@@ -28,9 +28,7 @@ export default function LoginPage() {
 
   return (
     <>
-      {/* Hide header/footer on login page */}
       <style>{`
-        header, footer, nav { display: none !important; }
         body { background: #08020F !important; }
       `}</style>
 
@@ -134,99 +132,82 @@ export default function LoginPage() {
             .ribbon-anim { animation: none !important; }
             .card-anim { animation: none !important; opacity: 1 !important; }
           }
-          .login-input { height: 62px; }
-          .login-btn { height: 62px; }
+          .login-input { height: 44px; }
+          .login-btn { height: 44px; }
           @media (max-width: 767px) {
             .login-card {
-              padding: 32px 22px !important;
-              border-radius: 24px !important;
+              padding: 24px 22px !important;
+              border-radius: 8px !important;
               max-width: none !important;
               width: calc(100vw - 28px) !important;
               margin: 14px !important;
             }
-            .login-logo { max-width: 175px !important; }
-            .login-title { font-size: 32px !important; }
-            .login-subtitle { font-size: 16px !important; }
-            .login-label { font-size: 15px !important; }
-            .login-input, .login-btn { height: 58px !important; }
-            .login-input { border-radius: 14px !important; }
-            .login-btn { border-radius: 14px !important; }
+            .login-logo { max-width: 160px !important; }
+            .login-input, .login-btn { height: 42px !important; }
+            .login-input { border-radius: 8px !important; }
+            .login-btn { border-radius: 8px !important; }
           }
           @media (max-width: 399px) {
             .login-card {
-              padding: 28px 18px !important;
+              padding: 20px 18px !important;
               width: calc(100vw - 20px) !important;
             }
-            .login-logo { max-width: 155px !important; }
-            .login-title { font-size: 29px !important; }
-            .login-input, .login-btn { height: 56px !important; }
+            .login-logo { max-width: 140px !important; }
+            .login-input, .login-btn { height: 40px !important; }
           }
           @media (min-width: 768px) and (max-width: 1023px) {
             .login-card {
-              padding: 42px 42px !important;
-              max-width: 500px !important;
+              padding: 24px 30px !important;
+              max-width: 420px !important;
             }
-            .login-logo { max-width: 190px !important; }
-            .login-title { font-size: 36px !important; }
-            .login-input, .login-btn { height: 60px !important; }
+            .login-logo { max-width: 170px !important; }
+            .login-input, .login-btn { height: 44px !important; }
           }
         `}</style>
       </div>
 
       {/* Centered login card */}
-      <main className="flex min-h-svh items-center justify-center overflow-x-hidden p-4 sm:p-6 lg:p-8">
+      <main className="flex h-svh items-center justify-center overflow-hidden p-4 sm:p-6 lg:p-8">
         <div
           className="login-card card-anim w-full"
           style={{
             animation: "cardIn 500ms ease-out both",
-            padding: "48px 52px",
-            borderRadius: "30px",
-            maxWidth: "520px",
-            background: "rgba(20, 8, 35, 0.58)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-            border: "1px solid rgba(216, 180, 254, 0.65)",
+            padding: "28px",
+            borderRadius: "8px",
+            maxWidth: "440px",
+            background: "#FFFFFF",
             boxShadow:
-              "0 25px 80px rgba(0,0,0,0.55), 0 0 45px rgba(168,85,247,0.12), inset 0 0 0 1px rgba(255,255,255,0.05)",
+              "0 25px 80px rgba(0,0,0,0.35), 0 4px 20px rgba(0,0,0,0.08)",
           }}
         >
           {/* Logo */}
-          <div className="flex justify-center" style={{ marginBottom: "28px" }}>
+          <div className="flex justify-center" style={{ marginBottom: "18px" }}>
             <Image
               src="/logo-horizontal.png"
               alt="PADU Printing"
-              width={220}
-              height={60}
+              width={180}
+              height={49}
               priority
               className="login-logo"
-              style={{ height: "auto", maxHeight: "60px", maxWidth: "220px" }}
+              style={{ height: "auto", maxWidth: "180px", objectFit: "contain" }}
             />
           </div>
 
           {/* Welcome */}
           <h1
-            className="login-title text-center font-semibold tracking-tight text-white"
+            className="login-title text-center font-semibold tracking-tight"
             style={{
-              fontSize: "40px",
+              fontSize: "18px",
               lineHeight: "1.15",
               letterSpacing: "-0.5px",
+              color: "#1A1A2E",
             }}
           >
-            Welcome Back
+            Selamat Datang Kembali
           </h1>
-          <p
-            className="login-subtitle text-center"
-            style={{
-              marginTop: "10px",
-              fontSize: "17px",
-              color: "rgba(255,255,255,0.62)",
-            }}
-          >
-            Login to your account
-          </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} style={{ marginTop: "34px" }}>
+          <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
             {/* Error */}
             {error && (
               <div
@@ -244,16 +225,16 @@ export default function LoginPage() {
             {/* Email */}
             <label
               htmlFor="email"
-              className="login-label block font-medium text-white"
-              style={{ fontSize: "17px", marginBottom: "10px" }}
+              className="login-label block font-medium"
+              style={{ fontSize: "14px", marginBottom: "10px", color: "#1A1A2E" }}
             >
-              Email address
+              Alamat Email
             </label>
             <div className="relative">
               <Mail
                 className="pointer-events-none absolute top-1/2 left-[18px] -translate-y-1/2"
                 size={22}
-                style={{ color: "rgba(255,255,255,0.85)" }}
+                style={{ color: "#A1A1AA" }}
               />
               <input
                 id="email"
@@ -263,21 +244,22 @@ export default function LoginPage() {
                 placeholder="example@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="login-input w-full text-white outline-none transition-all duration-200"
+                className="login-input w-full outline-none transition-all duration-200"
                 style={{
-                  borderRadius: "16px",
-                  background: "rgba(255,255,255,0.025)",
-                  border: "1.5px solid rgba(255,255,255,0.85)",
+                  borderRadius: "8px",
+                  background: "#F4F4F5",
+                  border: "1.5px solid #E4E4E7",
                   padding: "0 18px 0 54px",
-                  fontSize: "16px",
+                  fontSize: "14px",
+                  color: "#1A1A2E",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "#C084FC";
+                  e.currentTarget.style.borderColor = "#A855F7";
                   e.currentTarget.style.boxShadow =
-                    "0 0 0 3px rgba(168,85,247,0.15), 0 0 25px rgba(168,85,247,0.12)";
+                    "0 0 0 3px rgba(168,85,247,0.12)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.85)";
+                  e.currentTarget.style.borderColor = "#E4E4E7";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               />
@@ -286,16 +268,16 @@ export default function LoginPage() {
             {/* Password */}
             <label
               htmlFor="password"
-              className="login-label block font-medium text-white"
-              style={{ fontSize: "17px", marginTop: "24px", marginBottom: "10px" }}
+              className="login-label block font-medium"
+              style={{ fontSize: "14px", marginTop: "18px", marginBottom: "8px", color: "#1A1A2E" }}
             >
-              Password
+              Kata Sandi
             </label>
             <div className="relative">
               <Lock
                 className="pointer-events-none absolute top-1/2 left-[18px] -translate-y-1/2"
                 size={22}
-                style={{ color: "rgba(255,255,255,0.85)" }}
+                style={{ color: "#A1A1AA" }}
               />
               <input
                 id="password"
@@ -304,21 +286,22 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="login-input w-full text-white outline-none transition-all duration-200"
+                className="login-input w-full outline-none transition-all duration-200"
                 style={{
-                  borderRadius: "16px",
-                  background: "rgba(255,255,255,0.025)",
-                  border: "1.5px solid rgba(255,255,255,0.85)",
+                  borderRadius: "8px",
+                  background: "#F4F4F5",
+                  border: "1.5px solid #E4E4E7",
                   padding: "0 54px",
-                  fontSize: "16px",
+                  fontSize: "14px",
+                  color: "#1A1A2E",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "#C084FC";
+                  e.currentTarget.style.borderColor = "#A855F7";
                   e.currentTarget.style.boxShadow =
-                    "0 0 0 3px rgba(168,85,247,0.15), 0 0 25px rgba(168,85,247,0.12)";
+                    "0 0 0 3px rgba(168,85,247,0.12)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.85)";
+                  e.currentTarget.style.borderColor = "#E4E4E7";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               />
@@ -327,7 +310,7 @@ export default function LoginPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 className="absolute top-1/2 right-[18px] -translate-y-1/2 transition-colors"
-                style={{ color: "rgba(255,255,255,0.75)" }}
+                style={{ color: "#A1A1AA" }}
               >
                 {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
               </button>
@@ -337,15 +320,15 @@ export default function LoginPage() {
             <div className="text-right" style={{ marginTop: "12px" }}>
               <a
                 href="#"
-                className="transition-colors hover:underline"
+                className="transition-colors"
                 style={{
-                  fontSize: "15px",
-                  color: "#C084FC",
+                  fontSize: "14px",
+                  color: "#6B2C91",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#E9D5FF")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#C084FC")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#5A2478")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#6B2C91")}
               >
-                Forget Password ?
+                Lupa kata sandi
               </a>
             </div>
 
@@ -355,23 +338,25 @@ export default function LoginPage() {
               disabled={loading}
               className="login-btn group relative mt-8 flex w-full items-center justify-center gap-2 overflow-hidden font-semibold text-white transition-all duration-200"
               style={{
-                borderRadius: "16px",
-                background: "linear-gradient(90deg, #A855F7 0%, #7C3AED 50%, #C026D3 100%)",
+                borderRadius: "8px",
+                background: "#6B2C91",
                 border: "1px solid rgba(255,255,255,0.35)",
-                boxShadow: "0 10px 30px rgba(168,85,247,0.28)",
-                fontSize: "20px",
+                boxShadow: "0 10px 30px rgba(107,44,145,0.28)",
+                fontSize: "14px",
                 cursor: loading ? "not-allowed" : "pointer",
                 opacity: loading ? 0.8 : 1,
               }}
               onMouseEnter={(e) => {
                 if (!loading) {
+                  e.currentTarget.style.background = "#5A2478";
                   e.currentTarget.style.transform = "translateY(-1px)";
-                  e.currentTarget.style.boxShadow = "0 12px 35px rgba(168,85,247,0.40)";
+                  e.currentTarget.style.boxShadow = "0 12px 35px rgba(107,44,145,0.40)";
                 }
               }}
               onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#6B2C91";
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 10px 30px rgba(168,85,247,0.28)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(107,44,145,0.28)";
               }}
               onMouseDown={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
@@ -387,7 +372,7 @@ export default function LoginPage() {
                 </span>
               ) : (
                 <>
-                  Login
+                  Masuk
                   <ArrowRight
                     size={20}
                     className="transition-transform group-hover:translate-x-0.5"
@@ -396,33 +381,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Sign Up divider */}
-          <div
-            className="flex items-center gap-4"
-            style={{ marginTop: "58px", marginBottom: "8px" }}
-          >
-            <div className="h-px flex-1" style={{ background: "rgba(192,132,252,0.35)" }} />
-            <span
-              className="shrink-0 whitespace-nowrap"
-              style={{
-                fontSize: "16px",
-                color: "rgba(255,255,255,0.88)",
-              }}
-            >
-              Are You New Member ?{" "}
-              <a
-                href="#"
-                className="font-bold transition-colors hover:underline"
-                style={{ color: "#C084FC" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#E9D5FF")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#C084FC")}
-              >
-                Sign UP
-              </a>
-            </span>
-            <div className="h-px flex-1" style={{ background: "rgba(192,132,252,0.35)" }} />
-          </div>
         </div>
       </main>
     </>

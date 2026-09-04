@@ -1334,5 +1334,5 @@ export function calculatePrice(product: Product, selectedVariants: Record<string
 }
 
 export function getWhatsAppPhoneNumber(): string {
-  return "6285280059274";
+  return "6282123496469";
 }
