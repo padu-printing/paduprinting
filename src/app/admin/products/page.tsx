@@ -26,29 +26,19 @@ interface Product {
   base_price: number;
   production_time: string;
   variant_groups: unknown;
-  price_tiers: unknown;
-  specifications: unknown;
   is_best_seller: boolean;
+  meta_title: string;
+  meta_description: string;
   click_count: number;
 }
 
 interface VariantOption {
   label: string;
   value: string;
-  priceModifier: number;
 }
 interface VariantGroup {
   name: string;
   options: VariantOption[];
-}
-interface PriceTier {
-  minQty: number;
-  maxQty: number | null;
-  pricePerUnit: number;
-}
-interface Spec {
-  label: string;
-  value: string;
 }
 
 const emptyForm = {
@@ -62,9 +52,9 @@ const emptyForm = {
   base_price: 0,
   production_time: "",
   variant_groups: [] as VariantGroup[],
-  price_tiers: [] as PriceTier[],
-  specifications: [] as Spec[],
   is_best_seller: false,
+  meta_title: "",
+  meta_description: "",
 };
 
 export default function AdminProducts() {
@@ -75,6 +65,8 @@ export default function AdminProducts() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   async function load() {
     const supabase = createClient();
@@ -99,9 +91,7 @@ export default function AdminProducts() {
     setForm({
       ...emptyForm,
       gallery: [""],
-      variant_groups: [{ name: "", options: [{ label: "", value: "", priceModifier: 0 }] }],
-      price_tiers: [{ minQty: 1, maxQty: null, pricePerUnit: 0 }],
-      specifications: [{ label: "", value: "" }],
+      variant_groups: [{ name: "", options: [{ label: "", value: "" }] }],
     });
     setEditingId(null);
     setShowForm(true);
@@ -110,8 +100,6 @@ export default function AdminProducts() {
 
   function startEdit(p: Product) {
     const groups = Array.isArray(p.variant_groups) ? (p.variant_groups as VariantGroup[]) : [];
-    const tiers = Array.isArray(p.price_tiers) ? (p.price_tiers as PriceTier[]) : [];
-    const specs = Array.isArray(p.specifications) ? (p.specifications as Spec[]) : [];
     setForm({
       slug: p.slug,
       name: p.name,
@@ -122,10 +110,10 @@ export default function AdminProducts() {
       gallery: Array.isArray(p.gallery) && p.gallery.length ? p.gallery : [""],
       base_price: Number(p.base_price),
       production_time: p.production_time,
-      variant_groups: groups.length ? groups : [{ name: "", options: [{ label: "", value: "", priceModifier: 0 }] }],
-      price_tiers: tiers.length ? tiers : [{ minQty: 1, maxQty: null, pricePerUnit: 0 }],
-      specifications: specs.length ? specs : [{ label: "", value: "" }],
+      variant_groups: groups.length ? groups : [{ name: "", options: [{ label: "", value: "" }] }],
       is_best_seller: p.is_best_seller,
+      meta_title: p.meta_title || "",
+      meta_description: p.meta_description || "",
     });
     setEditingId(p.id);
     setShowForm(true);
@@ -154,13 +142,13 @@ export default function AdminProducts() {
   function addGroup() {
     setForm({
       ...form,
-      variant_groups: [...form.variant_groups, { name: "", options: [{ label: "", value: "", priceModifier: 0 }] }],
+      variant_groups: [...form.variant_groups, { name: "", options: [{ label: "", value: "" }] }],
     });
   }
   function removeGroup(gi: number) {
     setForm({ ...form, variant_groups: form.variant_groups.filter((_, i) => i !== gi) });
   }
-  function setOption(gi: number, oi: number, field: keyof VariantOption, val: string | number) {
+  function setOption(gi: number, oi: number, field: keyof VariantOption, val: string) {
     const g = [...form.variant_groups];
     g[gi] = {
       ...g[gi],
@@ -170,7 +158,7 @@ export default function AdminProducts() {
   }
   function addOption(gi: number) {
     const g = [...form.variant_groups];
-    g[gi] = { ...g[gi], options: [...g[gi].options, { label: "", value: "", priceModifier: 0 }] };
+    g[gi] = { ...g[gi], options: [...g[gi].options, { label: "", value: "" }] };
     setForm({ ...form, variant_groups: g });
   }
   function removeOption(gi: number, oi: number) {
@@ -179,30 +167,31 @@ export default function AdminProducts() {
     setForm({ ...form, variant_groups: g });
   }
 
-  // Price tier helpers
-  function setTier(ti: number, field: keyof PriceTier, val: number | null) {
-    const t = [...form.price_tiers];
-    t[ti] = { ...t[ti], [field]: val };
-    setForm({ ...form, price_tiers: t });
-  }
-  function addTier() {
-    setForm({ ...form, price_tiers: [...form.price_tiers, { minQty: 1, maxQty: null, pricePerUnit: 0 }] });
-  }
-  function removeTier(ti: number) {
-    setForm({ ...form, price_tiers: form.price_tiers.filter((_, i) => i !== ti) });
-  }
+  // Price tier and spec helpers removed
 
-  // Spec helpers
-  function setSpec(si: number, field: keyof Spec, val: string) {
-    const s = [...form.specifications];
-    s[si] = { ...s[si], [field]: val };
-    setForm({ ...form, specifications: s });
-  }
-  function addSpec() {
-    setForm({ ...form, specifications: [...form.specifications, { label: "", value: "" }] });
-  }
-  function removeSpec(si: number) {
-    setForm({ ...form, specifications: form.specifications.filter((_, i) => i !== si) });
+  async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const supabase = createClient();
+      const ext = file.name.split(".").pop() || "png";
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("product-images")
+        .upload(path, file, { upsert: true });
+      if (upErr) throw new Error(upErr.message);
+      const { data: pub } = supabase.storage
+        .from("product-images")
+        .getPublicUrl(path);
+      setForm((f) => ({ ...f, image: pub.publicUrl }));
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Gagal upload gambar");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -216,8 +205,6 @@ export default function AdminProducts() {
         name: g.name.trim(),
         options: g.options.filter((o) => o.label.trim() !== ""),
       }));
-    const cleanTiers = form.price_tiers.filter((t) => t.pricePerUnit > 0 || t.minQty > 0);
-    const cleanSpecs = form.specifications.filter((s) => s.label.trim() !== "");
 
     const payload: Record<string, unknown> = {
       slug: form.slug,
@@ -230,9 +217,9 @@ export default function AdminProducts() {
       base_price: Number(form.base_price) || 0,
       production_time: form.production_time,
       variant_groups: cleanGroups,
-      price_tiers: cleanTiers,
-      specifications: cleanSpecs,
       is_best_seller: form.is_best_seller,
+      meta_title: form.meta_title,
+      meta_description: form.meta_description,
     };
 
     const supabase = createClient();
@@ -335,12 +322,17 @@ export default function AdminProducts() {
               <Field label="Deskripsi">
                 <TextArea rows={4} value={form.description} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setForm({ ...form, description: e.target.value })} />
               </Field>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Gambar Utama URL">
-                  <TextInput value={form.image} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, image: e.target.value })} />
-                </Field>
-                <Field label="Waktu Produksi">
-                  <TextInput value={form.production_time} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, production_time: e.target.value })} />
+              {/* Image upload */}
+              <div>
+                <Field label="Gambar Utama">
+                  {form.image && (
+                    <img src={form.image} alt="Preview" className="mb-2 h-32 w-32 rounded-lg border border-neutral-200 object-cover" />
+                  )}
+                  <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-neutral-300 bg-neutral-50 px-4 py-3 text-sm text-neutral-500 hover:border-[#6B2C91] hover:text-[#6B2C91]">
+                    <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleUploadImage} className="hidden" />
+                    {uploading ? "Mengupload..." : "Pilih gambar dari komputer"}
+                  </label>
+                  {uploadError && <p className="mt-1 text-xs text-red-500">{uploadError}</p>}
                 </Field>
               </div>
 
@@ -390,13 +382,6 @@ export default function AdminProducts() {
                               onChange={(e: ChangeEvent<HTMLInputElement>) => setOption(gi, oi, "label", e.target.value)}
                               className="flex-1 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm outline-none focus:border-[#6B2C91]"
                             />
-                            <input
-                              placeholder="Harga tambahan (Rp)"
-                              type="number"
-                              value={o.priceModifier}
-                              onChange={(e: ChangeEvent<HTMLInputElement>) => setOption(gi, oi, "priceModifier", Number(e.target.value))}
-                              className="w-40 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm outline-none focus:border-[#6B2C91]"
-                            />
                             <button type="button" onClick={() => removeOption(gi, oi)} className="shrink-0 rounded-lg p-1.5 text-neutral-400 hover:text-red-600">
                               <X className="h-4 w-4" />
                             </button>
@@ -414,62 +399,17 @@ export default function AdminProducts() {
                 </Button>
               </div>
 
-              {/* Price tiers */}
-              <div>
-                <label className="mb-1 block text-sm font-medium text-neutral-700">Harga Berdasarkan Jumlah</label>
-                <div className="space-y-2">
-                  {form.price_tiers.map((t, ti) => (
-                    <div key={ti} className="flex items-center gap-2">
-                      <input
-                        placeholder="Qty min"
-                        type="number"
-                        value={t.minQty}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setTier(ti, "minQty", Number(e.target.value))}
-                        className="w-24 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm outline-none focus:border-[#6B2C91]"
-                      />
-                      <span className="text-sm text-neutral-400">s/d</span>
-                      <input
-                        placeholder="Qty max (kosong = tak terbatas)"
-                        type="number"
-                        value={t.maxQty ?? ""}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setTier(ti, "maxQty", e.target.value === "" ? null : Number(e.target.value))}
-                        className="w-32 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm outline-none focus:border-[#6B2C91]"
-                      />
-                      <input
-                        placeholder="Harga/unit (Rp)"
-                        type="number"
-                        value={t.pricePerUnit}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setTier(ti, "pricePerUnit", Number(e.target.value))}
-                        className="w-40 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm outline-none focus:border-[#6B2C91]"
-                      />
-                      <button type="button" onClick={() => removeTier(ti)} className="shrink-0 rounded-lg p-1.5 text-neutral-400 hover:text-red-600">
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
+              {/* SEO Meta */}
+              <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+                <p className="mb-3 text-sm font-medium text-neutral-700">SEO / Meta</p>
+                <div className="space-y-3">
+                  <Field label="Meta Title">
+                    <TextInput placeholder="Judul untuk SEO (opsional)" value={form.meta_title} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, meta_title: e.target.value })} />
+                  </Field>
+                  <Field label="Meta Description">
+                    <TextArea rows={2} placeholder="Deskripsi singkat untuk SEO (opsional)" value={form.meta_description} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setForm({ ...form, meta_description: e.target.value })} />
+                  </Field>
                 </div>
-                <Button type="button" variant="ghost" onClick={addTier} className="mt-2">
-                  <Plus className="h-4 w-4" /> Tambah Baris Harga
-                </Button>
-              </div>
-
-              {/* Specifications */}
-              <div>
-                <label className="mb-1 block text-sm font-medium text-neutral-700">Spesifikasi</label>
-                <div className="space-y-2">
-                  {form.specifications.map((s, si) => (
-                    <div key={si} className="flex items-center gap-2">
-                      <TextInput placeholder="Nama (mis. Ukuran)" value={s.label} onChange={(e: ChangeEvent<HTMLInputElement>) => setSpec(si, "label", e.target.value)} className="text-sm" />
-                      <TextInput placeholder="Nilai (mis. A3)" value={s.value} onChange={(e: ChangeEvent<HTMLInputElement>) => setSpec(si, "value", e.target.value)} className="text-sm" />
-                      <button type="button" onClick={() => removeSpec(si)} className="shrink-0 rounded-lg p-1.5 text-neutral-400 hover:text-red-600">
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <Button type="button" variant="ghost" onClick={addSpec} className="mt-2">
-                  <Plus className="h-4 w-4" /> Tambah Spesifikasi
-                </Button>
               </div>
 
               <div className="flex items-center gap-2">
