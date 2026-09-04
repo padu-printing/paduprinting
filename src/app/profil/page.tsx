@@ -1,0 +1,228 @@
+import Link from "next/link";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Truck,
+  Shield,
+  Headphones,
+  Award,
+  MessageCircle,
+} from "lucide-react";
+
+export default function ProfilPage() {
+  return (
+    <>
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-padu-navy to-padu-purple py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-bold text-white sm:text-5xl">
+            Tentang <span className="text-gradient-brand">PADU Printing</span>
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-neutral-300">
+            Percetakan digital terpercaya yang hadir untuk memenuhi kebutuhan cetak bisnis
+            dan个人 Anda dengan kualitas terbaik.
+          </p>
+        </div>
+      </section>
+
+      {/* About */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div>
+            <h2 className="text-3xl font-bold text-padu-navy">Siapa Kami?</h2>
+            <div className="mt-6 space-y-4 text-neutral-600 leading-relaxed">
+              <p>
+                PADU Printing adalah perusahaan percetakan digital yang berlokasi di Indonesia.
+                Kami menyediakan berbagai layanan percetakan berkualitas tinggi untuk kebutuhan
+                bisnis dan个人 Anda.
+              </p>
+              <p>
+                Dengan peralatan modern dan tim yang berpengalaman, kami berkomitmen untuk
+                memberikan hasil cetak terbaik dengan harga kompetitif dan pelayanan yang
+                memuaskan.
+              </p>
+              <p>
+                Kami melayani berbagai kebutuhan cetak mulai dari banner, kartu nama, stiker,
+                souvenir promosi, undangan, packaging, kaos, hingga mug dan tumbler custom.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-neutral-50 p-8 border border-neutral-200">
+            <div className="grid grid-cols-2 gap-6">
+              {[
+                { number: "500+", label: "Klien Puas" },
+                { number: "10+", label: "Tahun Pengalaman" },
+                { number: "50+", label: "Jenis Produk" },
+                { number: "24/7", label: "Layanan Konsultasi" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-3xl font-bold text-padu-orange">{stat.number}</p>
+                  <p className="mt-1 text-sm text-neutral-500">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision & Mission */}
+      <section className="bg-neutral-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="rounded-xl bg-white p-8 border border-neutral-200 shadow-sm">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
+                <Award className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold text-padu-navy">Visi</h3>
+              <p className="mt-3 text-neutral-600 leading-relaxed">
+                Menjadi perusahaan percetakan digital terdepan di Indonesia yang dikenal
+                dengan kualitas cetak premium, inovasi berkelanjutan, dan pelayanan
+                terbaik kepada setiap klien.
+              </p>
+            </div>
+            <div className="rounded-xl bg-white p-8 border border-neutral-200 shadow-sm">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-padu-pink/10 text-padu-pink">
+                <Award className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold text-padu-navy">Misi</h3>
+              <ul className="mt-3 space-y-2 text-neutral-600 leading-relaxed">
+                <li>• Memberikan hasil cetak berkualitas tinggi dengan harga terjangkau</li>
+                <li>• Menggunakan teknologi terbaru dalam setiap proses produksi</li>
+                <li>• Memberikan pelayanan yang ramah dan profesional</li>
+                <li>• Menjaga kepuasan klien sebagai prioritas utama</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold text-center text-padu-navy">Mengapa Memilih Kami?</h2>
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              icon: Truck,
+              title: "Pengiriman Cepat",
+              desc: "Pengiriman ke seluruh Indonesia via ekspedisi terpercaya. Tersedia same-day delivery untuk area tertentu.",
+            },
+            {
+              icon: Shield,
+              title: "Garansi Kualitas",
+              desc: "Jaminan garansi cetak ulang jika terjadi kesalahan dari pihak kami. Kepuasan Anda adalah prioritas.",
+            },
+            {
+              icon: Headphones,
+              title: "Konsultasi Gratis",
+              desc: "Tim kami siap membantu Anda memilih produk dan spesifikasi yang tepat sesuai kebutuhan.",
+            },
+            {
+              icon: Clock,
+              title: "Proses Cepat",
+              desc: "Proses produksi cepat dan tepat waktu. Tersedia layanan urgent untuk kebutuhan mendesak.",
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="rounded-xl bg-white p-6 text-center border border-neutral-200 shadow-sm"
+            >
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
+                <item.icon className="h-7 w-7" />
+              </div>
+              <h3 className="font-bold text-padu-navy">{item.title}</h3>
+              <p className="mt-2 text-sm text-neutral-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Location */}
+      <section className="bg-neutral-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-padu-navy">Lokasi Kami</h2>
+          <div className="mt-10 grid gap-8 lg:grid-cols-2">
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-padu-navy">Alamat</h4>
+                  <p className="text-neutral-500">
+                    Jl. Contoh No. 123, Kel. Contoh, Kec. Contoh,
+                    <br />
+                    Jakarta Selatan 12345, Indonesia
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
+                  <Phone className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-padu-navy">Telepon / WhatsApp</h4>
+                  <p className="text-neutral-500">+62 812-3456-7890</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-padu-navy">Email</h4>
+                  <p className="text-neutral-500">info@paduprinting.com</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-padu-orange/10 text-padu-orange">
+                  <Clock className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-padu-navy">Jam Operasional</h4>
+                  <p className="text-neutral-500">
+                    Senin - Sabtu: 08.00 - 17.00 WIB
+                    <br />
+                    Minggu: Libur
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126917.15493395766!2d106.78914645!3d-6.2297465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f14102fb1d7d%3A0x80d3e2b4f49c3e0!2sJakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full min-h-[400px]"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-gradient-to-r from-padu-navy to-padu-purple py-16">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl">Hubungi Kami Sekarang</h2>
+          <p className="mt-4 text-lg text-neutral-300">
+            Konsultasikan kebutuhan percetakan Anda dengan tim kami. Gratis!
+          </p>
+          <a
+            href={`https://wa.me/6281234567890?text=${encodeURIComponent("Halo Admin PADU Printing, saya ingin mengetahui lebih lanjut tentang layanan Anda.")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="wa-button mt-8 inline-flex text-lg"
+          >
+            <MessageCircle className="h-5 w-5" />
+            Hubungi via WhatsApp
+          </a>
+        </div>
+      </section>
+    </>
+  );
+}
