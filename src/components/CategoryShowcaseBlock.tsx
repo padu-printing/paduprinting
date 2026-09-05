@@ -54,7 +54,7 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
             }}
           >
             <div className="text-center px-8">
-              <h2 className="text-[36px] font-semibold text-white leading-tight">
+              <h2 className="text-[30px] font-semibold text-white leading-tight sm:text-[36px]">
                 {category.name}
               </h2>
               <p className="mt-3 text-[16px] text-white opacity-90">
@@ -97,7 +97,7 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
             }}
           >
             <div className="text-center px-6">
-              <h2 className="text-[24px] font-semibold text-white leading-tight">
+              <h2 className="text-xl font-semibold text-white leading-tight sm:text-[24px]">
                 {category.name}
               </h2>
               <p className="mt-1 text-[16px] text-white opacity-90">

@@ -150,7 +150,7 @@ export default function FinalCtaSection() {
             {/* Headline */}
             <h2
               id="final-cta-heading"
-              className="mt-8 text-[40px] font-extrabold leading-[1.02] tracking-tight text-white sm:text-[52px] lg:text-[68px]"
+              className="mt-8 text-[34px] font-extrabold leading-[1.02] tracking-tight text-white sm:text-[42px] lg:text-[52px] xl:text-[68px]"
             >
               Percetakan Digital untuk{" "}
               <span className="text-[#D9B7FF]">Bisnis Anda.</span>
