@@ -150,8 +150,8 @@ export default function ProfilPage() {
             </div>
           </div>
 
-          {/* Right: visual */}
-          <div className="relative min-h-[480px] overflow-hidden sm:min-h-[520px] lg:min-h-[560px]" aria-hidden="true">
+          {/* Right: visual (hidden below 768px) */}
+          <div className="relative hidden min-h-[480px] overflow-hidden sm:min-h-[520px] md:block lg:min-h-[560px]" aria-hidden="true">
             {/* Shell */}
             <div
               className="absolute inset-x-0 inset-y-2.5 overflow-hidden rounded-[42px] lg:inset-[22px_8px_18px_40px]"
@@ -348,7 +348,7 @@ export default function ProfilPage() {
 
       {/* ===================== STATS ===================== */}
       <section className="bg-[#14051F] py-8 text-white lg:py-[32px]">
-        <div className={`${containerClass} grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4 lg:gap-[18px]`}>
+        <div className={`${containerClass} grid grid-cols-2 gap-x-6 gap-y-8 text-center lg:grid-cols-4 lg:gap-[18px]`}>
           {[
             { number: "5+", label: "Tahun Pengalaman" },
             { number: "500+", label: "Klien & Project" },
@@ -357,7 +357,7 @@ export default function ProfilPage() {
           ].map((stat, idx) => (
             <div
               key={stat.label}
-              className={`lg:pr-6 lg:last:pr-0 ${
+              className={`${
                 idx === 3 ? "" : "lg:border-r lg:border-[rgba(255,255,255,0.13)]"
               }`}
             >
