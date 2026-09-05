@@ -122,7 +122,7 @@ export default function ProfilPage() {
             "radial-gradient(circle at 92% 16%, rgba(139,92,246,0.12), transparent 28%), radial-gradient(circle at 0% 100%, rgba(167,139,250,0.10), transparent 40%), #FFFFFF",
         }}
       >
-        <div className={`${containerClass} grid items-center gap-[48px] lg:grid-cols-[1.02fr_0.98fr] lg:gap-[66px]`}>
+        <div className={`${containerClass} grid items-center gap-[56px] lg:grid-cols-[1.02fr_0.98fr] lg:gap-[66px]`}>
           {/* Left: content */}
           <div>
             <Eyebrow>Tentang PADU Printing</Eyebrow>
@@ -151,7 +151,7 @@ export default function ProfilPage() {
           </div>
 
           {/* Right: visual */}
-          <div className="relative min-h-[360px] sm:min-h-[420px] lg:min-h-[470px]" aria-hidden="true">
+          <div className="relative min-h-[430px] sm:min-h-[480px] lg:min-h-[520px]" aria-hidden="true">
             {/* Shell */}
             <div
               className="absolute inset-x-0 inset-y-2.5 overflow-hidden rounded-[42px] lg:inset-[22px_8px_18px_40px]"
@@ -202,8 +202,8 @@ export default function ProfilPage() {
 
             {/* WhatsApp chat mockup */}
             <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{ width: "min(82%, 320px)", aspectRatio: "2 / 3" }}
+              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ width: "min(72%, 300px)", aspectRatio: "2 / 3" }}
             >
               <div className="relative h-full w-full -rotate-2" style={{ animation: "float 6s ease-in-out infinite" }}>
                 <div
@@ -329,7 +329,7 @@ export default function ProfilPage() {
                       href={whatsappLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-2 bg-[#ECE5DC] px-2.5 pb-3 pt-2"
+                      className="pointer-events-auto group flex items-center gap-2 bg-[#ECE5DC] px-2.5 pb-3 pt-2"
                     >
                       <div className="flex flex-1 items-center rounded-full bg-white px-3.5 py-1.5 shadow-sm transition-transform duration-200 group-hover:translate-y-[-1px]">
                         <span className="text-[9.5px] text-[#A7A29A]">Ketik pesan...</span>
