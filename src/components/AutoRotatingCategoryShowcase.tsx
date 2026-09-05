@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CategoryShowcaseBlock from "./CategoryShowcaseBlock";
 import { useContent } from "@/data/content";
 
@@ -9,12 +9,13 @@ export default function AutoRotatingCategoryShowcase() {
   const { categories, products } = content;
   const activeCategories = categories;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const pickOnceRef = useRef(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % activeCategories.length);
-    }, 5000);
-    return () => clearInterval(interval);
+    if (!pickOnceRef.current && activeCategories.length > 0) {
+      pickOnceRef.current = true;
+      setCurrentIndex(Math.floor(Math.random() * activeCategories.length));
+    }
   }, [activeCategories.length]);
 
   const category = activeCategories[currentIndex];
