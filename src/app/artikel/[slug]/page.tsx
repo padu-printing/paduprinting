@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, Calendar, User, Clock } from "lucide-react";
-import { getAllArticles, getArticleBySlug } from "@/lib/data";
+import { ArrowRight, BookOpen, Calendar, ChevronRight, Clock, Tag, User } from "lucide-react";
+import { getAllArticles, getAllProducts, getArticleBySlug } from "@/lib/data";
 import { readTime, shortDate, extractHeadings } from "@/lib/article";
 import ArticleBody from "@/components/article/ArticleBody";
 import ArticleToc from "@/components/article/ArticleToc";
-import ArticleCard from "@/components/article/ArticleCard";
+import ProductImage from "@/components/ProductImage";
 import FinalCtaSection from "@/components/FinalCtaSection";
+import type { Product } from "@/data/seed";
 import type { Metadata } from "next";
 import {
   SITE_URL,
@@ -15,6 +16,43 @@ import {
   getBreadcrumbSchema,
   getOrganizationSchema,
 } from "@/lib/seo";
+
+function ProductRecCard({ product }: { product: Product }) {
+  const formattedPrice = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(product.basePrice);
+
+  return (
+    <Link
+      href={`/produk/${product.slug}`}
+      className="group flex flex-col overflow-hidden rounded-[14px] bg-white ring-1 ring-[#EEEEF0] transition-shadow hover:shadow-[0_10px_30px_rgba(17,24,39,0.08)]"
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#F3F3F5]">
+        <ProductImage src={product.image} alt={product.name} iconClassName="h-10 w-10" />
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="font-bold leading-snug text-[#1A2340] transition-colors group-hover:text-[#6B2C91] line-clamp-1">
+          {product.name}
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-[#52525B] line-clamp-2">
+          {product.shortDescription}
+        </p>
+        <div className="mt-3 flex items-center justify-between pt-1">
+          <span className="text-sm font-bold text-[#6B2C91]">
+            mulai dari {formattedPrice}
+          </span>
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#6B2C91]">
+            Detail
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
@@ -62,10 +100,17 @@ export default async function ArtikelDetailPage({
 
   const headings = extractHeadings(article.content);
   const allArticles = await getAllArticles();
-  const related = allArticles
+  const recommended = allArticles
     .filter((a) => a.slug !== article.slug)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 3);
+    .slice(0, 4);
+  const categories = [...new Set(allArticles.map((a) => a.category))]
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b, "id"));
+  const allProducts = await getAllProducts();
+  const recommendedProducts = [...allProducts]
+    .sort((a, b) => (b.clickCount ?? 0) - (a.clickCount ?? 0))
+    .slice(0, 4);
   const url = `${SITE_URL}/artikel/${article.slug}`;
   const orgSchema = getOrganizationSchema();
 
@@ -147,13 +192,9 @@ export default async function ArtikelDetailPage({
         </div>
       </div>
 
-      {/* Content + TOC */}
-      <div className="mx-auto max-w-[980px] px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr] lg:items-start">
-          <aside className="lg:sticky lg:top-28 lg:self-start">
-            <ArticleToc headings={headings} />
-          </aside>
-
+      {/* Content + right sidebar */}
+      <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:grid-cols-[minmax(0,1fr)_340px]">
           <article className="min-w-0">
             <ArticleBody content={article.content} headings={headings} />
 
@@ -167,27 +208,96 @@ export default async function ArtikelDetailPage({
               </div>
             </div>
           </article>
+
+          <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+            <ArticleToc headings={headings} />
+
+            {/* Sidebar kategori */}
+            <div className="rounded-[14px] border border-[#EEEEF0] bg-white p-5">
+              <h2 className="flex items-center gap-2 text-base font-extrabold text-[#1A2340]">
+                <Tag className="h-4 w-4 text-[#6B2C91]" />
+                Kategori
+              </h2>
+              <nav className="mt-4 flex flex-wrap gap-2">
+                {categories.map((cat) => (
+                  <Link
+                    key={cat}
+                    href="/artikel"
+                    className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                      cat === article.category
+                        ? "bg-[#6B2C91] text-white"
+                        : "bg-[#F3F3F5] text-[#52525B] hover:bg-[#E9D5F2] hover:text-[#6B2C91]"
+                    }`}
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Artikel rekomendasi */}
+            <div className="rounded-[14px] border border-[#EEEEF0] bg-white p-5">
+              <h2 className="flex items-center gap-2 text-base font-extrabold text-[#1A2340]">
+                <BookOpen className="h-4 w-4 text-[#6B2C91]" />
+                Artikel Rekomendasi
+              </h2>
+              <div className="mt-4 space-y-4">
+                {recommended.map((a) => (
+                  <Link
+                    key={a.slug}
+                    href={`/artikel/${a.slug}`}
+                    className="group flex items-start gap-3"
+                  >
+                    <span className="relative h-14 w-[76px] shrink-0 overflow-hidden rounded-[8px] bg-[#F3F3F5]">
+                      <img
+                        src={a.coverImage}
+                        alt={a.title}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-[#6B2C91]">
+                        {a.category}
+                      </span>
+                      <span className="mt-0.5 block text-[13px] font-semibold leading-snug text-[#1A2340] transition-colors group-hover:text-[#6B2C91] line-clamp-2">
+                        {a.title}
+                      </span>
+                      <span className="mt-1 block text-xs text-[#A1A1AA]">
+                        {shortDate(a.date)} &middot; {readTime(a.content)} mnt
+                      </span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
 
-      {/* Related */}
+      {/* Produk rekomendasi */}
       <section className="border-t border-[#EEEEF0] bg-[#FBFBFB]">
         <div className="mx-auto max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-extrabold text-[#1A2340]">Artikel Lainnya</h2>
-          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((a) => (
-              <ArticleCard
-                key={a.slug}
-                slug={a.slug}
-                title={a.title}
-                category={a.category}
-                excerpt={a.excerpt}
-                coverImage={a.coverImage}
-                author={a.author}
-                date={shortDate(a.date)}
-                readTime={readTime(a.content)}
-                compact
-              />
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#6B2C91]">
+                Produk
+              </span>
+              <h2 className="mt-1 text-2xl font-extrabold text-[#1A2340]">
+                Produk Rekomendasi
+              </h2>
+            </div>
+            <Link
+              href="/produk"
+              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-[#6B2C91] hover:underline"
+            >
+              Lihat Semua
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {recommendedProducts.map((p) => (
+              <ProductRecCard key={p.slug} product={p} />
             ))}
           </div>
         </div>
