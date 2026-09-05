@@ -156,55 +156,53 @@ export default async function ArtikelDetailPage({
         </nav>
       </div>
 
-      {/* Article header */}
-      <div className="mx-auto max-w-[760px] px-4 pt-10 sm:px-6 lg:px-8">
-        <header className="text-center">
-          <span className="inline-block rounded-full bg-[#6B2C91]/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#6B2C91]">
-            {article.category}
-          </span>
-          <h1 className="mt-4 text-3xl font-extrabold leading-tight text-[#1A2340] sm:text-4xl">
-            {article.title}
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[#52525B]">
-            {article.excerpt}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-[#71717A]">
-            <span className="flex items-center gap-1.5">
-              <User className="h-4 w-4 text-[#6B2C91]" />
-              {article.author}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-[#6B2C91]" />
-              {shortDate(article.date)}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="h-4 w-4 text-[#6B2C91]" />
-              {readTime(article.content)} mnt baca
-            </span>
-          </div>
-        </header>
-      </div>
-
-      {/* Hero image */}
-      <div className="mx-auto max-w-[980px] px-4 pt-8 sm:px-6 lg:px-8">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-[14px] bg-[#F3F3F5]">
-          <img src={article.coverImage} alt={article.title} className="h-full w-full object-cover" />
-        </div>
-      </div>
-
-      {/* Content + right sidebar */}
-      <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8">
+      {/* Article: konten kiri + sidebar kanan */}
+      <div className="mx-auto max-w-[1200px] px-4 pt-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:grid-cols-[minmax(0,1fr)_340px]">
           <article className="min-w-0">
-            <ArticleBody content={article.content} headings={headings} />
-
-            {/* Tags / share */}
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#EEEEF0] pt-6">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-semibold text-[#1A2340]">Kategori:</span>
-                <span className="rounded-full bg-[#6B2C91]/10 px-3 py-1 text-xs font-semibold text-[#6B2C91]">
-                  {article.category}
+            <header className="text-center">
+              <span className="inline-block rounded-full bg-[#6B2C91]/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#6B2C91]">
+                {article.category}
+              </span>
+              <h1 className="mt-4 text-3xl font-extrabold leading-tight text-[#1A2340] sm:text-4xl">
+                {article.title}
+              </h1>
+              <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[#52525B]">
+                {article.excerpt}
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-[#71717A]">
+                <span className="flex items-center gap-1.5">
+                  <User className="h-4 w-4 text-[#6B2C91]" />
+                  {article.author}
                 </span>
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="h-4 w-4 text-[#6B2C91]" />
+                  {shortDate(article.date)}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="h-4 w-4 text-[#6B2C91]" />
+                  {readTime(article.content)} mnt baca
+                </span>
+              </div>
+            </header>
+
+            <div className="mt-8">
+              <div className="relative aspect-[16/9] overflow-hidden rounded-[14px] bg-[#F3F3F5]">
+                <img src={article.coverImage} alt={article.title} className="h-full w-full object-cover" />
+              </div>
+            </div>
+
+            <div className="mt-10">
+              <ArticleBody content={article.content} headings={headings} />
+
+              {/* Tags / share */}
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#EEEEF0] pt-6">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-semibold text-[#1A2340]">Kategori:</span>
+                  <span className="rounded-full bg-[#6B2C91]/10 px-3 py-1 text-xs font-semibold text-[#6B2C91]">
+                    {article.category}
+                  </span>
+                </div>
               </div>
             </div>
           </article>
