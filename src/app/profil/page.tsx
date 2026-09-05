@@ -97,7 +97,7 @@ function ChatBubble({
   return (
     <div
       className={`flex ${isOut ? "justify-end" : "justify-start"}`}
-      style={{ animation: `chat-in 0.5s ease ${delay}s both` }}
+      style={{ animation: `chat-in 15.4s ease-out ${delay - 15.4}s infinite` }}
     >
       <div
         className={`max-w-[82%] rounded-xl px-2.5 py-1.5 text-[10px] leading-[1.4] shadow-sm ${
@@ -208,12 +208,12 @@ export default function ProfilPage() {
               <div className="-rotate-2">
                 <div
                   className="flex flex-col overflow-hidden rounded-[20px] border-[7px] border-[#121215] bg-[#121215]"
-                  style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.35)" }}
+                  style={{
+                    boxShadow: "0 30px 70px rgba(0,0,0,0.35)",
+                    animation: "float 6s ease-in-out infinite",
+                  }}
                 >
-                  <div
-                    className="flex flex-col overflow-hidden rounded-[12px]"
-                    style={{ animation: "float 6s ease-in-out infinite" }}
-                  >
+                  <div className="flex flex-col overflow-hidden rounded-[12px]">
                     {/* Status bar */}
                     <div className="relative flex items-center justify-between bg-[#075E54] px-5 pb-1 pt-2.5 text-white">
                       <span className="text-[11px] font-bold">9:41</span>
@@ -284,7 +284,7 @@ export default function ProfilPage() {
                       <div className="mt-1 flex justify-end">
                         <div
                           className="w-[88%] overflow-hidden rounded-xl rounded-br-sm bg-white text-[#111B13] shadow-sm"
-                          style={{ animation: "chat-in 0.5s ease 3.9s both" }}
+                          style={{ animation: "chat-in 15.4s ease-out -11.5s infinite" }}
                         >
                           <div className="px-2.5 pb-1.5 pt-2">
                             <p className="text-[10px] font-extrabold text-[#16121D]">
