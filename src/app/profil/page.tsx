@@ -207,9 +207,9 @@ export default function ProfilPage() {
             >
               <div className="-rotate-2">
                 <div
-                  className="flex flex-col overflow-hidden rounded-[20px] border-[7px] border-[#121215] bg-[#121215]"
+                  className="flex flex-col overflow-hidden rounded-[20px] border border-white/40 bg-white/20 p-[5px] backdrop-blur-xl"
                   style={{
-                    boxShadow: "0 30px 70px rgba(0,0,0,0.35)",
+                    boxShadow: "0 24px 60px rgba(20,5,31,0.28)",
                     animation: "float 6s ease-in-out infinite",
                   }}
                 >
@@ -273,12 +273,12 @@ export default function ProfilPage() {
                       </div>
                       <div className="mt-1">
                         <ChatBubble side="out" frame={4}>
-                          Rp 25.000/pc, estimasi 1-2 hari kerja. Mau langsung order?
+                          Rp 45.000/box, estimasi 1-2 jam. Mau langsung order?
                         </ChatBubble>
                       </div>
                       <div className="mt-1">
                         <ChatBubble side="in" frame={5}>
-                          Oke, saya pesan ya.
+                          Oke, saya pesan 10 box ya.
                         </ChatBubble>
                       </div>
                       <div className="mt-1 flex justify-end">
@@ -290,11 +290,11 @@ export default function ProfilPage() {
                             <p className="text-[10px] font-extrabold text-[#16121D]">
                               Kartu Nama Art Carton
                             </p>
-                            <p className="text-[9px] text-[#6F6878]">100 pcs - full color 2 sisi</p>
+                            <p className="text-[9px] text-[#6F6878]">10 box - full color 1 sisi</p>
                             <div className="mt-0.5 flex items-baseline justify-between">
                               <span className="text-[9px] text-[#6F6878]">Total estimasi</span>
                               <span className="text-[11px] font-extrabold text-[#4C1D75]">
-                                Rp 2.500.000
+                                Rp 450.000
                               </span>
                             </div>
                           </div>
@@ -311,14 +311,19 @@ export default function ProfilPage() {
                     </div>
 
                     {/* Input bar */}
-                    <div className="flex items-center gap-2 bg-[#ECE5DC] px-2.5 pb-3 pt-2">
-                      <div className="flex flex-1 items-center rounded-full bg-white px-3.5 py-1.5 shadow-sm">
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-2 bg-[#ECE5DC] px-2.5 pb-3 pt-2"
+                    >
+                      <div className="flex flex-1 items-center rounded-full bg-white px-3.5 py-1.5 shadow-sm transition-transform duration-200 group-hover:translate-y-[-1px]">
                         <span className="text-[9.5px] text-[#A7A29A]">Ketik pesan...</span>
                       </div>
                       <span className="grid h-7 w-7 place-items-center rounded-full bg-[#25D366]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
                       </span>
-                    </div>
+                    </a>
                   </div>
                 </div>
               </div>
