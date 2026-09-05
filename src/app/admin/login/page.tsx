@@ -2,7 +2,6 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -15,14 +14,15 @@ export default function AdminLogin() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
+    const data = await res.json().catch(() => ({}));
     setLoading(false);
-    if (error) {
-      setError(error.message);
+    if (!res.ok) {
+      setError(data.error ?? "Gagal masuk. Coba lagi.");
       return;
     }
     router.push("/admin");

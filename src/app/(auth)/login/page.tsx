@@ -4,7 +4,6 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,14 +21,15 @@ export default function LoginPage() {
       return;
     }
     setLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
+    const data = await res.json().catch(() => ({}));
     setLoading(false);
-    if (error) {
-      setError(error.message);
+    if (!res.ok) {
+      setError(data.error ?? "Gagal masuk. Coba lagi.");
       return;
     }
     router.push("/admin");
