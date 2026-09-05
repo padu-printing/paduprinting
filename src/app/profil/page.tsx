@@ -86,18 +86,18 @@ function PrimaryButton({
 
 function ChatBubble({
   side,
-  delay,
+  frame,
   children,
 }: {
   side: "in" | "out";
-  delay: number;
+  frame: number;
   children: ReactNode;
 }) {
   const isOut = side === "out";
   return (
     <div
       className={`flex ${isOut ? "justify-end" : "justify-start"}`}
-      style={{ animation: `chat-in 15.4s ease-out ${delay - 15.4}s infinite` }}
+      style={{ animation: `chat-${frame} 16s ease infinite` }}
     >
       <div
         className={`max-w-[82%] rounded-xl px-2.5 py-1.5 text-[10px] leading-[1.4] shadow-sm ${
@@ -258,33 +258,33 @@ export default function ProfilPage() {
                         backgroundSize: "14px 14px",
                       }}
                     >
-                      <ChatBubble side="in" delay={0.3}>
+                      <ChatBubble side="in" frame={1}>
                         Halo kak, mau tanya-tanya cetak kartu nama.
                       </ChatBubble>
                       <div className="mt-1">
-                        <ChatBubble side="out" delay={0.9}>
+                        <ChatBubble side="out" frame={2}>
                           Siap dibantu! Bahan dan jumlahnya berapa ya?
                         </ChatBubble>
                       </div>
                       <div className="mt-1">
-                        <ChatBubble side="in" delay={1.6}>
+                        <ChatBubble side="in" frame={3}>
                           Art carton, 100 pcs.
                         </ChatBubble>
                       </div>
                       <div className="mt-1">
-                        <ChatBubble side="out" delay={2.3}>
+                        <ChatBubble side="out" frame={4}>
                           Rp 25.000/pc, estimasi 1-2 hari kerja. Mau langsung order?
                         </ChatBubble>
                       </div>
                       <div className="mt-1">
-                        <ChatBubble side="in" delay={3}>
+                        <ChatBubble side="in" frame={5}>
                           Oke, saya pesan ya.
                         </ChatBubble>
                       </div>
                       <div className="mt-1 flex justify-end">
                         <div
                           className="w-[88%] overflow-hidden rounded-xl rounded-br-sm bg-white text-[#111B13] shadow-sm"
-                          style={{ animation: "chat-in 15.4s ease-out -11.5s infinite" }}
+                          style={{ animation: "chat-6 16s ease infinite" }}
                         >
                           <div className="px-2.5 pb-1.5 pt-2">
                             <p className="text-[10px] font-extrabold text-[#16121D]">
@@ -304,7 +304,7 @@ export default function ProfilPage() {
                         </div>
                       </div>
                       <div className="mt-1">
-                        <ChatBubble side="out" delay={4.8}>
+                        <ChatBubble side="out" frame={7}>
                           Pesanan diterima ya. Estimasi 1-2 hari kerja. Terima kasih!
                         </ChatBubble>
                       </div>
