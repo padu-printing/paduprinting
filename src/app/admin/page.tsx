@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Package, Tags, Newspaper, BookMarked, Images, HelpCircle } from "lucide-react";
+import { Package, Tags, Newspaper, BookMarked, Images, ShieldCheck, HelpCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AdminDashboard() {
@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function load() {
       const supabase = createClient();
-      const tables = ["products", "categories", "articles", "article_categories", "gallery_items", "faqs"];
+      const tables = ["products", "categories", "articles", "article_categories", "gallery_items", "trusted_brands", "faqs"];
       const result: Record<string, number> = {};
       for (const t of tables) {
         const { count } = await supabase.from(t).select("*", { count: "exact", head: true });
@@ -30,6 +30,7 @@ export default function AdminDashboard() {
     { key: "articles", label: "Artikel", icon: Newspaper, href: "/admin/articles" },
     { key: "article_categories", label: "Kategori Artikel", icon: BookMarked, href: "/admin/article-categories" },
     { key: "gallery_items", label: "Galeri Hasil Cetak", icon: Images, href: "/admin/gallery" },
+    { key: "trusted_brands", label: "Dipercaya Oleh", icon: ShieldCheck, href: "/admin/trusted-brands" },
     { key: "faqs", label: "FAQ", icon: HelpCircle, href: "/admin/faqs" },
   ];
 

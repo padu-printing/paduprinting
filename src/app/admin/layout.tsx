@@ -9,6 +9,7 @@ import {
   Newspaper,
   BookMarked,
   Images,
+  ShieldCheck,
   HelpCircle,
   Settings,
   LogOut,
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/admin/articles", label: "Artikel", icon: Newspaper },
   { href: "/admin/article-categories", label: "Kategori Artikel", icon: BookMarked },
   { href: "/admin/gallery", label: "Galeri Hasil Cetak", icon: Images },
+  { href: "/admin/trusted-brands", label: "Dipercaya Oleh", icon: ShieldCheck },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
   { href: "/admin/settings", label: "Pengaturan", icon: Settings },
 ];

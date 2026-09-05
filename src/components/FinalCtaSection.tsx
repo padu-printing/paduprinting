@@ -1,19 +1,70 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 interface BrandLogo {
   name: string;
-  initial: string;
+  logo: string;
 }
 
-const brands: BrandLogo[] = [
-  { name: "Tokopedia", initial: "T" },
-  { name: "Shopee", initial: "S" },
-  { name: "Lazada", initial: "L" },
-  { name: "Gojek", initial: "G" },
-  { name: "Blibli", initial: "B" },
+const fallbackBrands: BrandLogo[] = [
+  { name: "Tokopedia", logo: "" },
+  { name: "Shopee", logo: "" },
+  { name: "Lazada", logo: "" },
+  { name: "Gojek", logo: "" },
+  { name: "Blibli", logo: "" },
 ];
 
+interface BrandRow {
+  name: string;
+  logo: string;
+}
+
+function initialOf(name: string): string {
+  return (name.trim().charAt(0) || "?").toUpperCase();
+}
+
+function BrandCircle({ brand }: { brand: BrandLogo }) {
+  return (
+    <div
+      className="flex h-8 w-8 select-none items-center justify-center overflow-hidden rounded-full border border-white/40 opacity-50 transition-opacity duration-300 hover:opacity-90"
+      title={brand.name}
+    >
+      {brand.logo ? (
+        <img src={brand.logo} alt={brand.name} className="h-full w-full object-cover" />
+      ) : (
+        <span className="text-xs font-bold text-white">{initialOf(brand.name)}</span>
+      )}
+    </div>
+  );
+}
+
 export default function FinalCtaSection() {
+  const [brands, setBrands] = useState<BrandLogo[]>(fallbackBrands);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      if (!url) return;
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("trusted_brands")
+        .select("name, logo")
+        .order("sort_order", { ascending: true })
+        .order("name", { ascending: true });
+      if (!data || cancelled) return;
+      const mapped = (data as BrandRow[]).map((r) => ({ name: r.name, logo: r.logo || "" }));
+      if (mapped.length > 0) setBrands(mapped);
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <section
       className="relative overflow-hidden py-20"
@@ -149,15 +200,7 @@ export default function FinalCtaSection() {
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
                 {brands.map((brand) => (
-                  <div
-                    key={brand.name}
-                    className="flex h-8 w-8 select-none items-center justify-center overflow-hidden rounded-full border border-white/40 opacity-50 transition-opacity duration-300 hover:opacity-90"
-                    title={brand.name}
-                  >
-                    <span className="text-xs font-bold text-white">
-                      {brand.initial}
-                    </span>
-                  </div>
+                  <BrandCircle key={brand.name} brand={brand} />
                 ))}
               </div>
             </div>
