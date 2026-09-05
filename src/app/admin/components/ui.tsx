@@ -54,7 +54,7 @@ export function SelectInput(props: SelectHTMLAttributes<HTMLSelectElement>) {
   );
 }
 
-export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
+export function Field({ label, children, hint }: { label: ReactNode; children: ReactNode; hint?: string }) {
   return (
     <div>
       <label className="mb-1 block text-sm font-medium text-neutral-700">{label}</label>

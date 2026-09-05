@@ -7,6 +7,7 @@ import {
   Package,
   Tags,
   Newspaper,
+  BookMarked,
   HelpCircle,
   Settings,
   LogOut,
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/admin/products", label: "Produk", icon: Package },
   { href: "/admin/categories", label: "Kategori", icon: Tags },
   { href: "/admin/articles", label: "Artikel", icon: Newspaper },
+  { href: "/admin/article-categories", label: "Kategori Artikel", icon: BookMarked },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
   { href: "/admin/settings", label: "Pengaturan", icon: Settings },
 ];

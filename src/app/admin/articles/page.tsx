@@ -9,6 +9,7 @@ import {
   Field,
   TextInput,
   TextArea,
+  SelectInput,
   Table,
 } from "../components/ui";
 
@@ -37,6 +38,7 @@ const emptyForm = {
 
 export default function AdminArticles() {
   const [items, setItems] = useState<Article[]>([]);
+  const [articleCategories, setArticleCategories] = useState<{ id: number; slug: string; name: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -49,6 +51,12 @@ export default function AdminArticles() {
       .select("*")
       .order("date", { ascending: false });
     if (!error) setItems(data as Article[]);
+    const { data: cats } = await supabase
+      .from("article_categories")
+      .select("id, slug, name")
+      .order("sort_order", { ascending: true })
+      .order("name", { ascending: true });
+    if (cats) setArticleCategories(cats);
     setLoading(false);
   }
 
@@ -146,7 +154,14 @@ export default function AdminArticles() {
               </Field>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <Field label="Kategori">
-                  <TextInput value={form.category} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, category: e.target.value })} />
+                  <SelectInput value={form.category} onChange={(e: ChangeEvent<HTMLSelectElement>) => setForm({ ...form, category: e.target.value })}>
+                    <option value="">Pilih kategori</option>
+                    {articleCategories.map((c) => (
+                      <option key={c.id} value={c.name}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </SelectInput>
                 </Field>
                 <Field label="Tanggal">
                   <TextInput type="date" value={form.date} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, date: e.target.value })} />
