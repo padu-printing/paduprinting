@@ -205,13 +205,27 @@ export default function ProfilPage() {
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
               style={{ width: "min(82%, 320px)", aspectRatio: "2 / 3" }}
             >
-              <div className="-rotate-2">
+              <div className="relative h-full w-full -rotate-2" style={{ animation: "float 6s ease-in-out infinite" }}>
                 <div
-                  className="flex flex-col overflow-hidden rounded-[20px] border border-white/40 bg-white/20 p-[5px] backdrop-blur-xl"
+                  aria-hidden="true"
+                  className="absolute -inset-1.5 rounded-[24px]"
                   style={{
-                    boxShadow: "0 24px 60px rgba(20,5,31,0.28)",
-                    animation: "float 6s ease-in-out infinite",
+                    background: "rgba(37,211,102,0.30)",
+                    animation: "wa-ripple 2.8s ease-out infinite",
                   }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute -inset-1.5 rounded-[24px]"
+                  style={{
+                    background: "rgba(37,211,102,0.20)",
+                    animation: "wa-ripple 2.8s ease-out infinite",
+                    animationDelay: "1.4s",
+                  }}
+                />
+                <div
+                  className="relative flex w-full flex-col overflow-hidden rounded-[20px] border border-white/40 bg-white/20 p-[5px] backdrop-blur-xl"
+                  style={{ boxShadow: "0 24px 60px rgba(20,5,31,0.28)" }}
                 >
                   <div className="flex flex-col overflow-hidden rounded-[12px]">
                     {/* Status bar */}

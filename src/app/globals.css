@@ -162,6 +162,20 @@ body {
   }
 }
 
+@keyframes wa-ripple {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  55% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
 .tiptap p.is-editor-empty:first-child::before {
   color: #a3a3a3;
   content: attr(data-placeholder);
