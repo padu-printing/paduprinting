@@ -33,7 +33,6 @@ create table if not exists public.products (
   specifications jsonb default '[]'::jsonb,
   is_best_seller boolean default false,
   click_count int default 0,
-  sort_order int default 0,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
