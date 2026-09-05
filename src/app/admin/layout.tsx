@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -17,6 +18,9 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
+const IDLE_TIMEOUT_MS = 60 * 60 * 1000;
+const STORAGE_KEY = "padu_admin_last_active";
+
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Produk", icon: Package },
@@ -32,6 +36,47 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const lastActiveRef = useRef<number>(Date.now());
+
+  useEffect(() => {
+    const stored = Number(localStorage.getItem(STORAGE_KEY)) || Date.now();
+    lastActiveRef.current = Math.max(stored, Date.now() - IDLE_TIMEOUT_MS);
+
+    const onActivity = () => {
+      lastActiveRef.current = Date.now();
+      localStorage.setItem(STORAGE_KEY, String(Date.now()));
+    };
+
+    const events = [
+      "mousemove",
+      "mousedown",
+      "keydown",
+      "click",
+      "scroll",
+      "touchstart",
+      "wheel",
+    ];
+    events.forEach((ev) =>
+      window.addEventListener(ev, onActivity, { passive: true })
+    );
+
+    const interval = setInterval(() => {
+      if (Date.now() - lastActiveRef.current >= IDLE_TIMEOUT_MS) {
+        clearInterval(interval);
+        localStorage.removeItem(STORAGE_KEY);
+        const supabase = createClient();
+        supabase.auth.signOut().finally(() => {
+          router.replace("/login");
+          router.refresh();
+        });
+      }
+    }, 30_000);
+
+    return () => {
+      events.forEach((ev) => window.removeEventListener(ev, onActivity));
+      clearInterval(interval);
+    };
+  }, [router]);
 
   const handleLogout = async () => {
     const supabase = createClient();
