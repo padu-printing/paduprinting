@@ -20,7 +20,16 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed">
-              Percetakan digital berkualitas tinggi untuk segala kebutuhan bisnis dan个人 Anda.
+              <span className="font-bold text-white">PADU Printing</span>{" "}
+              <span className="italic">- Different Element. One Brilliant Solution.</span>
+            </p>
+            <p className="mt-2 text-sm leading-relaxed">
+              Solusi percetakan digital terpercaya untuk kebutuhan bisnis dan
+              personal Anda: mulai dari Offset, Bisnis Kit, Display Promotion,
+              Packaging, Merchandise, hingga Stationery. Setiap elemen berbeda,
+              kami satukan menjadi hasil cetak yang presisi, berkualitas, dan
+              tepat waktu. Pesan mudah lewat WhatsApp. Konsultasi gratis dan
+              proses cepat.
             </p>
           </div>
 
