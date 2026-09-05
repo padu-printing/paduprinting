@@ -597,8 +597,8 @@ export default function ProfilPage() {
             className="mt-10 grid grid-cols-1 overflow-hidden rounded-[30px] border border-[#E7E0EF] bg-white lg:grid-cols-[0.86fr_1.14fr]"
             style={{ boxShadow: "0 22px 60px rgba(37,18,50,0.08)" }}
           >
-            <div className="flex flex-col gap-7 p-8 lg:p-10">
-              <div className="flex items-start gap-4">
+            <div className="flex flex-col items-center gap-7 p-8 lg:p-10">
+              <div className="flex flex-col items-center gap-2 text-center">
                 <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[12px] bg-[#F2EDF8] text-[#4C1D75]">
                   <MapPin className="h-5 w-5" />
                 </div>
@@ -613,7 +613,7 @@ export default function ProfilPage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col items-center gap-2 text-center">
                 <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[12px] bg-[#F2EDF8] text-[#4C1D75]">
                   <Phone className="h-5 w-5" />
                 </div>
@@ -622,7 +622,7 @@ export default function ProfilPage() {
                   <p className="mt-0.5 text-sm text-[#6F6878]">{PHONE}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col items-center gap-2 text-center">
                 <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[12px] bg-[#F2EDF8] text-[#4C1D75]">
                   <Mail className="h-5 w-5" />
                 </div>
@@ -631,7 +631,7 @@ export default function ProfilPage() {
                   <p className="mt-0.5 text-sm text-[#6F6878]">info@paduprinting.com</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col items-center gap-2 text-center">
                 <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[12px] bg-[#F2EDF8] text-[#4C1D75]">
                   <Clock className="h-5 w-5" />
                 </div>
@@ -641,7 +641,7 @@ export default function ProfilPage() {
                 </div>
               </div>
 
-              <div className="mt-2">
+              <div className="mt-2 flex justify-center">
                 <PrimaryButton href={whatsappLink}>Hubungi via WhatsApp</PrimaryButton>
               </div>
             </div>
