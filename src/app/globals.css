@@ -59,23 +59,12 @@ body {
   }
 }
 
-@keyframes typing-blink {
-  0%, 80%, 100% {
-    opacity: 0.3;
+@keyframes float {
+  0%, 100% {
     transform: translateY(0);
   }
-  40% {
-    opacity: 1;
-    transform: translateY(-2px);
-  }
-}
-
-@keyframes chat-checks {
-  0% {
-    color: rgb(0, 128, 105);
-  }
-  100% {
-    color: rgb(37, 211, 102);
+  50% {
+    transform: translateY(-9px);
   }
 }
 

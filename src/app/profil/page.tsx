@@ -100,30 +100,11 @@ function ChatBubble({
       style={{ animation: `chat-in 0.5s ease ${delay}s both` }}
     >
       <div
-        className={`max-w-[85%] rounded-2xl px-3 py-2 text-[11px] leading-[1.45] shadow-sm sm:text-[12px] ${
-          isOut ? "rounded-br-md bg-[#DCF8C6] text-[#111B13]" : "rounded-bl-md bg-white text-[#16121D]"
+        className={`max-w-[82%] rounded-xl px-2.5 py-1.5 text-[10px] leading-[1.4] shadow-sm ${
+          isOut ? "rounded-br-sm bg-[#DCF8C6] text-[#111B13]" : "rounded-bl-sm bg-white text-[#16121D]"
         }`}
       >
         {children}
-      </div>
-    </div>
-  );
-}
-
-function TypingBubble({ delay, className = "" }: { delay: number; className?: string }) {
-  return (
-    <div
-      className={`flex ${className}`}
-      style={{ animation: "chat-in 0.4s ease " + delay + "s both" }}
-    >
-      <div className="flex items-center gap-1 rounded-2xl rounded-bl-md bg-white px-3 py-2.5 shadow-sm">
-        {[0, 0.15, 0.3].map((d) => (
-          <span
-            key={d}
-            className="h-1.5 w-1.5 rounded-full bg-[#A7A29A]"
-            style={{ animation: `typing-blink 1.1s ease-in-out ${d}s infinite` }}
-          />
-        ))}
       </div>
     </div>
   );
@@ -219,120 +200,124 @@ export default function ProfilPage() {
               />
             </div>
 
-            {/* WhatsApp chat mockup (phone ratio) */}
+            {/* WhatsApp chat mockup */}
             <div
-              className="absolute left-1/2 top-1/2 h-[calc(100%-16px)] -translate-x-1/2 -translate-y-1/2"
-              style={{ aspectRatio: "9 / 19.5", maxWidth: "calc(100% - 24px)" }}
+              className="absolute left-1/2 top-1/2 h-[calc(100%-24px)] w-[min(88%,310px)] -translate-x-1/2 -translate-y-1/2 sm:w-[350px] lg:w-[400px]"
             >
-              <div
-                className="flex h-full w-full -rotate-2 flex-col overflow-hidden rounded-[38px] border-[7px] border-[#121215] bg-[#121215] sm:rounded-[44px]"
-                style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.35)" }}
-              >
-                <div className="flex h-full w-full flex-col overflow-hidden rounded-[30px] sm:rounded-[34px]">
-                  {/* Status bar */}
-                  <div className="relative flex items-center justify-between bg-[#075E54] px-5 pb-1 pt-2.5 text-white">
-                    <span className="text-[11px] font-bold">9:41</span>
-                    <span aria-hidden="true" className="absolute left-1/2 top-1.5 h-[16px] w-[86px] -translate-x-1/2 rounded-full bg-[#0A0A0C]/80" />
-                    <span aria-hidden="true" className="flex items-center gap-1">
-                      <span className="flex items-end gap-[2px]">
-                        <span className="h-1 w-[3px] rounded-sm bg-white/85" />
-                        <span className="h-1.5 w-[3px] rounded-sm bg-white/85" />
-                        <span className="h-2 w-[3px] rounded-sm bg-white/85" />
-                        <span className="h-2.5 w-[3px] rounded-sm bg-white/85" />
-                      </span>
-                      <span className="ml-1 h-2.5 w-5 rounded-[4px] border border-white/75 p-[2px]">
-                        <span className="block h-full w-3/4 rounded-[2px] bg-white" />
-                      </span>
-                    </span>
-                  </div>
-
-                  {/* WA header */}
-                  <div className="flex items-center gap-2.5 bg-[#075E54] px-3.5 pb-2 pt-1">
-                    <span className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">
-                      <img src="/logo-icon.png" alt="" className="h-7 w-7 object-cover" />
-                      <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full border-[1.5px] border-[#075E54] bg-[#25D366]" />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="truncate text-[11.5px] font-bold text-white">PADU Printing</p>
-                      <p className="text-[9.5px] leading-tight text-[#C8E3DA]">online</p>
-                    </div>
-                  </div>
-
-                  {/* Chat area */}
+              <div className="-rotate-2">
+                <div
+                  className="flex flex-col overflow-hidden rounded-[8px] border-[7px] border-[#121215] bg-[#121215]"
+                  style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.35)" }}
+                >
                   <div
-                    className="relative flex-1 overflow-hidden px-2.5 py-2.5"
-                    style={{
-                      backgroundColor: "#ECE5DC",
-                      backgroundImage: "radial-gradient(rgba(20,5,31,0.05) 1px, transparent 1px)",
-                      backgroundSize: "14px 14px",
-                    }}
+                    className="flex flex-col overflow-hidden rounded-[5px]"
+                    style={{ animation: "float 6s ease-in-out infinite" }}
                   >
-                    <ChatBubble side="in" delay={0.4}>
-                      Halo kak, mau tanya-tanya cetak kartu nama.
-                    </ChatBubble>
-                    <TypingBubble delay={1.2} />
-                    <div className="mt-1">
-                      <ChatBubble side="out" delay={2}>
-                        Siap dibantu! Bahan dan jumlahnya berapa ya?
-                      </ChatBubble>
+                    {/* Status bar */}
+                    <div className="relative flex items-center justify-between bg-[#075E54] px-5 pb-1 pt-2.5 text-white">
+                      <span className="text-[11px] font-bold">9:41</span>
+                      <span aria-hidden="true" className="absolute left-1/2 top-1.5 h-[16px] w-[86px] -translate-x-1/2 rounded-full bg-[#0A0A0C]/80" />
+                      <span aria-hidden="true" className="flex items-center gap-1">
+                        <span className="flex items-end gap-[2px]">
+                          <span className="h-1 w-[3px] rounded-sm bg-white/85" />
+                          <span className="h-1.5 w-[3px] rounded-sm bg-white/85" />
+                          <span className="h-2 w-[3px] rounded-sm bg-white/85" />
+                          <span className="h-2.5 w-[3px] rounded-sm bg-white/85" />
+                        </span>
+                        <span className="ml-1 h-2.5 w-5 rounded-[4px] border border-white/75 p-[2px]">
+                          <span className="block h-full w-3/4 rounded-[2px] bg-white" />
+                        </span>
+                      </span>
                     </div>
-                    <div className="mt-1">
-                      <ChatBubble side="in" delay={2.8}>
-                        Art carton, 100 pcs.
-                      </ChatBubble>
+
+                    {/* WA header */}
+                    <div className="flex items-center gap-2.5 bg-[#075E54] px-3.5 pb-2 pt-1">
+                      <span className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">
+                        <img src="/logo-icon.png" alt="" className="h-7 w-7 object-cover" />
+                        <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full border-[1.5px] border-[#075E54] bg-[#25D366]" />
+                      </span>
+                      <div className="flex min-w-0 items-center gap-1">
+                        <p className="truncate text-[11px] font-bold text-white">PADU Printing</p>
+                        <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 shrink-0" aria-hidden="true">
+                          <circle cx="10" cy="10" r="9" fill="#2AABEE" />
+                          <path d="M6.5 10.5l2.2 2.2 4.8-5" stroke="#fff" strokeWidth="1.9" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                      <span className="ml-auto whitespace-nowrap text-[9px] font-semibold leading-tight text-[#C8E3DA]">
+                        online 24 jam
+                      </span>
                     </div>
-                    <TypingBubble delay={3.7} className="mt-1" />
-                    <div className="mt-1">
-                      <ChatBubble side="out" delay={4.6}>
-                        Rp 25.000/pc, estimasi 1-2 hari kerja. Mau langsung order?
+
+                    {/* Chat area */}
+                    <div
+                      className="relative flex-1 overflow-hidden px-2.5 py-2.5"
+                      style={{
+                        backgroundColor: "#ECE5DC",
+                        backgroundImage: "radial-gradient(rgba(20,5,31,0.05) 1px, transparent 1px)",
+                        backgroundSize: "14px 14px",
+                      }}
+                    >
+                      <ChatBubble side="in" delay={0.3}>
+                        Halo kak, mau tanya-tanya cetak kartu nama.
                       </ChatBubble>
-                    </div>
-                    <div className="mt-1">
-                      <ChatBubble side="in" delay={5.4}>
-                        Oke, saya pesan ya.
-                      </ChatBubble>
-                    </div>
-                    <div className="mt-1 flex justify-end">
-                      <div
-                        className="w-[88%] overflow-hidden rounded-2xl rounded-br-md bg-white text-[#111B13] shadow-sm"
-                        style={{ animation: "chat-in 0.5s ease 6.2s both" }}
-                      >
-                        <div className="px-3 pb-1.5 pt-2">
-                          <p className="text-[11px] font-extrabold text-[#16121D]">
-                            Kartu Nama Art Carton
-                          </p>
-                          <p className="text-[9.5px] text-[#6F6878]">100 pcs - full color 2 sisi</p>
-                          <div className="mt-1 flex items-baseline justify-between">
-                            <span className="text-[9.5px] text-[#6F6878]">Total estimasi</span>
-                            <span className="text-[12px] font-extrabold text-[#4C1D75]">
-                              Rp 2.500.000
-                            </span>
+                      <div className="mt-1">
+                        <ChatBubble side="out" delay={0.9}>
+                          Siap dibantu! Bahan dan jumlahnya berapa ya?
+                        </ChatBubble>
+                      </div>
+                      <div className="mt-1">
+                        <ChatBubble side="in" delay={1.6}>
+                          Art carton, 100 pcs.
+                        </ChatBubble>
+                      </div>
+                      <div className="mt-1">
+                        <ChatBubble side="out" delay={2.3}>
+                          Rp 25.000/pc, estimasi 1-2 hari kerja. Mau langsung order?
+                        </ChatBubble>
+                      </div>
+                      <div className="mt-1">
+                        <ChatBubble side="in" delay={3}>
+                          Oke, saya pesan ya.
+                        </ChatBubble>
+                      </div>
+                      <div className="mt-1 flex justify-end">
+                        <div
+                          className="w-[88%] overflow-hidden rounded-xl rounded-br-sm bg-white text-[#111B13] shadow-sm"
+                          style={{ animation: "chat-in 0.5s ease 3.9s both" }}
+                        >
+                          <div className="px-2.5 pb-1.5 pt-2">
+                            <p className="text-[10px] font-extrabold text-[#16121D]">
+                              Kartu Nama Art Carton
+                            </p>
+                            <p className="text-[9px] text-[#6F6878]">100 pcs - full color 2 sisi</p>
+                            <div className="mt-0.5 flex items-baseline justify-between">
+                              <span className="text-[9px] text-[#6F6878]">Total estimasi</span>
+                              <span className="text-[11px] font-extrabold text-[#4C1D75]">
+                                Rp 2.500.000
+                              </span>
+                            </div>
+                          </div>
+                          <div className="bg-[#25D366] px-2.5 py-1 text-center text-[9px] font-bold text-white">
+                            Lanjut chat via WhatsApp ✓
                           </div>
                         </div>
-                        <div className="bg-[#25D366] px-3 py-1 text-center text-[9.5px] font-bold text-white">
-                          Lanjut chat via WhatsApp ✓
-                        </div>
+                      </div>
+                      <div className="mt-1">
+                        <ChatBubble side="out" delay={4.8}>
+                          Pesanan diterima ya. Estimasi 1-2 hari kerja. Terima kasih!
+                        </ChatBubble>
                       </div>
                     </div>
-                    <TypingBubble delay={7.4} className="mt-1" />
-                    <div className="mt-1">
-                      <ChatBubble side="out" delay={8.3}>
-                        Pesanan diterima ya. Estimasi 1-2 hari kerja. Terima kasih!
-                      </ChatBubble>
-                    </div>
-                  </div>
 
-                  {/* Input bar */}
-                  <div className="flex items-center gap-2 bg-[#ECE5DC] px-2.5 pb-3 pt-2">
-                    <div className="flex flex-1 items-center gap-1.5 rounded-full bg-white px-3.5 py-2 shadow-sm">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#A7A29A]" style={{ animation: "typing-blink 1.1s ease-in-out 0s infinite" }} />
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#A7A29A]" style={{ animation: "typing-blink 1.1s ease-in-out 0.15s infinite" }} />
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#A7A29A]" style={{ animation: "typing-blink 1.1s ease-in-out 0.3s infinite" }} />
-                      <span className="ml-1 text-[9.5px] text-[#6F6878]">PADU sedang mengetik...</span>
+                    {/* Input bar */}
+                    <div className="flex items-center gap-2 bg-[#ECE5DC] px-2.5 pb-3 pt-2">
+                      <div className="flex flex-1 items-center rounded-full bg-white px-3.5 py-1.5 shadow-sm">
+                        <span className="text-[9.5px] text-[#A7A29A]">Ketik pesan...</span>
+                      </div>
+                      <span className="grid h-7 w-7 place-items-center rounded-full bg-[#25D366]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
+                      </span>
                     </div>
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#25D366]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
-                    </span>
                   </div>
                 </div>
               </div>
