@@ -648,7 +648,7 @@ export default function ProfilPage() {
 
             <div className="min-h-[360px] lg:min-h-[500px]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3945.8!2d106.86!3d-6.23!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698e!3s0x0!5e0!3m2!1sid!2sid"
+                src={`https://www.google.com/maps?q=${encodeURIComponent("Jl. Otto Iskandardinata Raya No. 161A, Bidara Cina, Jatinegara, Jakarta Timur 13330")}&z=16&output=embed`}
                 title="Peta lokasi PADU Printing di Google Maps"
                 width="100%"
                 height="100%"
