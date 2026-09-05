@@ -8,7 +8,6 @@ import {
   X,
   ChevronDown,
   ChevronRight,
-  MessageCircle,
 } from "lucide-react";
 import { useContent } from "@/data/content";
 
@@ -196,7 +195,11 @@ export default function Header() {
                 rel="noopener noreferrer"
                 className="hidden sm:flex items-center gap-2 bg-[#25D366] hover:bg-[#1EBE57] text-white px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-md"
               >
-                <MessageCircle className="w-4 h-4" />
+                <img
+                  src="/logo-icon.png"
+                  alt="PADU Printing"
+                  className="h-4 w-4 object-contain"
+                />
                 WhatsApp
               </a>
 
@@ -445,7 +448,11 @@ export default function Header() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE57] text-white px-4 py-3 rounded-full text-sm font-medium transition-colors w-full"
               >
-                <MessageCircle className="w-4 h-4" />
+                <img
+                  src="/logo-icon.png"
+                  alt="PADU Printing"
+                  className="h-4 w-4 object-contain"
+                />
                 Chat via WhatsApp
               </a>
             </div>
