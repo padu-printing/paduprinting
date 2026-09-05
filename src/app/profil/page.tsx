@@ -151,7 +151,7 @@ export default function ProfilPage() {
           </div>
 
           {/* Right: visual */}
-          <div className="relative min-h-[430px] sm:min-h-[480px] lg:min-h-[520px]" aria-hidden="true">
+          <div className="relative min-h-[480px] overflow-hidden sm:min-h-[520px] lg:min-h-[560px]" aria-hidden="true">
             {/* Shell */}
             <div
               className="absolute inset-x-0 inset-y-2.5 overflow-hidden rounded-[42px] lg:inset-[22px_8px_18px_40px]"
