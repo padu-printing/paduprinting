@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { MessageCircle } from "lucide-react";
 import { buildWhatsAppMessage, getWhatsAppLink } from "@/lib/whatsapp";
 import type { Product } from "@/data/seed";
