@@ -305,7 +305,7 @@ export default function ProfilPage() {
                       </div>
                       <div className="mt-1">
                         <ChatBubble side="out" frame={7}>
-                          Pesanan diterima ya. Estimasi 1-2 hari kerja. Terima kasih!
+                          Pesanan diterima ya. Estimasi 1-2 jam kerja. Terima kasih!
                         </ChatBubble>
                       </div>
                     </div>
