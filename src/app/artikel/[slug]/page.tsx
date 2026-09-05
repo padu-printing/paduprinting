@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, Calendar, User, Clock, MessageCircle } from "lucide-react";
+import { ChevronRight, Calendar, User, Clock } from "lucide-react";
 import { getAllArticles, getArticleBySlug } from "@/lib/data";
 import { readTime, shortDate, extractHeadings } from "@/lib/article";
 import ArticleBody from "@/components/article/ArticleBody";
 import ArticleToc from "@/components/article/ArticleToc";
 import ArticleCard from "@/components/article/ArticleCard";
+import FinalCtaSection from "@/components/FinalCtaSection";
 import type { Metadata } from "next";
 import {
   SITE_URL,
   BRAND,
-  WHATSAPP_PHONE,
   getBlogPostingSchema,
   getBreadcrumbSchema,
   getOrganizationSchema,
@@ -166,23 +166,6 @@ export default async function ArtikelDetailPage({
                 </span>
               </div>
             </div>
-
-            {/* CTA */}
-            <section className="mt-8 rounded-[14px] bg-[#1A2340] px-6 py-8 text-center">
-              <h2 className="text-xl font-extrabold text-white">Butuh Bantuan Percetakan?</h2>
-              <p className="mt-1 text-sm text-[#C7C7D1]">
-                Konsultasikan kebutuhan Anda langsung dengan tim kami.
-              </p>
-              <a
-                href={`https://wa.me/${WHATSAPP_PHONE}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 rounded-[10px] bg-[#25D366] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#1EBE57]"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Chat via WhatsApp
-              </a>
-            </section>
           </article>
         </div>
       </div>
@@ -209,6 +192,9 @@ export default async function ArtikelDetailPage({
           </div>
         </div>
       </section>
+
+      {/* CTA */}
+      <FinalCtaSection />
     </>
   );
 }
