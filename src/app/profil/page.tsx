@@ -202,15 +202,16 @@ export default function ProfilPage() {
 
             {/* WhatsApp chat mockup */}
             <div
-              className="absolute left-1/2 top-1/2 h-[calc(100%-24px)] w-[min(88%,310px)] -translate-x-1/2 -translate-y-1/2 sm:w-[350px] lg:w-[400px]"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ width: "min(82%, 320px)", aspectRatio: "2 / 3" }}
             >
               <div className="-rotate-2">
                 <div
-                  className="flex flex-col overflow-hidden rounded-[8px] border-[7px] border-[#121215] bg-[#121215]"
+                  className="flex flex-col overflow-hidden rounded-[20px] border-[7px] border-[#121215] bg-[#121215]"
                   style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.35)" }}
                 >
                   <div
-                    className="flex flex-col overflow-hidden rounded-[5px]"
+                    className="flex flex-col overflow-hidden rounded-[12px]"
                     style={{ animation: "float 6s ease-in-out infinite" }}
                   >
                     {/* Status bar */}
