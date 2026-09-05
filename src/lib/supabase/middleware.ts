@@ -37,13 +37,22 @@ export async function updateSession(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (
-      request.nextUrl.pathname.startsWith("/admin") &&
-      !user
-    ) {
-      const redir = request.nextUrl.clone();
-      redir.pathname = "/login";
-      return NextResponse.redirect(redir);
+    const isAdminPath = request.nextUrl.pathname.startsWith("/admin");
+
+    if (isAdminPath && !user) {
+      const pernahLogin = request.cookies
+        .getAll()
+        .some((c) => /^sb-.+-auth-token$/.test(c.name));
+
+      if (pernahLogin) {
+        // Punya sesi sebelumnya, tapi sudah tidak valid, arahkan ke login.
+        const redir = request.nextUrl.clone();
+        redir.pathname = "/login";
+        return NextResponse.redirect(redir);
+      }
+
+      // Orang asing yang belum pernah login: sembunyikan /admin dengan 404.
+      return NextResponse.rewrite(new URL("/_not-found", request.url));
     }
 
     if (request.nextUrl.pathname === "/login" && user) {
