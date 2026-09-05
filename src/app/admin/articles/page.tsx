@@ -33,6 +33,8 @@ interface Article {
   seo_score: number;
 }
 
+const AUTHOR = "PADU Printing";
+
 const emptyForm = {
   slug: "",
   title: "",
@@ -41,7 +43,6 @@ const emptyForm = {
   cover_image: "",
   image_alt: "",
   date: "",
-  author: "",
   category: "",
   meta_title: "",
   meta_description: "",
@@ -165,7 +166,6 @@ export default function AdminArticles() {
       cover_image: a.cover_image,
       image_alt: a.image_alt || "",
       date: a.date,
-      author: a.author,
       category: a.category,
       meta_title: a.meta_title || "",
       meta_description: a.meta_description || "",
@@ -246,7 +246,7 @@ export default function AdminArticles() {
       cover_image: form.cover_image,
       image_alt: form.image_alt,
       date: form.date,
-      author: form.author,
+      author: AUTHOR,
       category: form.category,
       meta_title: form.meta_title,
       meta_description: form.meta_description,
@@ -335,7 +335,7 @@ export default function AdminArticles() {
               </div>
 
               {/* 3. Kategori + meta tambahan */}
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Kategori">
                   <SelectInput value={form.category} onChange={(e: ChangeEvent<HTMLSelectElement>) => setForm({ ...form, category: e.target.value })}>
                     <option value="">Pilih kategori</option>
@@ -348,9 +348,6 @@ export default function AdminArticles() {
                 </Field>
                 <Field label="Tanggal">
                   <TextInput type="date" value={form.date} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, date: e.target.value })} />
-                </Field>
-                <Field label="Penulis">
-                  <TextInput value={form.author} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, author: e.target.value })} />
                 </Field>
               </div>
 
