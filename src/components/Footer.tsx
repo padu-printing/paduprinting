@@ -13,17 +13,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <img src="/logo-icon.png" alt="Padu Printing" className="h-9 w-auto" />
-              <span className="text-lg font-bold text-white">
-                Padu <span className="text-padu-orange">Printing</span>
-              </span>
+            <div className="mb-4">
+              <img
+                src="/logo-horizontal.png"
+                alt="PADU Printing"
+                className="h-auto w-full object-contain"
+              />
             </div>
             <p className="text-sm leading-relaxed">
-              <span className="font-bold text-white">PADU Printing</span>{" "}
-              <span className="italic">- Different Element. One Brilliant Solution.</span>
-            </p>
-            <p className="mt-2 text-sm leading-relaxed">
               Percetakan digital untuk kebutuhan bisnis & personal: Offset,
               Packaging, Merchandise, Stationery, dan lainnya. Konsultasi &
               pemesanan mudah via WhatsApp.
