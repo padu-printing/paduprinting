@@ -186,11 +186,13 @@ export default async function ArtikelDetailPage({
               </div>
             </header>
 
-            <div className="mt-8">
-              <div className="relative aspect-[16/9] overflow-hidden rounded-[14px] bg-[#F3F3F5]">
-                <img src={article.coverImage} alt={article.title} className="h-full w-full object-cover" />
+            {article.coverImage && article.coverImage !== "/logo-icon.png" && (
+              <div className="mt-8">
+                <div className="relative aspect-[16/9] overflow-hidden rounded-[14px] bg-[#F3F3F5]">
+                  <img src={article.coverImage} alt={article.title} className="h-full w-full object-cover" />
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="mt-10">
               <ArticleBody content={article.content} headings={headings} />
