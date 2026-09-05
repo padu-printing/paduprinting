@@ -47,7 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="flex h-16 shrink-0 items-center border-b border-neutral-200 px-5">
           <img src="/logo-horizontal.png" alt="PADU Printing Admin" className="h-full max-h-16 w-auto py-2 object-contain" />
         </div>
-        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
+        <nav className="sidebar-scroll flex flex-1 flex-col gap-1 overflow-y-auto p-3">
           {navItems.map((item) => {
             const active =
               pathname === item.href ||
@@ -67,7 +67,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </Link>
             );
           })}
-          <div className="my-2 border-t border-neutral-200" />
+        </nav>
+        <div className="flex flex-col gap-1 border-t border-neutral-200 p-3">
           <a
             href="/"
             target="_blank"
@@ -83,7 +84,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <LogOut className="h-4 w-4" />
             Keluar
           </button>
-        </nav>
+        </div>
       </aside>
 
       {/* Content */}
