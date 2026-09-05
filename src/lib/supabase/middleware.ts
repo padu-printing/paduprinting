@@ -63,7 +63,12 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(redir);
     }
   } catch {
-    // If Supabase fails, still allow the request through
+    // Jika Supabase gagal, /admin dikunci (fail-closed), halaman lain tetap jalan.
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+      return NextResponse.rewrite(new URL("/_not-found", request.url), {
+        status: 404,
+      });
+    }
   }
 
   return supabaseResponse;
