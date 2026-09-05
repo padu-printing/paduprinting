@@ -53,8 +53,7 @@ export default function FinalCtaSection() {
       const { data } = await supabase
         .from("trusted_brands")
         .select("name, logo")
-        .order("sort_order", { ascending: true })
-        .order("name", { ascending: true });
+        .order("id", { ascending: true });
       if (!data || cancelled) return;
       const mapped = (data as BrandRow[]).map((r) => ({ name: r.name, logo: r.logo || "" }));
       if (mapped.length > 0) setBrands(mapped);

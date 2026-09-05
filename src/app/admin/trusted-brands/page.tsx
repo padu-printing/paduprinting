@@ -8,20 +8,17 @@ import {
   Button,
   Field,
   TextInput,
-  Table,
 } from "../components/ui";
 
 interface TrustedBrand {
   id: number;
   name: string;
   logo: string;
-  sort_order: number;
 }
 
 const emptyForm = {
   name: "",
   logo: "",
-  sort_order: 0,
 };
 
 function initialOf(name: string): string {
@@ -43,8 +40,7 @@ export default function AdminTrustedBrands() {
     const { data, error } = await supabase
       .from("trusted_brands")
       .select("*")
-      .order("sort_order", { ascending: true })
-      .order("name", { ascending: true });
+      .order("id", { ascending: true });
     if (!error) setItems(data as TrustedBrand[]);
     setLoading(false);
   }
@@ -65,7 +61,6 @@ export default function AdminTrustedBrands() {
     setForm({
       name: b.name,
       logo: b.logo,
-      sort_order: b.sort_order,
     });
     setEditingId(b.id);
     setShowForm(true);
@@ -139,37 +134,44 @@ export default function AdminTrustedBrands() {
         }
       />
 
-      <Table headers={["Logo", "Nama", "Urutan", "Aksi"]}>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {items.map((b) => (
-          <tr key={b.id} className="hover:bg-neutral-50">
-            <td className="px-5 py-3">
-              {b.logo ? (
-                <img
-                  src={b.logo}
-                  alt={b.name}
-                  className="h-10 w-10 rounded-full border border-neutral-200 object-contain"
-                />
-              ) : (
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 text-sm font-bold text-neutral-400">
-                  {initialOf(b.name)}
-                </span>
-              )}
-            </td>
-            <td className="px-5 py-3 font-medium text-[#1A2340]">{b.name}</td>
-            <td className="px-5 py-3 text-neutral-500">{b.sort_order}</td>
-            <td className="px-5 py-3">
-              <div className="flex gap-4">
-                <button onClick={() => startEdit(b)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
+          <div key={b.id} className="group relative aspect-square overflow-hidden rounded-xl bg-neutral-100">
+            {b.logo ? (
+              <img
+                src={b.logo}
+                alt={b.name}
+                className="h-full w-full object-contain p-2"
+              />
+            ) : (
+              <span className="flex h-full w-full items-center justify-center text-2xl font-bold text-neutral-300">
+                {initialOf(b.name)}
+              </span>
+            )}
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+              <p className="w-full truncate px-3 text-center text-xs font-medium text-white">
+                {b.name || "Tanpa alt"}
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => startEdit(b)}
+                  className="rounded-lg bg-white p-2 text-neutral-700 shadow hover:bg-[#6B2C91] hover:text-white"
+                  title="Edit"
+                >
                   <Pencil className="h-4 w-4" />
                 </button>
-                <button onClick={() => handleDelete(b.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
+                <button
+                  onClick={() => handleDelete(b.id)}
+                  className="rounded-lg bg-white p-2 text-neutral-700 shadow hover:bg-red-600 hover:text-white"
+                  title="Hapus"
+                >
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
-            </td>
-          </tr>
+            </div>
+          </div>
         ))}
-      </Table>
+      </div>
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
@@ -183,7 +185,7 @@ export default function AdminTrustedBrands() {
               </div>
             )}
             <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-              <Field label="Logo (WebP)" hint="Kosongkan untuk menampilkan huruf awal nama.">
+              <Field label="Logo (WebP)">
                 {form.logo ? (
                   <div className="relative inline-block">
                     <img
@@ -217,15 +219,8 @@ export default function AdminTrustedBrands() {
                 )}
                 {uploadError && <p className="mt-1 text-xs text-red-600">{uploadError}</p>}
               </Field>
-              <Field label="Nama Brand">
-                <TextInput value={form.name} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, name: e.target.value })} required />
-              </Field>
-              <Field label="Urutan">
-                <TextInput
-                  type="number"
-                  value={form.sort_order}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, sort_order: Number(e.target.value) })}
-                />
+              <Field label="Alt Image" hint="Teks alternatif / caption logo (untuk SEO & aksesibilitas).">
+                <TextInput value={form.name} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, name: e.target.value })} />
               </Field>
               <div className="flex justify-end gap-3 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
