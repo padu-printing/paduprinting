@@ -69,13 +69,13 @@ export async function generateMetadata({
         url,
         siteName: BRAND,
         type: "website",
-        images: [{ url: product.image }],
+        images: [{ url: `${SITE_URL}/og/produk/${product.slug}` }],
       },
       twitter: {
         card: "summary_large_image",
         title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
         description: product.shortDescription,
-        images: [product.image],
+        images: [`${SITE_URL}/og/produk/${product.slug}`],
       },
     };
   }
