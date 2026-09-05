@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Package, Tags, Newspaper, BookMarked, HelpCircle } from "lucide-react";
+import { Package, Tags, Newspaper, BookMarked, Images, HelpCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AdminDashboard() {
@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function load() {
       const supabase = createClient();
-      const tables = ["products", "categories", "articles", "article_categories", "faqs"];
+      const tables = ["products", "categories", "articles", "article_categories", "gallery_items", "faqs"];
       const result: Record<string, number> = {};
       for (const t of tables) {
         const { count } = await supabase.from(t).select("*", { count: "exact", head: true });
@@ -29,6 +29,7 @@ export default function AdminDashboard() {
     { key: "categories", label: "Kategori", icon: Tags, href: "/admin/categories" },
     { key: "articles", label: "Artikel", icon: Newspaper, href: "/admin/articles" },
     { key: "article_categories", label: "Kategori Artikel", icon: BookMarked, href: "/admin/article-categories" },
+    { key: "gallery_items", label: "Galeri Hasil Cetak", icon: Images, href: "/admin/gallery" },
     { key: "faqs", label: "FAQ", icon: HelpCircle, href: "/admin/faqs" },
   ];
 
@@ -39,7 +40,7 @@ export default function AdminDashboard() {
         Kelola konten website PADU Printing dari sini.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((c) => (
           <Link
             key={c.key}

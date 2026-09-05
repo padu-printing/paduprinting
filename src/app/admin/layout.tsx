@@ -8,6 +8,7 @@ import {
   Tags,
   Newspaper,
   BookMarked,
+  Images,
   HelpCircle,
   Settings,
   LogOut,
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/admin/categories", label: "Kategori", icon: Tags },
   { href: "/admin/articles", label: "Artikel", icon: Newspaper },
   { href: "/admin/article-categories", label: "Kategori Artikel", icon: BookMarked },
+  { href: "/admin/gallery", label: "Galeri Hasil Cetak", icon: Images },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
   { href: "/admin/settings", label: "Pengaturan", icon: Settings },
 ];

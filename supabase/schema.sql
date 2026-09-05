@@ -46,9 +46,15 @@ create table if not exists public.articles (
   excerpt text default '',
   content text default '',
   cover_image text default '',
+  image_alt text default '',
   date text default '',
   author text default '',
   category text default '',
+  meta_title text default '',
+  meta_description text default '',
+  focus_keyword text default '',
+  tags jsonb default '[]'::jsonb,
+  seo_score int default 0,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -59,6 +65,17 @@ create table if not exists public.article_categories (
   slug text unique not null,
   name text not null,
   description text default '',
+  sort_order int default 0,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- ---------- GALLERY (HASIL CETAK) ----------
+create table if not exists public.gallery_items (
+  id bigint generated always as identity primary key,
+  title text not null,
+  image text default '',
+  tall boolean default false,
   sort_order int default 0,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
@@ -87,6 +104,7 @@ alter table public.categories enable row level security;
 alter table public.products enable row level security;
 alter table public.articles enable row level security;
 alter table public.article_categories enable row level security;
+alter table public.gallery_items enable row level security;
 alter table public.faqs enable row level security;
 alter table public.site_settings enable row level security;
 
@@ -96,6 +114,7 @@ create policy "public read categories" on public.categories for select using (tr
 create policy "public read products" on public.products for select using (true);
 create policy "public read articles" on public.articles for select using (true);
 create policy "public read article_categories" on public.article_categories for select using (true);
+create policy "public read gallery" on public.gallery_items for select using (true);
 create policy "public read faqs" on public.faqs for select using (true);
 create policy "public read settings" on public.site_settings for select using (true);
 
@@ -104,6 +123,7 @@ create policy "auth write categories" on public.categories for all to authentica
 create policy "auth write products" on public.products for all to authenticated using (true) with check (true);
 create policy "auth write articles" on public.articles for all to authenticated using (true) with check (true);
 create policy "auth write article_categories" on public.article_categories for all to authenticated using (true) with check (true);
+create policy "auth write gallery" on public.gallery_items for all to authenticated using (true) with check (true);
 create policy "auth write faqs" on public.faqs for all to authenticated using (true) with check (true);
 create policy "auth write settings" on public.site_settings for all to authenticated using (true) with check (true);
 
@@ -123,6 +143,8 @@ create trigger set_products_updated_at before update on public.products
 create trigger set_articles_updated_at before update on public.articles
   for each row execute function public.set_updated_at();
 create trigger set_article_categories_updated_at before update on public.article_categories
+  for each row execute function public.set_updated_at();
+create trigger set_gallery_items_updated_at before update on public.gallery_items
   for each row execute function public.set_updated_at();
 create trigger set_faqs_updated_at before update on public.faqs
   for each row execute function public.set_updated_at();

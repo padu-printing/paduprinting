@@ -1,10 +1,15 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+
 interface GalleryItem {
   src: string;
   title: string;
   tall?: boolean;
 }
 
-const galleryItems: GalleryItem[] = [
+const fallbackItems: GalleryItem[] = [
   {
     src: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80",
     title: "Banner Besar",
@@ -50,7 +55,38 @@ const galleryItems: GalleryItem[] = [
   },
 ];
 
+interface GalleryRow {
+  image: string;
+  title: string;
+  tall: boolean;
+}
+
 export default function GallerySection() {
+  const [items, setItems] = useState<GalleryItem[]>(fallbackItems);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      if (!url) return;
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("gallery_items")
+        .select("image, title, tall")
+        .order("sort_order", { ascending: true })
+        .order("title", { ascending: true });
+      if (!data || data.length === 0 || cancelled) return;
+      const mapped = (data as GalleryRow[])
+        .filter((r) => r.image)
+        .map((r) => ({ src: r.image, title: r.title, tall: r.tall }));
+      if (mapped.length > 0) setItems(mapped);
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <section className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -63,7 +99,7 @@ export default function GallerySection() {
 
         {/* Masonry layout */}
         <div className="mt-10 columns-2 gap-4 sm:columns-3 lg:columns-5 [column-fill:_balance]">
-          {galleryItems.map((item, idx) => (
+          {items.map((item, idx) => (
             <div key={idx} className="mb-4 break-inside-avoid">
               <div className="group relative overflow-hidden rounded-xl">
                 <img

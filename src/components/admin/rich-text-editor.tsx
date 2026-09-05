@@ -35,6 +35,7 @@ import {
 interface Props {
   value: string;
   onChange: (html: string) => void;
+  placeholder?: string;
 }
 
 function ToolbarButton({
@@ -72,7 +73,7 @@ function Sep() {
   return <span className="mx-1 h-5 w-px bg-neutral-300" />;
 }
 
-export default function RichTextEditor({ value, onChange }: Props) {
+export default function RichTextEditor({ value, onChange, placeholder = "Tulis deskripsi produk..." }: Props) {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -88,7 +89,7 @@ export default function RichTextEditor({ value, onChange }: Props) {
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TextStyle,
       Color,
-      Placeholder.configure({ placeholder: "Tulis deskripsi produk..." }),
+      Placeholder.configure({ placeholder }),
     ],
     content: value,
     onUpdate: ({ editor: ed }) => onChange(ed.getHTML()),
