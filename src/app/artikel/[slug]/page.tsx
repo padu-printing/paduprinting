@@ -161,9 +161,6 @@ export default async function ArtikelDetailPage({
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:grid-cols-[minmax(0,1fr)_340px]">
           <article className="min-w-0">
             <header className="text-center">
-              <span className="inline-block rounded-full bg-[#6B2C91]/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#6B2C91]">
-                {article.category}
-              </span>
               <h1 className="mt-4 text-3xl font-extrabold leading-tight text-[#1A2340] sm:text-4xl">
                 {article.title}
               </h1>
