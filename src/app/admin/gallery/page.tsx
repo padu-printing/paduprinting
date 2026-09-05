@@ -8,7 +8,6 @@ import {
   Button,
   Field,
   TextInput,
-  Table,
 } from "../components/ui";
 
 interface GalleryItem {
@@ -135,34 +134,44 @@ export default function AdminGallery() {
         }
       />
 
-      <Table headers={["Foto", "Alt Image", "Aksi"]}>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {items.map((g) => (
-          <tr key={g.id} className="hover:bg-neutral-50">
-            <td className="px-5 py-3">
-              {g.image ? (
+          <div key={g.id} className="group relative aspect-square overflow-hidden rounded-xl bg-neutral-100">
+            {g.image ? (
+              <>
                 <img
                   src={g.image}
                   alt={g.title}
-                  className="h-16 w-16 rounded-lg object-cover"
+                  className="h-full w-full object-cover"
                 />
-              ) : (
-                <span className="text-neutral-300">—</span>
-              )}
-            </td>
-            <td className="px-5 py-3 font-medium text-[#1A2340]">{g.title}</td>
-            <td className="px-5 py-3">
-              <div className="flex gap-4">
-                <button onClick={() => startEdit(g)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
-                  <Pencil className="h-4 w-4" />
-                </button>
-                <button onClick={() => handleDelete(g.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </td>
-          </tr>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  <p className="w-full truncate px-3 text-center text-xs font-medium text-white">
+                    {g.title || "Tanpa alt"}
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => startEdit(g)}
+                      className="rounded-lg bg-white p-2 text-neutral-700 shadow hover:bg-[#6B2C91] hover:text-white"
+                      title="Edit"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(g.id)}
+                      className="rounded-lg bg-white p-2 text-neutral-700 shadow hover:bg-red-600 hover:text-white"
+                      title="Hapus"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <span className="flex h-full w-full items-center justify-center text-neutral-300">—</span>
+            )}
+          </div>
         ))}
-      </Table>
+      </div>
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
