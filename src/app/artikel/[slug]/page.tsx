@@ -16,6 +16,7 @@ import {
   getBreadcrumbSchema,
   getOrganizationSchema,
 } from "@/lib/seo";
+import { toJsonLd } from "@/lib/json-ld";
 
 function ProductRecCard({ product }: { product: Product }) {
   const formattedPrice = new Intl.NumberFormat("id-ID", {
@@ -139,7 +140,7 @@ export default async function ArtikelDetailPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLd(schema) }}
       />
 
       {/* Breadcrumb */}

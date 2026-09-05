@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import { ContentProvider } from "@/data/content";
+import { toJsonLd } from "@/lib/json-ld";
 import {
   SITE_URL,
   BRAND,
@@ -79,7 +80,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchema) }}
+          dangerouslySetInnerHTML={{ __html: toJsonLd(rootSchema) }}
         />
       </head>
       <body className="min-h-full flex flex-col font-sans">

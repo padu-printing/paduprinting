@@ -19,6 +19,7 @@ import {
   getBreadcrumbSchema,
   getOrganizationSchema,
 } from "@/lib/seo";
+import { toJsonLd } from "@/lib/json-ld";
 
 export async function generateStaticParams() {
   const categories = await getAllCategories();
@@ -126,7 +127,7 @@ async function CategoryView({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLd(schema) }}
       />
 
       <div className="bg-neutral-50 border-b border-neutral-200">
@@ -235,7 +236,7 @@ async function ProductView({ product }: { product: Product }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLd(schema) }}
       />
 
       <div className="bg-neutral-50 border-b border-neutral-200">
