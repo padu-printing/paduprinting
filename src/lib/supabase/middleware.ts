@@ -52,7 +52,9 @@ export async function updateSession(request: NextRequest) {
       }
 
       // Orang asing yang belum pernah login: sembunyikan /admin dengan 404.
-      return NextResponse.rewrite(new URL("/_not-found", request.url));
+      return NextResponse.rewrite(new URL("/_not-found", request.url), {
+        status: 404,
+      });
     }
 
     if (request.nextUrl.pathname === "/login" && user) {
