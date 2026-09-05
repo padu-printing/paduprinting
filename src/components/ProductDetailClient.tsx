@@ -14,18 +14,15 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ product, categoryName }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState("");
-
-  const totalPrice = product.basePrice * quantity;
 
   const handleWhatsAppOrder = () => {
     const message = buildWhatsAppMessage({
       name: "",
       category: categoryName,
       tipe: product.name,
-      qty: quantity,
-      estimasiTotal: totalPrice,
+      qty: 1,
+      estimasiTotal: product.basePrice,
       catatan: notes || undefined,
     });
     const phone = getWhatsAppPhoneNumber();
@@ -80,18 +77,6 @@ export default function ProductDetailClient({ product, categoryName }: ProductDe
           dangerouslySetInnerHTML={{ __html: product.description }}
         />
 
-        {/* Quantity */}
-        <div className="mt-6">
-          <label className="block text-sm font-semibold text-padu-navy mb-1.5">Jumlah</label>
-          <input
-            type="number"
-            min={1}
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-            className="w-32 rounded-lg border border-neutral-300 px-4 py-3 text-sm focus:border-padu-orange focus:outline-none focus:ring-2 focus:ring-padu-orange/20"
-          />
-        </div>
-
         {/* Notes */}
         <div className="mt-6">
           <label className="block text-sm font-semibold text-padu-navy mb-1.5">Catatan (opsional)</label>
@@ -103,20 +88,6 @@ export default function ProductDetailClient({ product, categoryName }: ProductDe
             className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-sm focus:border-padu-orange focus:outline-none focus:ring-2 focus:ring-padu-orange/20 resize-none"
           />
         </div>
-
-        {/* Price Summary */}
-        <div className="mt-6 rounded-lg bg-neutral-50 p-4 border border-neutral-200">
-          <div className="flex items-center justify-between">
-            <span className="text-neutral-500">Total Estimasi</span>
-            <span className="text-xl font-bold text-padu-navy">
-              Rp {totalPrice.toLocaleString("id-ID")}
-            </span>
-          </div>
-        </div>
-
-        <p className="mt-3 text-xs text-neutral-400 italic">
-          *Estimasi, harga final dikonfirmasi admin
-        </p>
 
         {/* WhatsApp Button */}
         <div className="mt-8">
