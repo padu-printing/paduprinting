@@ -35,7 +35,7 @@ function CategoryCard({ category }: { category: typeof seedCategories[0] }) {
 
 function ProductCard({ product }: { product: typeof seedProducts[0] }) {
   return (
-    <Link href={`/produk/${product.slug}`} className="card-hover block min-w-[200px] max-w-[220px] rounded-xl bg-white border border-neutral-200 overflow-hidden">
+    <Link href={`/produk/${product.slug}`} className="card-hover block w-full rounded-xl bg-white border border-neutral-200 overflow-hidden">
       <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden">
         <ProductImage src={product.image} alt={product.name} iconClassName="h-10 w-10" />
       </div>
@@ -64,7 +64,9 @@ export default function Home() {
 
   const scrollProducts = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 220;
+      const scrollAmount = Math.round(
+        (scrollContainerRef.current.querySelector('[class*="basis-"]') as HTMLElement | null)?.offsetWidth ?? 220
+      );
       scrollContainerRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -127,9 +129,13 @@ export default function Home() {
             >
               <ChevronRight className="w-5 h-5 text-padu-navy" />
             </button>
-            <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto pb-4 snap-x scroll-smooth" style={{ scrollbarWidth: 'none' }}>
+            <div
+              ref={scrollContainerRef}
+              className="-mx-3 flex overflow-x-auto px-3 pb-4 snap-x snap-mandatory scroll-smooth"
+              style={{ scrollbarWidth: "none" }}
+            >
               {bestSellers.map((product) => (
-                <div key={product.slug} className="snap-start shrink-0 w-[220px]">
+                <div key={product.slug} className="shrink-0 basis-[80%] snap-start px-3 sm:basis-[48%] lg:basis-[24%] xl:basis-[20%]">
                   <ProductCard product={product} />
                 </div>
               ))}
