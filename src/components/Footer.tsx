@@ -24,12 +24,9 @@ export default function Footer() {
               <span className="italic">- Different Element. One Brilliant Solution.</span>
             </p>
             <p className="mt-2 text-sm leading-relaxed">
-              Solusi percetakan digital terpercaya untuk kebutuhan bisnis dan
-              personal Anda: mulai dari Offset, Bisnis Kit, Display Promotion,
-              Packaging, Merchandise, hingga Stationery. Setiap elemen berbeda,
-              kami satukan menjadi hasil cetak yang presisi, berkualitas, dan
-              tepat waktu. Pesan mudah lewat WhatsApp. Konsultasi gratis dan
-              proses cepat.
+              Percetakan digital untuk kebutuhan bisnis & personal: Offset,
+              Packaging, Merchandise, Stationery, dan lainnya. Konsultasi &
+              pemesanan mudah via WhatsApp.
             </p>
           </div>
 
