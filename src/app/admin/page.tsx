@@ -58,24 +58,6 @@ export default function AdminDashboard() {
           </Link>
         ))}
       </div>
-
-      <div className="mt-8 rounded-2xl border border-neutral-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-[#1A2340]">Catatan</h2>
-        <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-neutral-600">
-          <li>
-            Data dibaca langsung dari Supabase. Public bisa melihat konten; hanya
-            admin yang login bisa mengubahnya.
-          </li>
-          <li>
-            Kolom JSON (gallery, variant, price tier, spek) diisi lewat form
-            dengan format yang sesuai.
-          </li>
-          <li>
-            Isi gambar pakai URL (path lokal seperti <code>/logo-icon.png</code>{" "}
-            atau URL eksternal).
-          </li>
-        </ul>
-      </div>
     </div>
   );
 }
