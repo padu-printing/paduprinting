@@ -73,8 +73,7 @@ export default function GallerySection() {
       const { data } = await supabase
         .from("gallery_items")
         .select("image, title, tall")
-        .order("sort_order", { ascending: true })
-        .order("title", { ascending: true });
+        .order("id", { ascending: true });
       if (!data || data.length === 0 || cancelled) return;
       const mapped = (data as GalleryRow[])
         .filter((r) => r.image)

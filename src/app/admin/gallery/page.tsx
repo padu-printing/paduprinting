@@ -9,22 +9,17 @@ import {
   Field,
   TextInput,
   Table,
-  Badge,
 } from "../components/ui";
 
 interface GalleryItem {
   id: number;
   title: string;
   image: string;
-  tall: boolean;
-  sort_order: number;
 }
 
 const emptyForm = {
   title: "",
   image: "",
-  tall: false,
-  sort_order: 0,
 };
 
 export default function AdminGallery() {
@@ -42,8 +37,7 @@ export default function AdminGallery() {
     const { data, error } = await supabase
       .from("gallery_items")
       .select("*")
-      .order("sort_order", { ascending: true })
-      .order("title", { ascending: true });
+      .order("id", { ascending: true });
     if (!error) setItems(data as GalleryItem[]);
     setLoading(false);
   }
@@ -64,8 +58,6 @@ export default function AdminGallery() {
     setForm({
       title: g.title,
       image: g.image,
-      tall: g.tall,
-      sort_order: g.sort_order,
     });
     setEditingId(g.id);
     setShowForm(true);
@@ -143,7 +135,7 @@ export default function AdminGallery() {
         }
       />
 
-      <Table headers={["Foto", "Judul", "Tampilan", "Urutan", "Aksi"]}>
+      <Table headers={["Foto", "Alt Image", "Aksi"]}>
         {items.map((g) => (
           <tr key={g.id} className="hover:bg-neutral-50">
             <td className="px-5 py-3">
@@ -151,17 +143,13 @@ export default function AdminGallery() {
                 <img
                   src={g.image}
                   alt={g.title}
-                  className={`h-16 w-16 rounded-lg object-cover ${g.tall ? "aspect-[4/5] h-20" : ""}`}
+                  className="h-16 w-16 rounded-lg object-cover"
                 />
               ) : (
                 <span className="text-neutral-300">—</span>
               )}
             </td>
             <td className="px-5 py-3 font-medium text-[#1A2340]">{g.title}</td>
-            <td className="px-5 py-3">
-              {g.tall ? <Badge>Tinggi</Badge> : <Badge>Kotak</Badge>}
-            </td>
-            <td className="px-5 py-3 text-neutral-500">{g.sort_order}</td>
             <td className="px-5 py-3">
               <div className="flex gap-4">
                 <button onClick={() => startEdit(g)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
@@ -222,26 +210,8 @@ export default function AdminGallery() {
                 )}
                 {uploadError && <p className="mt-1 text-xs text-red-600">{uploadError}</p>}
               </Field>
-              <Field label="Judul">
-                <TextInput value={form.title} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, title: e.target.value })} required />
-              </Field>
-              <Field label="Tampilan" hint="Tinggi (portrait 4:5) atau Kotak (1:1) untuk layout masonry">
-                <label className="flex items-center gap-2 text-sm text-neutral-700">
-                  <input
-                    type="checkbox"
-                    checked={form.tall}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, tall: e.target.checked })}
-                    className="h-4 w-4 rounded border-neutral-300 accent-[#6B2C91]"
-                  />
-                  Tampil lebih tinggi di galeri homepage
-                </label>
-              </Field>
-              <Field label="Urutan">
-                <TextInput
-                  type="number"
-                  value={form.sort_order}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, sort_order: Number(e.target.value) })}
-                />
+              <Field label="Alt Image" hint="Teks alternatif / caption foto (untuk SEO & aksesibilitas).">
+                <TextInput value={form.title} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, title: e.target.value })} />
               </Field>
               <div className="flex justify-end gap-3 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
