@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import DOMPurify from "dompurify";
 import { MessageCircle } from "lucide-react";
 import { buildWhatsAppMessage, getWhatsAppLink } from "@/lib/whatsapp";
 import type { Product } from "@/data/seed";
@@ -15,6 +16,10 @@ interface ProductDetailClientProps {
 export default function ProductDetailClient({ product, categoryName }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [notes, setNotes] = useState("");
+  const safeDescription = useMemo(
+    () => DOMPurify.sanitize(product.description || ""),
+    [product.description]
+  );
 
   const handleWhatsAppOrder = () => {
     const message = buildWhatsAppMessage({
@@ -74,7 +79,7 @@ export default function ProductDetailClient({ product, categoryName }: ProductDe
         </p>
         <div
           className="prose prose-sm prose-neutral max-w-none mt-4 text-neutral-600 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: product.description }}
+          dangerouslySetInnerHTML={{ __html: safeDescription }}
         />
 
         {/* Notes */}
