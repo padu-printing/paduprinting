@@ -35,7 +35,8 @@ const fallbackSlides: Slide[] = [
 ];
 
 export default function HeroSlideshow() {
-  const [slides, setSlides] = useState<Slide[]>(fallbackSlides);
+  const [slides, setSlides] = useState<Slide[]>([]);
+  const [ready, setReady] = useState(false);
   const [current, setCurrent] = useState(0);
 
   const next = useCallback(() => {
@@ -52,19 +53,23 @@ export default function HeroSlideshow() {
     let cancelled = false;
     async function load() {
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      if (!url) return;
+      if (!url) {
+        setSlides(fallbackSlides);
+        setReady(true);
+        return;
+      }
       const supabase = createClient();
       const { data } = await supabase
         .from("hero_slides")
         .select("image, alt, link")
         .order("sort_order", { ascending: true })
         .order("id", { ascending: true });
-      if (!data || data.length === 0 || cancelled) return;
-      const mapped = (data as Slide[]).filter((s) => s.image);
-      if (mapped.length > 0) {
-        setSlides(mapped);
-        setCurrent(0);
-      }
+      if (cancelled) return;
+      const mapped = (data as Slide[] | null) ?? [];
+      const usable = mapped.filter((s) => s.image);
+      setSlides(usable.length > 0 ? usable : fallbackSlides);
+      setCurrent(0);
+      setReady(true);
     }
     load();
     return () => {
@@ -73,41 +78,48 @@ export default function HeroSlideshow() {
   }, []);
 
   useEffect(() => {
+    if (slides.length === 0) return;
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, slides.length]);
+
+  const showSlider = ready && slides.length > 0;
 
   return (
     <div className="relative w-full overflow-hidden bg-gray-100">
-      {/* Slides */}
-      <div
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
-        {slides.map((slide, i) => (
-          <div key={i} className="w-full shrink-0">
-            <Link href={slide.link}>
-              <img
-                src={slide.image}
-                alt={slide.alt}
-                className="h-[200px] w-full object-cover sm:h-[300px] md:h-[400px] lg:h-[500px]"
-              />
-            </Link>
+      {!showSlider ? (
+        <div className="h-[200px] w-full animate-pulse bg-neutral-200 sm:h-[300px] md:h-[400px] lg:h-[500px]" />
+      ) : (
+        <>
+          {/* Slides */}
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${current * 100}%)` }}
+          >
+            {slides.map((slide, i) => (
+              <div key={i} className="w-full shrink-0">
+                <Link href={slide.link}>
+                  <img
+                    src={slide.image}
+                    alt={slide.alt}
+                    className="h-[200px] w-full object-cover sm:h-[300px] md:h-[400px] lg:h-[500px]"
+                  />
+                </Link>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-colors"
-        aria-label="Previous"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-colors"
+          {/* Navigation Arrows */}
+          <button
+            onClick={prev}
+            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-colors"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={next}
+            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-colors"
         aria-label="Next"
       >
         <ChevronRight className="w-5 h-5" />
@@ -126,6 +138,8 @@ export default function HeroSlideshow() {
           />
         ))}
       </div>
+        </>
+      )}
     </div>
   );
 }
