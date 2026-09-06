@@ -180,3 +180,23 @@ create trigger set_faqs_updated_at before update on public.faqs
   for each row execute function public.set_updated_at();
 create trigger set_settings_updated_at before update on public.site_settings
   for each row execute function public.set_updated_at();
+
+-- ---------- PAGEVIEWS (KUNJUNGAN WEBSITE) ----------
+create table if not exists public.pageviews (
+  id bigint generated always as identity primary key,
+  visitor_id text not null,
+  path text not null default '/',
+  referrer text default '',
+  user_agent text default '',
+  created_at timestamptz default now()
+);
+
+create index if not exists pageviews_created_at_idx on public.pageviews (created_at desc);
+
+alter table public.pageviews enable row level security;
+
+-- Pencatatan kunjungan: siapa pun boleh insert (anon key publik).
+create policy "anon insert pageviews" on public.pageviews for insert to anon with check (true);
+-- Dashboard: hanya pengguna terautentikasi (admin) yang bisa membaca.
+create policy "auth read pageviews" on public.pageviews for select to authenticated using (true);
+create policy "auth write pageviews" on public.pageviews for all to authenticated using (true) with check (true);
