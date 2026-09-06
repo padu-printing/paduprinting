@@ -62,15 +62,15 @@ export async function updateSession(request: NextRequest) {
     );
   }
 
-  // Subdomain CMS toko: hanya melayani login + admin, sisanya 404.
-  // Root "/" diarahkan ke halaman login.
+  // Subdomain CMS toko: hanya melayani login (di "/") + admin, sisanya 404.
+  // "/login" dihapus: diarahkan kembali ke "/" (kanonik).
   if (isCms) {
-    if (path === "/") {
+    if (path === "/login") {
       const redir = request.nextUrl.clone();
-      redir.pathname = "/login";
+      redir.pathname = "/";
       return withSecurityHeaders(NextResponse.redirect(redir));
     }
-    if (path !== "/login" && !path.startsWith("/admin")) {
+    if (path !== "/" && !path.startsWith("/admin")) {
       return withSecurityHeaders(
         NextResponse.rewrite(new URL("/_not-found", request.url), {
           status: 404,
@@ -105,6 +105,22 @@ export async function updateSession(request: NextRequest) {
 
     const isAdminPath = request.nextUrl.pathname.startsWith("/admin");
 
+    // Tujuan login: di toko.* kanonisnya "/", di host lain (dev/preview) "/login".
+    const loginPath = isCms ? "/" : "/login";
+
+    // toko: "/" menampilkan halaman login (rewrite, URL tetap "/") bila belum
+    // login, atau mengarahkan ke /admin bila sudah login.
+    if (isCms && request.nextUrl.pathname === "/") {
+      if (user) {
+        const redir = request.nextUrl.clone();
+        redir.pathname = "/admin";
+        return withSecurityHeaders(NextResponse.redirect(redir));
+      }
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/login";
+      return withSecurityHeaders(NextResponse.rewrite(loginUrl));
+    }
+
     if (isAdminPath && !user) {
       const pernahLogin = request.cookies
         .getAll()
@@ -112,10 +128,10 @@ export async function updateSession(request: NextRequest) {
       const userDikenal = request.cookies.get(KNOWN_USER_COOKIE)?.value === "1";
 
       // Pengguna yang sebelumnya pernah login (atau sesinya sudah tidak valid):
-      // arahkan ke /login dengan notifikasi "sesi berakhir", bukan 404.
+      // arahkan ke halaman login dengan notifikasi "sesi berakhir", bukan 404.
       if (pernahLogin || userDikenal) {
         const redir = request.nextUrl.clone();
-        redir.pathname = "/login";
+        redir.pathname = loginPath;
         redir.searchParams.set("expired", "1");
         return withSecurityHeaders(NextResponse.redirect(redir));
       }
@@ -147,12 +163,12 @@ export async function updateSession(request: NextRequest) {
       const lastActive = Math.max(cookieLast, signedAt);
 
       // Sesi terlalu lama tidak digunakan (idle > timeout) -> putuskan sesi
-      // di sisi server (revoke refresh token) lalu arahkan ke /login.
+      // di sisi server (revoke refresh token) lalu arahkan ke halaman login.
       if (lastActive > 0 && now - lastActive >= IDLE_TIMEOUT_MS) {
         await supabase.auth.signOut().catch(() => null);
 
         const logoutUrl = request.nextUrl.clone();
-        logoutUrl.pathname = "/login";
+        logoutUrl.pathname = loginPath;
         logoutUrl.searchParams.set("expired", "1");
         const logoutResponse = withSecurityHeaders(
           NextResponse.redirect(logoutUrl)

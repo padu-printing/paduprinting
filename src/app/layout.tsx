@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SiteChrome from "@/components/SiteChrome";
-import { ContentProvider } from "@/data/content";
 import { toJsonLd } from "@/lib/json-ld";
 import {
   SITE_URL,
@@ -74,7 +72,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id-ID" className={`${inter.variable} h-full antialiased`}>
       <head>
@@ -84,9 +82,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full flex flex-col font-sans">
-        <ContentProvider>
-          <SiteChrome>{children}</SiteChrome>
-        </ContentProvider>
+        {children}
       </body>
     </html>
   );
