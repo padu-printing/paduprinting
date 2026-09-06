@@ -7,6 +7,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/|api/|.*\\.(?:png|ico|jpg|jpeg|svg|webp|gif|txt|css|js|woff2?)$))",
+    "/((?!_next/|api/|.*\\.(?:png|ico|jpg|jpeg|svg|webp|gif|txt|css|js|woff2?)$).*)",
   ],
 };
