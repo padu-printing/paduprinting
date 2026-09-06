@@ -6,5 +6,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/login"],
+  matcher: [
+    "/((?!_next/|api/|.*\\.(?:png|ico|jpg|jpeg|svg|webp|gif|txt|css|js|woff2?)$))",
+  ],
 };

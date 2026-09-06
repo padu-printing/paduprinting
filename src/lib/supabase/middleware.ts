@@ -6,6 +6,19 @@ import { IDLE_TIMEOUT_MS, KNOWN_USER_COOKIE, KNOWN_USER_COOKIE_MAX_AGE, LAST_ACT
 // aktivitas tetap terdeteksi meski browser dibuka lagi setelah lama tertutup.
 const LAST_ACTIVE_COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
 
+// CMS (login + admin) hanya dilayani lewat subdomain khusus. Domain publik
+// www hanya menyajikan situs; semua rute CMS di www disembunyikan (404).
+const CMS_HOST = "toko.paduprinting.com";
+const WWW_HOST = "www.paduprinting.com";
+
+function isCmsHost(host: string) {
+  return host === CMS_HOST || host.startsWith(`${CMS_HOST}:`);
+}
+
+function isWwwHost(host: string) {
+  return host === WWW_HOST || host.startsWith(`${WWW_HOST}:`);
+}
+
 const SECURITY_HEADERS: Record<string, string> = {
   "X-Frame-Options": "DENY",
   "X-Content-Type-Options": "nosniff",
@@ -33,6 +46,37 @@ export async function updateSession(request: NextRequest) {
 
   if (!url || !key) {
     return withSecurityHeaders(supabaseResponse);
+  }
+
+  const host = request.nextUrl.host;
+  const path = request.nextUrl.pathname;
+  const isCms = isCmsHost(host);
+  const isWww = isWwwHost(host);
+
+  // Domain publik www: sembunyikan seluruh CMS.
+  if (isWww && (path.startsWith("/admin") || path === "/login")) {
+    return withSecurityHeaders(
+      NextResponse.rewrite(new URL("/_not-found", request.url), {
+        status: 404,
+      })
+    );
+  }
+
+  // Subdomain CMS toko: hanya melayani login + admin, sisanya 404.
+  // Root "/" diarahkan ke halaman login.
+  if (isCms) {
+    if (path === "/") {
+      const redir = request.nextUrl.clone();
+      redir.pathname = "/login";
+      return withSecurityHeaders(NextResponse.redirect(redir));
+    }
+    if (path !== "/login" && !path.startsWith("/admin")) {
+      return withSecurityHeaders(
+        NextResponse.rewrite(new URL("/_not-found", request.url), {
+          status: 404,
+        })
+      );
+    }
   }
 
   try {
