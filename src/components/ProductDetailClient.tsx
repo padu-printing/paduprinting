@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import DOMPurify from "isomorphic-dompurify";
+import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { buildWhatsAppMessage, getWhatsAppLink } from "@/lib/whatsapp";
 import type { Product } from "@/data/seed";
@@ -16,10 +15,18 @@ interface ProductDetailClientProps {
 export default function ProductDetailClient({ product, categoryName }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [notes, setNotes] = useState("");
-  const safeDescription = useMemo(
-    () => DOMPurify.sanitize(product.description || ""),
-    [product.description]
-  );
+  const [safeDescription, setSafeDescription] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    import("dompurify").then((module) => {
+      const DOMPurify = module.default;
+      if (active) setSafeDescription(DOMPurify.sanitize(product.description || ""));
+    });
+    return () => {
+      active = false;
+    };
+  }, [product.description]);
 
   const handleWhatsAppOrder = () => {
     const message = buildWhatsAppMessage({

@@ -90,6 +90,17 @@ create table if not exists public.trusted_brands (
   updated_at timestamptz default now()
 );
 
+-- ---------- HERO SLIDESHOW ----------
+create table if not exists public.hero_slides (
+  id bigint generated always as identity primary key,
+  image text not null,
+  alt text default '',
+  link text default '',
+  sort_order int default 0,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
 -- ---------- FAQS ----------
 create table if not exists public.faqs (
   id bigint generated always as identity primary key,
@@ -115,6 +126,7 @@ alter table public.articles enable row level security;
 alter table public.article_categories enable row level security;
 alter table public.gallery_items enable row level security;
 alter table public.trusted_brands enable row level security;
+alter table public.hero_slides enable row level security;
 alter table public.faqs enable row level security;
 alter table public.site_settings enable row level security;
 
@@ -126,6 +138,7 @@ create policy "public read articles" on public.articles for select using (true);
 create policy "public read article_categories" on public.article_categories for select using (true);
 create policy "public read gallery" on public.gallery_items for select using (true);
 create policy "public read trusted_brands" on public.trusted_brands for select using (true);
+create policy "public read hero_slides" on public.hero_slides for select using (true);
 create policy "public read faqs" on public.faqs for select using (true);
 create policy "public read settings" on public.site_settings for select using (true);
 
@@ -136,6 +149,7 @@ create policy "auth write articles" on public.articles for all to authenticated 
 create policy "auth write article_categories" on public.article_categories for all to authenticated using (true) with check (true);
 create policy "auth write gallery" on public.gallery_items for all to authenticated using (true) with check (true);
 create policy "auth write trusted_brands" on public.trusted_brands for all to authenticated using (true) with check (true);
+create policy "auth write hero_slides" on public.hero_slides for all to authenticated using (true) with check (true);
 create policy "auth write faqs" on public.faqs for all to authenticated using (true) with check (true);
 create policy "auth write settings" on public.site_settings for all to authenticated using (true) with check (true);
 
@@ -159,6 +173,8 @@ create trigger set_article_categories_updated_at before update on public.article
 create trigger set_gallery_items_updated_at before update on public.gallery_items
   for each row execute function public.set_updated_at();
 create trigger set_trusted_brands_updated_at before update on public.trusted_brands
+  for each row execute function public.set_updated_at();
+create trigger set_hero_slides_updated_at before update on public.hero_slides
   for each row execute function public.set_updated_at();
 create trigger set_faqs_updated_at before update on public.faqs
   for each row execute function public.set_updated_at();

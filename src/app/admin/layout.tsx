@@ -10,6 +10,7 @@ import {
   Newspaper,
   BookMarked,
   Images,
+  MonitorPlay,
   ShieldCheck,
   HelpCircle,
   Settings,
@@ -17,9 +18,9 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { IDLE_TIMEOUT_MS, LAST_ACTIVE_STORAGE_KEY } from "@/lib/session";
 
-const IDLE_TIMEOUT_MS = 60 * 60 * 1000;
-const STORAGE_KEY = "padu_admin_last_active";
+const IDLE_CHECK_MS = 30 * 1000;
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -28,6 +29,7 @@ const navItems = [
   { href: "/admin/articles", label: "Artikel", icon: Newspaper },
   { href: "/admin/article-categories", label: "Kategori Artikel", icon: BookMarked },
   { href: "/admin/gallery", label: "Galeri Hasil Cetak", icon: Images },
+  { href: "/admin/slideshow", label: "Slideshow", icon: MonitorPlay },
   { href: "/admin/trusted-brands", label: "Dipercaya Oleh", icon: ShieldCheck },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
   { href: "/admin/settings", label: "Pengaturan", icon: Settings },
@@ -39,12 +41,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const lastActiveRef = useRef<number>(Date.now());
 
   useEffect(() => {
-    const stored = Number(localStorage.getItem(STORAGE_KEY)) || Date.now();
+    const stored = Number(localStorage.getItem(LAST_ACTIVE_STORAGE_KEY)) || Date.now();
     lastActiveRef.current = Math.max(stored, Date.now() - IDLE_TIMEOUT_MS);
+
+    const doLogout = () => {
+      localStorage.removeItem(LAST_ACTIVE_STORAGE_KEY);
+      const supabase = createClient();
+      supabase.auth.signOut().finally(() => {
+        router.replace("/login");
+        router.refresh();
+      });
+    };
+
+    // Logout segera jika sudah lewat batas idle (mis. buka /admin langsung
+    // setelah berjam-jam tidak aktif), bukan menunggu interval pertama.
+    if (Date.now() - lastActiveRef.current >= IDLE_TIMEOUT_MS) {
+      doLogout();
+      return;
+    }
 
     const onActivity = () => {
       lastActiveRef.current = Date.now();
-      localStorage.setItem(STORAGE_KEY, String(Date.now()));
+      localStorage.setItem(LAST_ACTIVE_STORAGE_KEY, String(Date.now()));
     };
 
     const events = [
@@ -63,14 +81,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const interval = setInterval(() => {
       if (Date.now() - lastActiveRef.current >= IDLE_TIMEOUT_MS) {
         clearInterval(interval);
-        localStorage.removeItem(STORAGE_KEY);
-        const supabase = createClient();
-        supabase.auth.signOut().finally(() => {
-          router.replace("/login");
-          router.refresh();
-        });
+        doLogout();
       }
-    }, 30_000);
+    }, IDLE_CHECK_MS);
 
     return () => {
       events.forEach((ev) => window.removeEventListener(ev, onActivity));

@@ -1,5 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { IDLE_TIMEOUT_MS, LAST_ACTIVE_COOKIE } from "@/lib/session";
+
+// Cookie penanda aktivitas dibuat tahan lama (7 hari) supaya selisih waktu
+// aktivitas tetap terdeteksi meski browser dibuka lagi setelah lama tertutup.
+const LAST_ACTIVE_COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
 
 const SECURITY_HEADERS: Record<string, string> = {
   "X-Frame-Options": "DENY",
@@ -80,6 +85,49 @@ export async function updateSession(request: NextRequest) {
       const redir = request.nextUrl.clone();
       redir.pathname = "/admin";
       return withSecurityHeaders(NextResponse.redirect(redir));
+    }
+
+    if (isAdminPath && user) {
+      const now = Date.now();
+
+      // Sumber aktivitas: cookie penanda terakhir kali kita lihat, dan
+      // last_sign_in_at dari Supabase (server-side, jadi retroaktif walau
+      // cookie penanda belum pernah dibuat).
+      const cookieLast = Number(request.cookies.get(LAST_ACTIVE_COOKIE)?.value) || 0;
+      const signedAt = user.last_sign_in_at
+        ? new Date(user.last_sign_in_at).getTime()
+        : 0;
+      const lastActive = Math.max(cookieLast, signedAt);
+
+      // Sesi terlalu lama tidak digunakan (idle > timeout) -> putuskan sesi
+      // di sisi server (revoke refresh token) lalu arahkan ke /login.
+      if (lastActive > 0 && now - lastActive >= IDLE_TIMEOUT_MS) {
+        await supabase.auth.signOut().catch(() => null);
+
+        const logoutUrl = request.nextUrl.clone();
+        logoutUrl.pathname = "/login";
+        const logoutResponse = withSecurityHeaders(
+          NextResponse.redirect(logoutUrl)
+        );
+
+        for (const c of request.cookies.getAll()) {
+          if (c.name.startsWith("sb-") || c.name === LAST_ACTIVE_COOKIE) {
+            logoutResponse.cookies.set(c.name, "", { maxAge: 0, path: "/" });
+          }
+        }
+        return logoutResponse;
+      }
+
+      // Aktif: perbarui penanda aktivitas supaya timeout dihitung ulang.
+      request.cookies.set(LAST_ACTIVE_COOKIE, String(now));
+      supabaseResponse = NextResponse.next({ request });
+      supabaseResponse.cookies.set(LAST_ACTIVE_COOKIE, String(now), {
+        path: "/",
+        httpOnly: true,
+        sameSite: "lax",
+        secure: request.nextUrl.protocol === "https:",
+        maxAge: LAST_ACTIVE_COOKIE_MAX_AGE,
+      });
     }
   } catch {
     // Jika Supabase gagal, /admin dikunci (fail-closed), halaman lain tetap jalan.

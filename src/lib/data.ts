@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import * as seed from "@/data/seed";
 
@@ -65,26 +66,23 @@ function mapFaq(row: Record<string, unknown>): FAQ {
   };
 }
 
-let _cache: {
+type DataBundle = {
   categories: Category[];
   products: Product[];
   articles: Article[];
   faqs: FAQ[];
-  loaded: boolean;
-} = { categories: [], products: [], articles: [], faqs: [], loaded: false };
+};
 
-async function loadAll() {
-  if (_cache.loaded) return _cache;
+const loadAll = cache(async (): Promise<DataBundle> => {
+  const seedBundle: DataBundle = {
+    categories: seed.categories,
+    products: seed.products,
+    articles: seed.articles,
+    faqs: seed.faqs,
+  };
 
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    _cache = {
-      categories: seed.categories,
-      products: seed.products,
-      articles: seed.articles,
-      faqs: seed.faqs,
-      loaded: true,
-    };
-    return _cache;
+    return seedBundle;
   }
 
   try {
@@ -110,28 +108,14 @@ async function loadAll() {
     const faqs = faqRes.data ? faqRes.data.map(mapFaq) : [];
 
     if (categories.length > 0 || products.length > 0) {
-      _cache = { categories, products, articles, faqs, loaded: true };
-    } else {
-      _cache = {
-        categories: seed.categories,
-        products: seed.products,
-        articles: seed.articles,
-        faqs: seed.faqs,
-        loaded: true,
-      };
+      return { categories, products, articles, faqs };
     }
   } catch {
-    _cache = {
-      categories: seed.categories,
-      products: seed.products,
-      articles: seed.articles,
-      faqs: seed.faqs,
-      loaded: true,
-    };
+    // fall back to seed data
   }
 
-  return _cache;
-}
+  return seedBundle;
+});
 
 export async function getAllCategories(): Promise<Category[]> {
   return (await loadAll()).categories;
