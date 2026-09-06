@@ -152,7 +152,7 @@ export default function AdminTrustedBrands() {
               <p className="w-full truncate px-3 text-center text-xs font-medium text-white">
                 {b.name || "Tanpa alt"}
               </p>
-              <div className="flex gap-2">
+              <div className="flex gap-4">
                 <button
                   onClick={() => startEdit(b)}
                   className="rounded-lg bg-white p-2 text-neutral-700 shadow hover:bg-[#6B2C91] hover:text-white"

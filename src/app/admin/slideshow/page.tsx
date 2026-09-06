@@ -182,7 +182,7 @@ export default function AdminSlideshow() {
               </p>
               <p className="truncate text-xs text-neutral-500">{s.link || "Tanpa link"}</p>
             </div>
-            <div className="flex shrink-0 items-center gap-1">
+            <div className="flex shrink-0 items-center gap-4">
               <button
                 onClick={() => moveSlide(s.id, -1)}
                 disabled={idx === 0}

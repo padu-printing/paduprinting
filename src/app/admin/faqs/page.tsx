@@ -98,7 +98,7 @@ export default function AdminFaqs() {
             <td className="px-5 py-3 text-neutral-500">{f.category}</td>
             <td className="px-5 py-3 text-neutral-500">{f.sort_order}</td>
             <td className="px-5 py-3">
-              <div className="flex gap-2">
+              <div className="flex gap-4">
                 <button onClick={() => startEdit(f)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
                   <Pencil className="h-4 w-4" />
                 </button>
