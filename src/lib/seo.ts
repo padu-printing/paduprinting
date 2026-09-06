@@ -100,6 +100,8 @@ export function getProductSchema({
   image,
   price,
   sku,
+  keywords,
+  categoryName,
 }: {
   name: string;
   description: string;
@@ -107,6 +109,8 @@ export function getProductSchema({
   image: string[];
   price?: number;
   sku?: string;
+  keywords?: string[];
+  categoryName?: string;
 }) {
   const schema: Record<string, unknown> = {
     "@type": "Product",
@@ -119,6 +123,8 @@ export function getProductSchema({
     manufacturer: { "@id": `${SITE_URL}/#organization` },
   };
   if (sku) schema.sku = sku;
+  if (categoryName) schema.category = categoryName;
+  if (keywords && keywords.length > 0) schema.keywords = keywords;
   if (price !== undefined) {
     schema.offers = {
       "@type": "Offer",
@@ -152,6 +158,8 @@ export function getBlogPostingSchema({
   datePublished,
   dateModified,
   author,
+  keywords,
+  articleSection,
 }: {
   title: string;
   description: string;
@@ -160,8 +168,10 @@ export function getBlogPostingSchema({
   datePublished: string;
   dateModified: string;
   author: string;
+  keywords?: string[];
+  articleSection?: string;
 }) {
-  return {
+  const schema: Record<string, unknown> = {
     "@type": "BlogPosting",
     "@id": `${url}#article`,
     headline: title,
@@ -170,9 +180,12 @@ export function getBlogPostingSchema({
     datePublished,
     dateModified,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    author: { "@type": "Organization", name: author },
+    author: { "@type": "Person", name: author },
     publisher: { "@id": `${SITE_URL}/#organization` },
   };
+  if (keywords && keywords.length > 0) schema.keywords = keywords;
+  if (articleSection) schema.articleSection = articleSection;
+  return schema;
 }
 
 export function getFAQSchema(

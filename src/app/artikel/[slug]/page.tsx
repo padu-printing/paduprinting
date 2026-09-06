@@ -69,13 +69,21 @@ export async function generateMetadata({
   const article = await getArticleBySlug(slug);
   if (!article) return { title: "Artikel Tidak Ditemukan" };
   const url = `${SITE_URL}/artikel/${article.slug}`;
+  const metaTitle = article.metaTitle?.trim();
+  const metaDescription = article.metaDescription?.trim();
+  const title = metaTitle || article.title;
+  const description = metaDescription || article.excerpt;
+  const keywords: string[] = [];
+  if (article.focusKeyword?.trim()) keywords.push(article.focusKeyword.trim());
+  if (article.tags?.length) keywords.push(...article.tags.filter(Boolean));
   return {
-    title: article.title,
-    description: article.excerpt,
+    title,
+    description,
+    keywords,
     alternates: { canonical: url },
     openGraph: {
-      title: article.title,
-      description: article.excerpt,
+      title,
+      description,
       type: "article",
       url,
       siteName: BRAND,
@@ -83,8 +91,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
-      description: article.excerpt,
+      title,
+      description,
       images: [article.coverImage],
     },
   };
@@ -115,14 +123,20 @@ export default async function ArtikelDetailPage({
   const url = `${SITE_URL}/artikel/${article.slug}`;
   const orgSchema = getOrganizationSchema();
 
+  const articleKeywords: string[] = [];
+  if (article.focusKeyword?.trim()) articleKeywords.push(article.focusKeyword.trim());
+  if (article.tags?.length) articleKeywords.push(...article.tags.filter(Boolean));
+
   const blogSchema = getBlogPostingSchema({
     title: article.title,
-    description: article.excerpt,
+    description: article.metaDescription?.trim() || article.excerpt,
     url,
     image: article.coverImage,
     datePublished: article.date,
     dateModified: article.date,
     author: article.author,
+    keywords: articleKeywords,
+    articleSection: article.category,
   });
 
   const breadcrumbSchema = getBreadcrumbSchema([
@@ -204,6 +218,21 @@ export default async function ArtikelDetailPage({
                   </span>
                 </div>
               </div>
+
+              {Array.isArray(article.tags) && article.tags.length > 0 && (
+                <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[#EEEEF0] pt-5">
+                  <span className="text-sm font-semibold text-[#1A2340]">Tags:</span>
+                  {article.tags.filter(Boolean).map((tag) => (
+                    <Link
+                      key={tag}
+                      href="/artikel"
+                      className="rounded-full bg-[#F3F3F5] px-3 py-1 text-xs font-semibold text-[#52525B] transition-colors hover:bg-[#E9D5F2] hover:text-[#6B2C91]"
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </article>
 

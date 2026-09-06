@@ -55,6 +55,11 @@ function mapProduct(row: any): seed.Product {
     specifications: Array.isArray(row.specifications) ? row.specifications : [],
     isBestSeller: !!row.is_best_seller,
     clickCount: Number(row.click_count ?? 0),
+    metaTitle: row.meta_title ?? "",
+    metaDescription: row.meta_description ?? "",
+    focusKeyword: row.focus_keyword ?? "",
+    tags: Array.isArray(row.tags) ? row.tags : [],
+    seoScore: Number(row.seo_score ?? 0),
   };
 }
 
@@ -68,6 +73,11 @@ function mapArticle(row: any): seed.Article {
     date: row.date ?? "",
     author: row.author ?? "",
     category: row.category ?? "",
+    metaTitle: row.meta_title ?? "",
+    metaDescription: row.meta_description ?? "",
+    focusKeyword: row.focus_keyword ?? "",
+    tags: Array.isArray(row.tags) ? row.tags : [],
+    seoScore: Number(row.seo_score ?? 0),
   };
 }
 

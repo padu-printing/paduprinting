@@ -42,6 +42,11 @@ function mapProduct(row: Record<string, unknown>): Product {
       : [],
     isBestSeller: !!row.is_best_seller,
     clickCount: Number(row.click_count ?? 0),
+    metaTitle: (row.meta_title as string) ?? "",
+    metaDescription: (row.meta_description as string) ?? "",
+    focusKeyword: (row.focus_keyword as string) ?? "",
+    tags: Array.isArray(row.tags) ? (row.tags as string[]) : [],
+    seoScore: Number(row.seo_score ?? 0),
   };
 }
 
@@ -55,6 +60,11 @@ function mapArticle(row: Record<string, unknown>): Article {
     date: (row.date as string) ?? "",
     author: (row.author as string) ?? "",
     category: (row.category as string) ?? "",
+    metaTitle: (row.meta_title as string) ?? "",
+    metaDescription: (row.meta_description as string) ?? "",
+    focusKeyword: (row.focus_keyword as string) ?? "",
+    tags: Array.isArray(row.tags) ? (row.tags as string[]) : [],
+    seoScore: Number(row.seo_score ?? 0),
   };
 }
 

@@ -59,13 +59,21 @@ export async function generateMetadata({
   const product = await getProductBySlug(slug);
   if (product) {
     const url = `${SITE_URL}/produk/${product.slug}`;
+    const metaTitle = product.metaTitle?.trim();
+    const metaDescription = product.metaDescription?.trim();
+    const title = metaTitle || `Cetak ${product.name} Jakarta Timur | ${BRAND}`;
+    const description = metaDescription || product.shortDescription;
+    const keywords: string[] = [];
+    if (product.focusKeyword?.trim()) keywords.push(product.focusKeyword.trim());
+    if (product.tags?.length) keywords.push(...product.tags.filter(Boolean));
     return {
-      title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
-      description: product.shortDescription,
+      title,
+      description,
+      keywords,
       alternates: { canonical: url },
       openGraph: {
-        title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
-        description: product.shortDescription,
+        title,
+        description,
         url,
         siteName: BRAND,
         type: "website",
@@ -73,8 +81,8 @@ export async function generateMetadata({
       },
       twitter: {
         card: "summary_large_image",
-        title: `Cetak ${product.name} Jakarta Timur | ${BRAND}`,
-        description: product.shortDescription,
+        title,
+        description,
         images: [`${SITE_URL}/og/produk/${product.slug}`],
       },
     };
@@ -215,12 +223,19 @@ async function ProductView({ product }: { product: Product }) {
   }
   breadcrumbItems.push({ name: product.name, url });
 
+  const productKeywords: string[] = [];
+  if (product.focusKeyword?.trim()) productKeywords.push(product.focusKeyword.trim());
+  if (product.tags?.length) productKeywords.push(...product.tags.filter(Boolean));
+
   const productSchema = getProductSchema({
     name: product.name,
-    description: product.description,
+    description: product.metaDescription?.trim() || product.description,
     url,
     image: [product.image],
     price: product.basePrice,
+    sku: product.slug,
+    keywords: productKeywords,
+    categoryName: category?.name,
   });
 
   const schema = {

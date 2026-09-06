@@ -40,6 +40,11 @@ export interface Product {
   specifications: { label: string; value: string }[];
   isBestSeller: boolean;
   clickCount: number;
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+  tags?: string[];
+  seoScore?: number;
 }
 
 export interface Article {
@@ -51,6 +56,11 @@ export interface Article {
   date: string;
   author: string;
   category: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+  tags?: string[];
+  seoScore?: number;
 }
 
 export interface FAQ {
