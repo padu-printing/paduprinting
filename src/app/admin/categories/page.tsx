@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useEffect, useState, type ChangeEvent, type DragEvent, type FormEvent } from "react";
+import { Plus, Pencil, Trash2, GripVertical } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import {
   AdminHeader,
@@ -28,7 +28,6 @@ const emptyForm = {
   description: "",
   icon: "",
   image: "",
-  sort_order: 0,
 };
 
 export default function AdminCategories() {
@@ -37,6 +36,8 @@ export default function AdminCategories() {
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
 
   async function load() {
     const supabase = createClient();
@@ -66,7 +67,6 @@ export default function AdminCategories() {
       description: c.description,
       icon: c.icon,
       image: c.image,
-      sort_order: c.sort_order,
     });
     setEditingId(c.id);
     setShowForm(true);
@@ -91,6 +91,41 @@ export default function AdminCategories() {
     load();
   }
 
+  function onDragStart(index: number) {
+    setDragIndex(index);
+  }
+
+  function onDragOver(e: DragEvent, index: number) {
+    e.preventDefault();
+    setOverIndex(index);
+  }
+
+  function onDrop(index: number) {
+    if (dragIndex !== null && dragIndex !== index) {
+      const next = [...items];
+      const [moved] = next.splice(dragIndex, 1);
+      next.splice(index, 0, moved);
+      setItems(next);
+      saveOrder(next);
+    }
+    setDragIndex(null);
+    setOverIndex(null);
+  }
+
+  function onDragEnd() {
+    setDragIndex(null);
+    setOverIndex(null);
+  }
+
+  async function saveOrder(list: Category[]) {
+    const supabase = createClient();
+    await Promise.all(
+      list.map((c, order) =>
+        supabase.from("categories").update({ sort_order: order }).eq("id", c.id)
+      )
+    );
+  }
+
   if (loading) return <p className="text-sm text-neutral-500">Memuat...</p>;
 
   return (
@@ -105,14 +140,30 @@ export default function AdminCategories() {
         }
       />
 
-      <Table headers={["Nama", "Slug", "Icon", "Gambar", "Urutan", "Aksi"]}>
-        {items.map((c) => (
-          <tr key={c.id} className="hover:bg-neutral-50">
-            <td className="px-5 py-3 font-medium text-[#1A2340]">{c.name}</td>
+      <p className="mb-3 text-sm text-neutral-500">
+        Seret baris (ikon <GripVertical className="inline h-3.5 w-3.5 text-neutral-400" />) untuk mengubah urutan.
+      </p>
+
+      <Table headers={["Nama", "Slug", "Icon", "Gambar", "Aksi"]}>
+        {items.map((c, idx) => (
+          <tr
+            key={c.id}
+            draggable
+            onDragStart={() => onDragStart(idx)}
+            onDragOver={(e: DragEvent) => onDragOver(e, idx)}
+            onDrop={() => onDrop(idx)}
+            onDragEnd={onDragEnd}
+            className={`hover:bg-neutral-50 ${overIndex === idx ? "bg-neutral-100" : ""}`}
+          >
+            <td className="px-5 py-3">
+              <div className="flex items-center gap-3">
+                <GripVertical className="h-4 w-4 shrink-0 cursor-grab text-neutral-400 active:cursor-grabbing" />
+                <span className="font-medium text-[#1A2340]">{c.name}</span>
+              </div>
+            </td>
             <td className="px-5 py-3 text-neutral-500">{c.slug}</td>
             <td className="px-5 py-3 text-neutral-500">{c.icon}</td>
             <td className="px-5 py-3 text-neutral-500">{c.image}</td>
-            <td className="px-5 py-3 text-neutral-500">{c.sort_order}</td>
             <td className="px-5 py-3">
               <div className="flex gap-4">
                 <button onClick={() => startEdit(c)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
@@ -148,9 +199,6 @@ export default function AdminCategories() {
               </Field>
               <Field label="Gambar URL">
                 <TextInput value={form.image} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, image: e.target.value })} />
-              </Field>
-              <Field label="Urutan">
-                <TextInput type="number" value={form.sort_order} onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, sort_order: Number(e.target.value) })} />
               </Field>
               <div className="flex justify-end gap-3 pt-2">
                 <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
