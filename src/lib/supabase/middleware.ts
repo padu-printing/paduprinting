@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { IDLE_TIMEOUT_MS, LAST_ACTIVE_COOKIE } from "@/lib/session";
+import { IDLE_TIMEOUT_MS, KNOWN_USER_COOKIE, KNOWN_USER_COOKIE_MAX_AGE, LAST_ACTIVE_COOKIE } from "@/lib/session";
 
 // Cookie penanda aktivitas dibuat tahan lama (7 hari) supaya selisih waktu
 // aktivitas tetap terdeteksi meski browser dibuka lagi setelah lama tertutup.
@@ -65,11 +65,14 @@ export async function updateSession(request: NextRequest) {
       const pernahLogin = request.cookies
         .getAll()
         .some((c) => /^sb-.+-auth-token$/.test(c.name));
+      const userDikenal = request.cookies.get(KNOWN_USER_COOKIE)?.value === "1";
 
-      if (pernahLogin) {
-        // Punya sesi sebelumnya, tapi sudah tidak valid, arahkan ke login.
+      // Pengguna yang sebelumnya pernah login (atau sesinya sudah tidak valid):
+      // arahkan ke /login dengan notifikasi "sesi berakhir", bukan 404.
+      if (pernahLogin || userDikenal) {
         const redir = request.nextUrl.clone();
         redir.pathname = "/login";
+        redir.searchParams.set("expired", "1");
         return withSecurityHeaders(NextResponse.redirect(redir));
       }
 
@@ -106,6 +109,7 @@ export async function updateSession(request: NextRequest) {
 
         const logoutUrl = request.nextUrl.clone();
         logoutUrl.pathname = "/login";
+        logoutUrl.searchParams.set("expired", "1");
         const logoutResponse = withSecurityHeaders(
           NextResponse.redirect(logoutUrl)
         );
@@ -118,7 +122,8 @@ export async function updateSession(request: NextRequest) {
         return logoutResponse;
       }
 
-      // Aktif: perbarui penanda aktivitas supaya timeout dihitung ulang.
+      // Aktif: perbarui penanda aktivitas supaya timeout dihitung ulang,
+      // dan tandai pengguna sebagai "pernah login" untuk kasus sesi berakhir.
       request.cookies.set(LAST_ACTIVE_COOKIE, String(now));
       supabaseResponse = NextResponse.next({ request });
       supabaseResponse.cookies.set(LAST_ACTIVE_COOKIE, String(now), {
@@ -127,6 +132,13 @@ export async function updateSession(request: NextRequest) {
         sameSite: "lax",
         secure: request.nextUrl.protocol === "https:",
         maxAge: LAST_ACTIVE_COOKIE_MAX_AGE,
+      });
+      supabaseResponse.cookies.set(KNOWN_USER_COOKIE, "1", {
+        path: "/",
+        httpOnly: true,
+        sameSite: "lax",
+        secure: request.nextUrl.protocol === "https:",
+        maxAge: KNOWN_USER_COOKIE_MAX_AGE,
       });
     }
   } catch {

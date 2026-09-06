@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { CookieOptions } from "@supabase/ssr";
+import { KNOWN_USER_COOKIE, KNOWN_USER_COOKIE_MAX_AGE } from "@/lib/session";
 
 export const runtime = "nodejs";
 
@@ -75,5 +76,12 @@ export async function POST(request: NextRequest) {
 
   const response = NextResponse.json({ ok: true });
   cookiesToApply.forEach((c) => response.cookies.set(c.name, c.value, c.options));
+  response.cookies.set(KNOWN_USER_COOKIE, "1", {
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: request.nextUrl.protocol === "https:",
+    maxAge: KNOWN_USER_COOKIE_MAX_AGE,
+  });
   return response;
 }

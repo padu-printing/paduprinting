@@ -1,9 +1,26 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+
+function SessionExpiredNotice() {
+  const params = useSearchParams();
+  if (params.get("expired") !== "1") return null;
+  return (
+    <div
+      className="mb-4 rounded-xl px-4 py-3 text-center text-sm font-medium"
+      style={{
+        background: "rgba(252, 165, 165, 0.08)",
+        border: "1px solid rgba(252, 165, 165, 0.25)",
+        color: "#FCA5A5",
+      }}
+    >
+      Sesi Anda telah berakhir. Silakan masuk kembali untuk melanjutkan.
+    </div>
+  );
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -218,6 +235,11 @@ export default function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
+            {/* Notifikasi sesi berakhir */}
+            <Suspense fallback={null}>
+              <SessionExpiredNotice />
+            </Suspense>
+
             {/* Error */}
             {error && (
               <div
