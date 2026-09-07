@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent, type KeyboardEvent } from "react";
-import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Copy } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { pingSitemap } from "@/lib/ping-sitemap";
 import RichTextEditor from "@/components/admin/rich-text-editor";
@@ -104,6 +104,8 @@ export default function AdminProducts() {
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
+  const [duplicatingId, setDuplicatingId] = useState<number | null>(null);
+  const [rowError, setRowError] = useState("");
 
   async function load() {
     const supabase = createClient();
@@ -282,6 +284,32 @@ export default function AdminProducts() {
     load();
   }
 
+  async function handleDuplicate(p: Product) {
+    setDuplicatingId(p.id);
+    setRowError("");
+    const supabase = createClient();
+    const existing = new Set(items.map((i) => i.slug));
+    let n = 1;
+    let newSlug = `${p.slug}-copy`;
+    while (existing.has(newSlug)) {
+      n += 1;
+      newSlug = `${p.slug}-copy${n}`;
+    }
+    const { id, created_at, updated_at, click_count, ...rest } = p as unknown as Record<string, unknown>;
+    const { error } = await supabase.from("products").insert({
+      ...rest,
+      slug: newSlug,
+      click_count: 0,
+    });
+    setDuplicatingId(null);
+    if (error) {
+      setRowError(error.message);
+      return;
+    }
+    pingSitemap();
+    load();
+  }
+
   if (loading) return <p className="text-sm text-neutral-500">Memuat...</p>;
 
   return (
@@ -295,6 +323,12 @@ export default function AdminProducts() {
           </Button>
         }
       />
+
+      {rowError && (
+        <div className="mb-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">
+          {rowError}
+        </div>
+      )}
 
       <Table headers={["Nama", "Kategori", "Harga", "SEO", "Aksi"]}>
         {items.map((p) => (
@@ -311,6 +345,14 @@ export default function AdminProducts() {
               <div className="flex gap-4">
                 <button onClick={() => startEdit(p)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
                   <Pencil className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => handleDuplicate(p)}
+                  disabled={duplicatingId === p.id}
+                  className="text-neutral-500 hover:text-[#6B2C91] disabled:opacity-40"
+                  title="Duplikat produk"
+                >
+                  <Copy className="h-4 w-4" />
                 </button>
                 <button onClick={() => setConfirmDeleteId(p.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
                   <Trash2 className="h-4 w-4" />
