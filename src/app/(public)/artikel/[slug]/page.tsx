@@ -35,7 +35,7 @@ function ProductRecCard({ product }: { product: Product }) {
         <ProductImage src={product.image} alt={product.name} iconClassName="h-10 w-10" />
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-bold leading-snug text-[#1A2340] transition-colors group-hover:text-[#6B2C91] line-clamp-1">
+        <h3 className="font-bold leading-snug text-[#1A2340] transition-colors group-hover:text-[#6B2C91] line-clamp-3">
           {product.name}
         </h3>
         <p className="mt-1 text-sm leading-relaxed text-[#52525B] line-clamp-2">

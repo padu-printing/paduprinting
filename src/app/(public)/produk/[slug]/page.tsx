@@ -185,7 +185,7 @@ async function CategoryView({
                   <ProductImage src={product.image} alt={`Cetak ${product.name} - ${BRAND}`} iconClassName="h-10 w-10 text-neutral-300" />
                 </div>
                 <div className="p-3">
-                  <h3 className="text-sm font-bold text-[#1A2340] group-hover:text-[#6B2C91] transition-colors line-clamp-1">
+                  <h3 className="text-sm font-bold text-[#1A2340] group-hover:text-[#6B2C91] transition-colors line-clamp-3">
                     {product.name}
                   </h3>
                   <div className="mt-1 flex items-center justify-between">
@@ -322,7 +322,7 @@ async function RelatedProducts({ currentProduct }: { currentProduct: Product }) 
                 <ProductImage src={product.image} alt={`Cetak ${product.name} - ${BRAND}`} iconClassName="h-10 w-10 text-neutral-300" />
               </div>
               <div className="p-3">
-                <h3 className="text-sm font-bold text-[#1A2340] line-clamp-1">{product.name}</h3>
+                <h3 className="text-sm font-bold text-[#1A2340] line-clamp-3">{product.name}</h3>
                 <div className="mt-1 flex items-center justify-between">
                   <span className="text-xs text-neutral-500">Harga Mulai dari</span>
                   <div className="flex items-center gap-1 text-xs text-neutral-400">

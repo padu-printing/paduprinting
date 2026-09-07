@@ -72,7 +72,7 @@ function ProductCard({ product }: { product: GridProduct }) {
         <ProductImage src={product.image} alt={product.name} />
       </div>
       <div className="p-3">
-        <h3 className="text-sm font-bold text-padu-navy line-clamp-1">{product.name}</h3>
+        <h3 className="text-sm font-bold text-padu-navy line-clamp-3">{product.name}</h3>
         <div className="mt-1 flex items-center justify-between">
           <span className="text-xs text-neutral-500">Harga Mulai dari</span>
           <div className="flex items-center gap-1 text-xs text-neutral-400">
