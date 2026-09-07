@@ -72,7 +72,7 @@ function ProductCard({ product }: { product: GridProduct }) {
         <ProductImage src={product.image} alt={product.name} />
       </div>
       <div className="flex flex-1 flex-col p-3">
-        <h3 className="min-h-[3.75rem] text-sm font-bold text-padu-navy line-clamp-3">{product.name}</h3>
+        <h3 className="min-h-[2.5rem] text-sm font-bold text-padu-navy line-clamp-2">{product.name}</h3>
         <div className="mt-1 flex items-center justify-between">
           <span className="text-xs text-neutral-500">Harga Mulai dari</span>
           <div className="flex items-center gap-1 text-xs text-neutral-400">
@@ -80,7 +80,7 @@ function ProductCard({ product }: { product: GridProduct }) {
             <span>{product.clickCount.toLocaleString("id-ID")}</span>
           </div>
         </div>
-        <div className="mt-auto w-full rounded-lg bg-[#6B2C91] py-1.5 text-center text-xs font-bold text-white">
+        <div className="mt-4 w-full rounded-lg bg-[#6B2C91] py-1.5 text-center text-xs font-bold text-white">
           Rp {product.basePrice.toLocaleString("id-ID")}
         </div>
       </div>
