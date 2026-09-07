@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   AdminHeader,
   Button,
+  ConfirmDialog,
   Field,
   TextInput,
 } from "../components/ui";
@@ -33,6 +34,8 @@ export default function AdminSlideshow() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [error, setError] = useState("");
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function load() {
     const supabase = createClient();
@@ -133,10 +136,13 @@ export default function AdminSlideshow() {
     load();
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Hapus slide ini?")) return;
+  async function handleDeleteConfirmed() {
+    if (confirmDeleteId === null) return;
+    setDeleting(true);
     const supabase = createClient();
-    await supabase.from("hero_slides").delete().eq("id", id);
+    await supabase.from("hero_slides").delete().eq("id", confirmDeleteId);
+    setDeleting(false);
+    setConfirmDeleteId(null);
     load();
   }
 
@@ -207,7 +213,7 @@ export default function AdminSlideshow() {
                 <Pencil className="h-4 w-4" />
               </button>
               <button
-                onClick={() => handleDelete(s.id)}
+                onClick={() => setConfirmDeleteId(s.id)}
                 className="rounded-lg bg-white p-2 text-neutral-700 shadow hover:bg-red-600 hover:text-white"
                 title="Hapus"
               >
@@ -289,6 +295,15 @@ export default function AdminSlideshow() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDeleteId !== null}
+        title="Hapus slide?"
+        message="Slide ini akan dihapus permanen dan tidak dapat dibatalkan."
+        loading={deleting}
+        onConfirm={handleDeleteConfirmed}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
     </div>
   );
 }

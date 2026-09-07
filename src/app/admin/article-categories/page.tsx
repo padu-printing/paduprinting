@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   AdminHeader,
   Button,
+  ConfirmDialog,
   Field,
   TextInput,
   TextArea,
@@ -35,6 +36,8 @@ export default function AdminArticleCategories() {
   const [error, setError] = useState("");
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function load() {
     const supabase = createClient();
@@ -84,10 +87,13 @@ export default function AdminArticleCategories() {
     load();
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Hapus kategori artikel ini?")) return;
+  async function handleDeleteConfirmed() {
+    if (confirmDeleteId === null) return;
+    setDeleting(true);
     const supabase = createClient();
-    await supabase.from("article_categories").delete().eq("id", id);
+    await supabase.from("article_categories").delete().eq("id", confirmDeleteId);
+    setDeleting(false);
+    setConfirmDeleteId(null);
     load();
   }
 
@@ -168,7 +174,7 @@ export default function AdminArticleCategories() {
                 <button onClick={() => startEdit(c)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
                   <Pencil className="h-4 w-4" />
                 </button>
-                <button onClick={() => handleDelete(c.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
+                <button onClick={() => setConfirmDeleteId(c.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
@@ -208,6 +214,15 @@ export default function AdminArticleCategories() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDeleteId !== null}
+        title="Hapus kategori artikel?"
+        message="Kategori ini akan dihapus permanen. Artikel di dalamnya bisa menjadi tidak terkait."
+        loading={deleting}
+        onConfirm={handleDeleteConfirmed}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
     </div>
   );
 }

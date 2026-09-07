@@ -3,11 +3,13 @@
 import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent, type KeyboardEvent } from "react";
 import { Plus, Pencil, Trash2, X, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { pingSitemap } from "@/lib/ping-sitemap";
 import RichTextEditor from "@/components/admin/rich-text-editor";
 import {
   AdminHeader,
   Badge,
   Button,
+  ConfirmDialog,
   Field,
   SelectInput,
   TextInput,
@@ -127,6 +129,8 @@ export default function AdminArticles() {
   const [uploadError, setUploadError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [tagInput, setTagInput] = useState("");
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function load() {
     const supabase = createClient();
@@ -264,14 +268,20 @@ export default function AdminArticles() {
       setError(dbError.message);
       return;
     }
+    if (!editingId) {
+      pingSitemap();
+    }
     setShowForm(false);
     load();
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Hapus artikel ini?")) return;
+  async function handleDeleteConfirmed() {
+    if (confirmDeleteId === null) return;
+    setDeleting(true);
     const supabase = createClient();
-    await supabase.from("articles").delete().eq("id", id);
+    await supabase.from("articles").delete().eq("id", confirmDeleteId);
+    setDeleting(false);
+    setConfirmDeleteId(null);
     load();
   }
 
@@ -303,7 +313,7 @@ export default function AdminArticles() {
                 <button onClick={() => startEdit(a)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
                   <Pencil className="h-4 w-4" />
                 </button>
-                <button onClick={() => handleDelete(a.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
+                <button onClick={() => setConfirmDeleteId(a.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
@@ -542,6 +552,15 @@ export default function AdminArticles() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDeleteId !== null}
+        title="Hapus artikel?"
+        message="Artikel ini akan dihapus permanen dan tidak dapat dibatalkan."
+        loading={deleting}
+        onConfirm={handleDeleteConfirmed}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
     </div>
   );
 }

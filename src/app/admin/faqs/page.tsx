@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   AdminHeader,
   Button,
+  ConfirmDialog,
   Field,
   TextInput,
   TextArea,
@@ -29,6 +30,8 @@ export default function AdminFaqs() {
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const cats = items.map((f) => f.category).filter((v, i, a) => a.indexOf(v) === i);
 
@@ -70,10 +73,13 @@ export default function AdminFaqs() {
     load();
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Hapus FAQ ini?")) return;
+  async function handleDeleteConfirmed() {
+    if (confirmDeleteId === null) return;
+    setDeleting(true);
     const supabase = createClient();
-    await supabase.from("faqs").delete().eq("id", id);
+    await supabase.from("faqs").delete().eq("id", confirmDeleteId);
+    setDeleting(false);
+    setConfirmDeleteId(null);
     load();
   }
 
@@ -102,7 +108,7 @@ export default function AdminFaqs() {
                 <button onClick={() => startEdit(f)} className="text-neutral-500 hover:text-[#6B2C91]" title="Edit">
                   <Pencil className="h-4 w-4" />
                 </button>
-                <button onClick={() => handleDelete(f.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
+                <button onClick={() => setConfirmDeleteId(f.id)} className="text-neutral-500 hover:text-red-600" title="Hapus">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
@@ -153,6 +159,15 @@ export default function AdminFaqs() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDeleteId !== null}
+        title="Hapus FAQ?"
+        message="FAQ ini akan dihapus permanen dan tidak dapat dibatalkan."
+        loading={deleting}
+        onConfirm={handleDeleteConfirmed}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
     </div>
   );
 }

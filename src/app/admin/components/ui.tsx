@@ -90,3 +90,41 @@ export function Badge({ children }: { children: ReactNode }) {
     </span>
   );
 }
+
+export function ConfirmDialog({
+  open,
+  title,
+  message,
+  confirmLabel = "Hapus",
+  cancelLabel = "Batal",
+  loading = false,
+  onConfirm,
+  onCancel,
+}: {
+  open: boolean;
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  loading?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4">
+      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
+        <h2 className="text-lg font-bold text-[#1A2340]">{title}</h2>
+        <p className="mt-2 text-sm text-neutral-500">{message}</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button type="button" variant="ghost" onClick={onCancel} disabled={loading}>
+            {cancelLabel}
+          </Button>
+          <Button type="button" variant="danger" onClick={onConfirm} disabled={loading}>
+            {loading ? "Menghapus..." : confirmLabel}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
