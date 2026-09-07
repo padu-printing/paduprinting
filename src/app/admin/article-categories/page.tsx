@@ -38,6 +38,7 @@ export default function AdminArticleCategories() {
   const [overIndex, setOverIndex] = useState<number | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   async function load() {
     const supabase = createClient();
@@ -90,9 +91,14 @@ export default function AdminArticleCategories() {
   async function handleDeleteConfirmed() {
     if (confirmDeleteId === null) return;
     setDeleting(true);
+    setDeleteError("");
     const supabase = createClient();
-    await supabase.from("article_categories").delete().eq("id", confirmDeleteId);
+    const { error } = await supabase.from("article_categories").delete().eq("id", confirmDeleteId);
     setDeleting(false);
+    if (error) {
+      setDeleteError(error.message);
+      return;
+    }
     setConfirmDeleteId(null);
     load();
   }
@@ -218,10 +224,10 @@ export default function AdminArticleCategories() {
       <ConfirmDialog
         open={confirmDeleteId !== null}
         title="Hapus kategori artikel?"
-        message="Kategori ini akan dihapus permanen. Artikel di dalamnya bisa menjadi tidak terkait."
+        message={deleteError ? `Gagal menghapus: ${deleteError}` : "Kategori ini akan dihapus permanen. Artikel di dalamnya bisa menjadi tidak terkait."}
         loading={deleting}
         onConfirm={handleDeleteConfirmed}
-        onCancel={() => setConfirmDeleteId(null)}
+        onCancel={() => { setConfirmDeleteId(null); setDeleteError(""); }}
       />
     </div>
   );

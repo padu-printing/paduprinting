@@ -32,6 +32,7 @@ export default function AdminFaqs() {
   const [showForm, setShowForm] = useState(false);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   const cats = items.map((f) => f.category).filter((v, i, a) => a.indexOf(v) === i);
 
@@ -76,9 +77,14 @@ export default function AdminFaqs() {
   async function handleDeleteConfirmed() {
     if (confirmDeleteId === null) return;
     setDeleting(true);
+    setDeleteError("");
     const supabase = createClient();
-    await supabase.from("faqs").delete().eq("id", confirmDeleteId);
+    const { error } = await supabase.from("faqs").delete().eq("id", confirmDeleteId);
     setDeleting(false);
+    if (error) {
+      setDeleteError(error.message);
+      return;
+    }
     setConfirmDeleteId(null);
     load();
   }
@@ -163,10 +169,10 @@ export default function AdminFaqs() {
       <ConfirmDialog
         open={confirmDeleteId !== null}
         title="Hapus FAQ?"
-        message="FAQ ini akan dihapus permanen dan tidak dapat dibatalkan."
+        message={deleteError ? `Gagal menghapus: ${deleteError}` : "FAQ ini akan dihapus permanen dan tidak dapat dibatalkan."}
         loading={deleting}
         onConfirm={handleDeleteConfirmed}
-        onCancel={() => setConfirmDeleteId(null)}
+        onCancel={() => { setConfirmDeleteId(null); setDeleteError(""); }}
       />
     </div>
   );

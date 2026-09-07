@@ -36,6 +36,7 @@ export default function AdminSlideshow() {
   const [error, setError] = useState("");
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   async function load() {
     const supabase = createClient();
@@ -139,9 +140,14 @@ export default function AdminSlideshow() {
   async function handleDeleteConfirmed() {
     if (confirmDeleteId === null) return;
     setDeleting(true);
+    setDeleteError("");
     const supabase = createClient();
-    await supabase.from("hero_slides").delete().eq("id", confirmDeleteId);
+    const { error } = await supabase.from("hero_slides").delete().eq("id", confirmDeleteId);
     setDeleting(false);
+    if (error) {
+      setDeleteError(error.message);
+      return;
+    }
     setConfirmDeleteId(null);
     load();
   }
@@ -299,10 +305,10 @@ export default function AdminSlideshow() {
       <ConfirmDialog
         open={confirmDeleteId !== null}
         title="Hapus slide?"
-        message="Slide ini akan dihapus permanen dan tidak dapat dibatalkan."
+        message={deleteError ? `Gagal menghapus: ${deleteError}` : "Slide ini akan dihapus permanen dan tidak dapat dibatalkan."}
         loading={deleting}
         onConfirm={handleDeleteConfirmed}
-        onCancel={() => setConfirmDeleteId(null)}
+        onCancel={() => { setConfirmDeleteId(null); setDeleteError(""); }}
       />
     </div>
   );

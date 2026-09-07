@@ -30,7 +30,7 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
         <div className="hidden lg:grid" style={{ gridTemplateColumns: "30% 70%", gap: "24px" }}>
           {/* Left panel - category banner */}
           <Link
-            href={`/kategori/${category.slug}`}
+            href={`/produk/${category.slug}`}
             aria-label={`Lihat semua produk kategori ${category.name}`}
             className="group block overflow-hidden transition-all duration-200 hover:scale-[1.01]"
             style={{
@@ -78,7 +78,7 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
         <div className="lg:hidden">
           {/* Mobile banner */}
           <Link
-            href={`/kategori/${category.slug}`}
+            href={`/produk/${category.slug}`}
             aria-label={`Lihat semua produk kategori ${category.name}`}
             className="block overflow-hidden mb-4 transition-all duration-200"
             style={{

@@ -131,6 +131,7 @@ export default function AdminArticles() {
   const [tagInput, setTagInput] = useState("");
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   async function load() {
     const supabase = createClient();
@@ -278,9 +279,14 @@ export default function AdminArticles() {
   async function handleDeleteConfirmed() {
     if (confirmDeleteId === null) return;
     setDeleting(true);
+    setDeleteError("");
     const supabase = createClient();
-    await supabase.from("articles").delete().eq("id", confirmDeleteId);
+    const { error } = await supabase.from("articles").delete().eq("id", confirmDeleteId);
     setDeleting(false);
+    if (error) {
+      setDeleteError(error.message);
+      return;
+    }
     setConfirmDeleteId(null);
     load();
   }
@@ -556,10 +562,10 @@ export default function AdminArticles() {
       <ConfirmDialog
         open={confirmDeleteId !== null}
         title="Hapus artikel?"
-        message="Artikel ini akan dihapus permanen dan tidak dapat dibatalkan."
+        message={deleteError ? `Gagal menghapus: ${deleteError}` : "Artikel ini akan dihapus permanen dan tidak dapat dibatalkan."}
         loading={deleting}
         onConfirm={handleDeleteConfirmed}
-        onCancel={() => setConfirmDeleteId(null)}
+        onCancel={() => { setConfirmDeleteId(null); setDeleteError(""); }}
       />
     </div>
   );

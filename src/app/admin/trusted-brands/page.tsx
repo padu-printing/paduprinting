@@ -37,6 +37,7 @@ export default function AdminTrustedBrands() {
   const [error, setError] = useState("");
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   async function load() {
     const supabase = createClient();
@@ -119,9 +120,14 @@ export default function AdminTrustedBrands() {
   async function handleDeleteConfirmed() {
     if (confirmDeleteId === null) return;
     setDeleting(true);
+    setDeleteError("");
     const supabase = createClient();
-    await supabase.from("trusted_brands").delete().eq("id", confirmDeleteId);
+    const { error } = await supabase.from("trusted_brands").delete().eq("id", confirmDeleteId);
     setDeleting(false);
+    if (error) {
+      setDeleteError(error.message);
+      return;
+    }
     setConfirmDeleteId(null);
     load();
   }
@@ -242,10 +248,10 @@ export default function AdminTrustedBrands() {
       <ConfirmDialog
         open={confirmDeleteId !== null}
         title="Hapus brand?"
-        message="Brand ini akan dihapus permanen dan tidak dapat dibatalkan."
+        message={deleteError ? `Gagal menghapus: ${deleteError}` : "Brand ini akan dihapus permanen dan tidak dapat dibatalkan."}
         loading={deleting}
         onConfirm={handleDeleteConfirmed}
-        onCancel={() => setConfirmDeleteId(null)}
+        onCancel={() => { setConfirmDeleteId(null); setDeleteError(""); }}
       />
     </div>
   );
