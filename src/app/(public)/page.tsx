@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Truck,
@@ -56,11 +56,37 @@ function ProductCard({ product }: { product: typeof seedProducts[0] }) {
   );
 }
 
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pickFeatured(products: typeof seedProducts) {
+  const visited = [...products]
+    .filter((p) => p.clickCount > 0)
+    .sort((a, b) => b.clickCount - a.clickCount);
+  const enoughTraffic = visited.length >= 4 && visited[0].clickCount >= 5;
+  if (enoughTraffic) return visited.slice(0, 12);
+  return shuffle(products).slice(0, 12);
+}
+
 export default function Home() {
   const { content } = useContent();
   const { categories, products } = content;
-  const bestSellers = products.filter((p) => p.isBestSeller);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [featured, setFeatured] = useState<typeof products>([]);
+  const featuredKeyRef = useRef("");
+
+  useEffect(() => {
+    const key = products.map((p) => p.slug).join("|");
+    if (!key || featuredKeyRef.current === key) return;
+    featuredKeyRef.current = key;
+    setFeatured(pickFeatured(products));
+  }, [products]);
 
   const scrollProducts = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -134,7 +160,7 @@ export default function Home() {
               className="-mx-3 flex overflow-x-auto px-3 pb-4 snap-x snap-mandatory scroll-smooth"
               style={{ scrollbarWidth: "none" }}
             >
-              {bestSellers.map((product) => (
+              {featured.map((product) => (
                 <div key={product.slug} className="shrink-0 basis-[80%] snap-start px-3 sm:basis-[48%] lg:basis-[24%] xl:basis-[20%]">
                   <ProductCard product={product} />
                 </div>

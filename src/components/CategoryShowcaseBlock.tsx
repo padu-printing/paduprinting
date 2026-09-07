@@ -21,7 +21,9 @@ interface CategoryShowcaseBlockProps {
 }
 
 export default function CategoryShowcaseBlock({ category, products }: CategoryShowcaseBlockProps) {
+  const isLogoPlaceholder = category.bannerImage === "/logo-icon.png";
   const displayGradient = !category.bannerImage && !category.bannerBackgroundColor;
+  const showGradient = displayGradient || isLogoPlaceholder;
 
   return (
     <section className="my-16">
@@ -32,7 +34,7 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
           <Link
             href={`/produk/${category.slug}`}
             aria-label={`Lihat semua produk kategori ${category.name}`}
-            className="group block overflow-hidden transition-all duration-200 hover:scale-[1.01]"
+            className="group relative block overflow-hidden transition-all duration-200 hover:scale-[1.01]"
             style={{
               minHeight: "480px",
               height: "100%",
@@ -42,18 +44,30 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              backgroundImage: category.bannerImage
-                ? `linear-gradient(rgba(26,35,64,0.35), rgba(26,35,64,0.35)), url(${category.bannerImage})`
-                : category.bannerBackgroundColor
-                  ? `${category.bannerBackgroundColor}`
+              backgroundImage:
+                category.bannerImage && !isLogoPlaceholder
+                  ? `linear-gradient(rgba(26,35,64,0.35), rgba(26,35,64,0.35)), url(${category.bannerImage})`
                   : undefined,
-              backgroundColor: !category.bannerImage && !category.bannerBackgroundColor
-                ? undefined
-                : undefined,
-              ...(displayGradient ? { background: "linear-gradient(135deg, #F5A623 0%, #EF4444 25%, #EC1E63 45%, #6B2C91 65%, #2554C7 80%, #1CB5B0 100%)" } : {}),
+              ...(showGradient
+                ? { background: "linear-gradient(145deg, #2A103F, #6F33A0)" }
+                : { backgroundColor: category.bannerBackgroundColor }),
             }}
           >
-            <div className="text-center px-8">
+            {showGradient && (
+              <>
+                <div
+                  aria-hidden="true"
+                  className="absolute right-[-10px] top-[28px] rotate-[18deg] rounded-[38px] border border-[rgba(124,58,237,0.22)]"
+                  style={{ width: 190, height: 190, background: "rgba(124,58,237,0.14)" }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute right-[-10px] top-[28px] rotate-[18deg] rounded-[38px] border border-[rgba(124,58,237,0.16)]"
+                  style={{ width: 190, height: 190, margin: 8 }}
+                />
+              </>
+            )}
+            <div className="relative text-center px-8">
               <h2 className="text-[30px] font-semibold text-white leading-tight sm:text-[36px]">
                 {category.name}
               </h2>
@@ -80,7 +94,7 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
           <Link
             href={`/produk/${category.slug}`}
             aria-label={`Lihat semua produk kategori ${category.name}`}
-            className="block overflow-hidden mb-4 transition-all duration-200"
+            className="group relative block overflow-hidden mb-4 transition-all duration-200"
             style={{
               height: "140px",
               backgroundSize: "cover",
@@ -89,14 +103,30 @@ export default function CategoryShowcaseBlock({ category, products }: CategorySh
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              backgroundImage: category.bannerImage
-                ? `linear-gradient(rgba(26,35,64,0.35), rgba(26,35,64,0.35)), url(${category.bannerImage})`
-                : undefined,
-              backgroundColor: category.bannerBackgroundColor,
-              ...(displayGradient ? { background: "linear-gradient(135deg, #F5A623 0%, #EF4444 25%, #EC1E63 45%, #6B2C91 65%, #2554C7 80%, #1CB5B0 100%)" } : {}),
+              backgroundImage:
+                category.bannerImage && !isLogoPlaceholder
+                  ? `linear-gradient(rgba(26,35,64,0.35), rgba(26,35,64,0.35)), url(${category.bannerImage})`
+                  : undefined,
+              ...(showGradient
+                ? { background: "linear-gradient(145deg, #2A103F, #6F33A0)" }
+                : { backgroundColor: category.bannerBackgroundColor }),
             }}
           >
-            <div className="text-center px-6">
+            {showGradient && (
+              <>
+                <div
+                  aria-hidden="true"
+                  className="absolute right-[-10px] top-[28px] rotate-[18deg] rounded-[38px] border border-[rgba(124,58,237,0.22)]"
+                  style={{ width: 190, height: 190, background: "rgba(124,58,237,0.14)" }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute right-[-10px] top-[28px] rotate-[18deg] rounded-[38px] border border-[rgba(124,58,237,0.16)]"
+                  style={{ width: 190, height: 190, margin: 8 }}
+                />
+              </>
+            )}
+            <div className="relative text-center px-6">
               <h2 className="text-xl font-semibold text-white leading-tight sm:text-[24px]">
                 {category.name}
               </h2>
