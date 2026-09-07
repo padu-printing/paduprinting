@@ -45,7 +45,7 @@ export default function ProductCard({ product, variant = "default" }: ProductCar
               <span className="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-medium rounded mb-2">
                 {product.categorySlug.replace("-", " ")}
               </span>
-              <h3 className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors mb-1 line-clamp-3">
+              <h3 className="min-h-[4.5rem] font-semibold text-gray-800 group-hover:text-blue-600 transition-colors mb-1 line-clamp-3">
                 {product.name}
               </h3>
               <p className="text-sm text-gray-500 line-clamp-2">{product.shortDescription}</p>
@@ -92,7 +92,7 @@ export default function ProductCard({ product, variant = "default" }: ProductCar
         <span className="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-medium rounded mb-2">
           {product.categorySlug.replace("-", " ")}
         </span>
-        <h3 className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors mb-1 line-clamp-3">
+        <h3 className="min-h-[4.5rem] font-semibold text-gray-800 group-hover:text-blue-600 transition-colors mb-1 line-clamp-3">
           {product.name}
         </h3>
         <p className="text-sm text-gray-500 line-clamp-2 mb-3">{product.shortDescription}</p>

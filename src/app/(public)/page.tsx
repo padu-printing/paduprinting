@@ -40,7 +40,7 @@ function ProductCard({ product }: { product: typeof seedProducts[0] }) {
         <ProductImage src={product.image} alt={product.name} iconClassName="h-10 w-10" />
       </div>
       <div className="p-3">
-        <h3 className="text-sm font-bold text-padu-navy line-clamp-3">{product.name}</h3>
+        <h3 className="min-h-[3.75rem] text-sm font-bold text-padu-navy line-clamp-3">{product.name}</h3>
         <div className="mt-1 flex items-center justify-between">
           <span className="text-xs text-neutral-500">Harga Mulai dari</span>
           <div className="flex items-center gap-1 text-xs text-neutral-400">

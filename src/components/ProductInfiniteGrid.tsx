@@ -66,13 +66,13 @@ function ProductCard({ product }: { product: GridProduct }) {
     <Link
       href={`/produk/${product.slug}`}
       aria-label={`Lihat detail produk ${product.name}`}
-      className="group block overflow-hidden rounded-[12px] border border-[#E4E4E7] bg-white hover:shadow-lg transition-shadow duration-200"
+      className="group flex h-full flex-col overflow-hidden rounded-[12px] border border-[#E4E4E7] bg-white hover:shadow-lg transition-shadow duration-200"
     >
       <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden">
         <ProductImage src={product.image} alt={product.name} />
       </div>
-      <div className="p-3">
-        <h3 className="text-sm font-bold text-padu-navy line-clamp-3">{product.name}</h3>
+      <div className="flex flex-1 flex-col p-3">
+        <h3 className="min-h-[3.75rem] text-sm font-bold text-padu-navy line-clamp-3">{product.name}</h3>
         <div className="mt-1 flex items-center justify-between">
           <span className="text-xs text-neutral-500">Harga Mulai dari</span>
           <div className="flex items-center gap-1 text-xs text-neutral-400">
@@ -80,7 +80,7 @@ function ProductCard({ product }: { product: GridProduct }) {
             <span>{product.clickCount.toLocaleString("id-ID")}</span>
           </div>
         </div>
-        <div className="mt-2 w-full rounded-lg bg-[#6B2C91] py-1.5 text-center text-xs font-bold text-white">
+        <div className="mt-auto w-full rounded-lg bg-[#6B2C91] py-1.5 text-center text-xs font-bold text-white">
           Rp {product.basePrice.toLocaleString("id-ID")}
         </div>
       </div>
