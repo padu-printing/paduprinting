@@ -546,7 +546,7 @@ export default async function ProfilPage() {
                   Corporate Printing
                 </h3>
                 <p className="mt-2 max-w-[560px] text-[15px] leading-[1.6] text-[#6F6878]">
-                  Kebutuhan cetak korporat tanpa kategori khusus — jelajahi seluruh
+                  Kebutuhan cetak korporat tanpa kategori khusus. Jelajahi seluruh
                   produk dan layanan PADU Printing di satu tempat.
                 </p>
               </div>
