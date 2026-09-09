@@ -23,15 +23,13 @@ export default function MobileActionBar() {
     >
       <div className="rounded-full border border-white/70 bg-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl">
         <div className="grid grid-cols-3 rounded-full">
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${itemClass} text-[#25D366] hover:bg-green-100/70 rounded-full`}
+          <Link
+            href="/produk"
+            className={`${itemClass} text-[#6B2C91] hover:bg-purple-100/70 rounded-full`}
           >
-            <MessageCircle className="h-5 w-5" />
-            WhatsApp
-          </a>
+            <Package className="h-5 w-5" />
+            Produk
+          </Link>
           <a
             href={MAPS_URL}
             target="_blank"
@@ -41,13 +39,15 @@ export default function MobileActionBar() {
             <MapPin className="h-5 w-5" />
             Lokasi Toko
           </a>
-          <Link
-            href="/produk"
-            className={`${itemClass} text-[#6B2C91] hover:bg-purple-100/70 rounded-full`}
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${itemClass} text-[#25D366] hover:bg-green-100/70 rounded-full`}
           >
-            <Package className="h-5 w-5" />
-            Produk
-          </Link>
+            <MessageCircle className="h-5 w-5" />
+            WhatsApp
+          </a>
         </div>
       </div>
     </nav>
