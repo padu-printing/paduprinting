@@ -16,6 +16,7 @@ import {
   Settings,
   LogOut,
   ExternalLink,
+  Ticket,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { IDLE_TIMEOUT_MS, LAST_ACTIVE_STORAGE_KEY } from "@/lib/session";
@@ -32,6 +33,7 @@ const navItems = [
   { href: "/admin/slideshow", label: "Slideshow", icon: MonitorPlay },
   { href: "/admin/trusted-brands", label: "Dipercaya Oleh", icon: ShieldCheck },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
+  { href: "/admin/events", label: "Event", icon: Ticket },
   { href: "/admin/settings", label: "Pengaturan", icon: Settings },
 ];
 

@@ -80,6 +80,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: toJsonLd(rootSchema) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var V="2026-09-08-v1";var k="padu-cc";if(sessionStorage.getItem(k)!==V){if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});}).catch(function(){});}if("caches" in window){caches.keys().then(function(ns){ns.forEach(function(n){caches.delete(n);});}).catch(function(){});}sessionStorage.setItem(k,V);}}catch(e){}})();`,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col font-sans">
         {children}

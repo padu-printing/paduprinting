@@ -1,6 +1,7 @@
 export const SITE_URL = "https://www.paduprinting.com";
 export const BRAND = "PADU Printing";
 export const PHONE = "+6282123496469";
+export const INSTAGRAM_URL = "https://instagram.com/paduprinting.id";
 
 export const WHATSAPP_PHONE = "6282123496469";
 export const ADDRESS = {
@@ -32,6 +33,7 @@ export function getOrganizationSchema() {
       url: LOGO_URL,
     },
     telephone: PHONE,
+    sameAs: [INSTAGRAM_URL],
     address: {
       "@type": "PostalAddress",
       ...ADDRESS,
