@@ -21,8 +21,25 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
+        headers: securityHeaders,
+      },
+      {
+        source: "/admin/:path*",
         headers: [
-          ...securityHeaders,
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Pragma", value: "no-cache" },
+        ],
+      },
+      {
+        source: "/event/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Pragma", value: "no-cache" },
+        ],
+      },
+      {
+        source: "/api/:path*",
+        headers: [
           { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
           { key: "Pragma", value: "no-cache" },
         ],

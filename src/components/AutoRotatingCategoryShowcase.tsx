@@ -3,10 +3,19 @@
 import { useState, useEffect, useRef } from "react";
 import CategoryShowcaseBlock from "./CategoryShowcaseBlock";
 import { useContent } from "@/data/content";
+import type { Category, Product } from "@/data/seed";
 
-export default function AutoRotatingCategoryShowcase() {
+export default function AutoRotatingCategoryShowcase({
+  categories: serverCategories,
+  products: serverProducts,
+}: {
+  categories?: Category[];
+  products?: Product[];
+}) {
   const { content } = useContent();
-  const { categories, products } = content;
+  const { categories: contextCategories, products: contextProducts } = content;
+  const categories = serverCategories ?? contextCategories;
+  const products = serverProducts ?? contextProducts;
   const activeCategories = categories;
   const [currentIndex, setCurrentIndex] = useState(0);
   const pickOnceRef = useRef(false);
