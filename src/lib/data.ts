@@ -14,6 +14,7 @@ function mapCategory(row: Record<string, unknown>): Category {
     description: (row.description as string) ?? "",
     icon: (row.icon as string) ?? "",
     image: (row.image as string) ?? "",
+    updatedAt: (row.updated_at as string) ?? "",
   };
 }
 
@@ -47,6 +48,7 @@ function mapProduct(row: Record<string, unknown>): Product {
     focusKeyword: (row.focus_keyword as string) ?? "",
     tags: Array.isArray(row.tags) ? (row.tags as string[]) : [],
     seoScore: Number(row.seo_score ?? 0),
+    updatedAt: (row.updated_at as string) ?? "",
   };
 }
 
@@ -65,6 +67,7 @@ function mapArticle(row: Record<string, unknown>): Article {
     focusKeyword: (row.focus_keyword as string) ?? "",
     tags: Array.isArray(row.tags) ? (row.tags as string[]) : [],
     seoScore: Number(row.seo_score ?? 0),
+    updatedAt: (row.updated_at as string) ?? "",
   };
 }
 

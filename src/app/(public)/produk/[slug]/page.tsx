@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import {
   SITE_URL,
   BRAND,
+  LOGO_URL,
   getProductSchema,
   getBreadcrumbSchema,
   getOrganizationSchema,
@@ -48,11 +49,13 @@ export async function generateMetadata({
         url,
         siteName: BRAND,
         type: "website",
+        images: [LOGO_URL],
       },
       twitter: {
         card: "summary_large_image",
         title: `${category.name} Jakarta Timur | ${BRAND}`,
         description: category.description,
+        images: [LOGO_URL],
       },
     };
   }

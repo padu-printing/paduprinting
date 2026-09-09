@@ -6,7 +6,7 @@ import ArticleCard from "@/components/article/ArticleCard";
 import ArticleFeatured from "@/components/article/ArticleFeatured";
 import FinalCtaSection from "@/components/FinalCtaSection";
 import type { Metadata } from "next";
-import { SITE_URL, BRAND } from "@/lib/seo";
+import { SITE_URL, BRAND, LOGO_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: `Artikel & Tips Percetakan | ${BRAND}`,
@@ -18,11 +18,13 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/artikel`,
     siteName: BRAND,
     type: "website",
+    images: [LOGO_URL],
   },
   twitter: {
     card: "summary_large_image",
     title: `Artikel & Tips Percetakan | ${BRAND}`,
     description: `Kumpulan artikel, tips, dan panduan seputar percetakan, desain, branding, dan digital printing dari ${BRAND}.`,
+    images: [LOGO_URL],
   },
 };
 

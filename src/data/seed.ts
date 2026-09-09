@@ -6,6 +6,7 @@ export interface Category {
   description: string;
   icon: string;
   image: string;
+  updatedAt?: string;
 }
 
 export interface VariantOption {
@@ -45,6 +46,7 @@ export interface Product {
   focusKeyword?: string;
   tags?: string[];
   seoScore?: number;
+  updatedAt?: string;
 }
 
 export interface Article {
@@ -61,6 +63,7 @@ export interface Article {
   focusKeyword?: string;
   tags?: string[];
   seoScore?: number;
+  updatedAt?: string;
 }
 
 export interface FAQ {

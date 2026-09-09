@@ -11,6 +11,7 @@ import {
   Clock,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import type { Metadata } from "next";
 import {
   SITE_URL,
@@ -18,6 +19,7 @@ import {
   PHONE,
   WHATSAPP_PHONE,
   ADDRESS,
+  LOGO_URL,
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -32,6 +34,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/profil`,
     siteName: BRAND,
     type: "website",
+    images: [LOGO_URL],
   },
   twitter: {
     card: "summary_large_image",
@@ -141,12 +144,12 @@ export default function ProfilPage() {
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <PrimaryButton href={whatsappLink}>Konsultasi Sekarang</PrimaryButton>
-              <a
+              <Link
                 href="/produk"
                 className="inline-flex h-[52px] items-center justify-center gap-2 rounded-[15px] border border-[#E7E0EF] bg-white px-[22px] text-sm font-extrabold text-[#16121D] transition-transform duration-200 ease-out hover:-translate-y-0.5"
               >
                 Lihat Produk
-              </a>
+              </Link>
             </div>
           </div>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ChevronDown } from "lucide-react";
 import { getAllFaqs } from "@/lib/data";
-import { SITE_URL, BRAND, getFAQSchema } from "@/lib/seo";
+import { SITE_URL, BRAND, LOGO_URL, getFAQSchema } from "@/lib/seo";
 import { toJsonLd } from "@/lib/json-ld";
 import FinalCtaSection from "@/components/FinalCtaSection";
 
@@ -18,11 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
       url: `${SITE_URL}/faq`,
       siteName: BRAND,
       type: "website",
+      images: [LOGO_URL],
     },
     twitter: {
       card: "summary_large_image",
       title: `FAQ | ${BRAND}`,
       description,
+      images: [LOGO_URL],
     },
   };
 }
