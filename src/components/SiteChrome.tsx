@@ -21,7 +21,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <div className="pb-14 md:pb-0">{children}</div>
+      <div className="pb-24 md:pb-0">{children}</div>
       <Footer />
       <MobileActionBar />
     </>
