@@ -21,6 +21,7 @@ import {
   ADDRESS,
   LOGO_URL,
 } from "@/lib/seo";
+import { getAllCategories } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: `Tentang Kami | ${BRAND}`,
@@ -113,7 +114,8 @@ function ChatBubble({
   );
 }
 
-export default function ProfilPage() {
+export default async function ProfilPage() {
+  const categories = await getAllCategories();
   return (
     <>
       {/* ===================== HERO ===================== */}
@@ -483,23 +485,16 @@ export default function ProfilPage() {
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { href: "/produk/banner-spanduk", title: "Banner & Display", dark: true },
-              { href: "/produk/undangan-kartu", title: "Cards & Stationery", dark: false },
-              { href: "/produk/stiker-label", title: "Sticker & Label", dark: true },
-              { href: "/produk/packaging-label", title: "Packaging", dark: false },
-              { href: "/produk/souvenir-promosi", title: "Merchandise", dark: true },
-              { href: "/produk", title: "Corporate Printing", dark: false },
-            ].map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
+            {categories.map((cat, i) => (
+              <Link
+                key={cat.slug}
+                href={`/produk/${cat.slug}`}
                 className={`group relative block min-h-[290px] overflow-hidden rounded-[24px] p-[26px] transition-all duration-200 ease-out hover:-translate-y-1.5 ${
-                  item.dark ? "text-white" : "text-[#16121D]"
+                  i % 2 === 0 ? "text-white" : "text-[#16121D]"
                 }`}
                 style={{
                   background:
-                    item.dark
+                    i % 2 === 0
                       ? "linear-gradient(145deg, #2A103F, #6F33A0)"
                       : "linear-gradient(145deg, #EEE8F5, #FFFFFF)",
                 }}
@@ -517,14 +512,39 @@ export default function ProfilPage() {
                 <div className="relative flex h-full min-h-[238px] flex-col justify-between">
                   <div className="flex justify-between">
                     <span className="text-xs font-extrabold uppercase tracking-[0.14em]">
-                      {item.dark ? "PADU Printing" : "PADU Printing"}
+                      PADU Printing
                     </span>
                     <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
-                  <h3 className="text-2xl font-extrabold leading-tight">{item.title}</h3>
+                  <h3 className="text-2xl font-extrabold leading-tight">{cat.name}</h3>
                 </div>
-              </a>
+              </Link>
             ))}
+            <Link
+              href="/produk"
+              className="group relative block min-h-[290px] overflow-hidden rounded-[24px] p-[26px] transition-all duration-200 ease-out hover:-translate-y-1.5 text-[#16121D]"
+              style={{ background: "linear-gradient(145deg, #EEE8F5, #FFFFFF)" }}
+            >
+              <div
+                aria-hidden="true"
+                className="absolute right-[-10px] top-[28px] rotate-[18deg] rounded-[38px] border border-[rgba(124,58,237,0.22)]"
+                style={{ width: 190, height: 190, background: "rgba(124,58,237,0.14)" }}
+              />
+              <div
+                aria-hidden="true"
+                className="absolute right-[-10px] top-[28px] rotate-[18deg] rounded-[38px] border border-[rgba(124,58,237,0.16)]"
+                style={{ width: 190, height: 190, margin: 8 }}
+              />
+              <div className="relative flex h-full min-h-[238px] flex-col justify-between">
+                <div className="flex justify-between">
+                  <span className="text-xs font-extrabold uppercase tracking-[0.14em]">
+                    PADU Printing
+                  </span>
+                  <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
+                </div>
+                <h3 className="text-2xl font-extrabold leading-tight">Corporate Printing</h3>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
