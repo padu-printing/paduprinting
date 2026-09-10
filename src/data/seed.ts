@@ -1249,13 +1249,25 @@ export const faqs: FAQ[] = [
   {
     question: "Apa itu PADU Printing?",
     answer:
-      "PADU Printing adalah jasa percetakan digital di Jakarta Timur yang melayani cetak banner dan spanduk, kartu nama, stiker, undangan, kaos dan seragam, merchandise custom seperti mug, tumbler, dan tote bag, hingga packaging box custom untuk kebutuhan bisnis maupun personal.",
+      "PADU Printing adalah jasa percetakan digital di Jakarta Timur yang membantu bisnis, perusahaan, event, dan kebutuhan personal menghasilkan media cetak profesional, konsisten, dan siap memperkuat visual brand Anda. Layanan kami meliputi banner dan spanduk, kartu nama, stiker, undangan, kaos, hingga merchandise custom.",
     category: "Umum",
   },
   {
     question: "Di mana lokasi PADU Printing?",
     answer:
-      "Berlokasi di Jl. Otista Raya No. 170, RT.2/RW.8, Jakarta Timur, DKI Jakarta 13330. Butuh petunjuk arah? Hubungi kami via WhatsApp dan tim akan membantu.",
+      "Berlokasi di Jl. Otista Raya No. 170, RT.2/RW.8, Bidara Cina, Jakarta Timur, DKI Jakarta 13330. Butuh petunjuk arah? Hubungi kami via WhatsApp dan tim akan membantu.",
+    category: "Umum",
+  },
+  {
+    question: "Apa keunggulan PADU Printing?",
+    answer:
+      "Tiga keunggulan utama: kualitas cetak tajam dengan warna akurat, proses pengerjaan cepat dan tepat waktu, serta layanan yang ramah dan siap membantu mulai dari konsultasi hingga pengiriman.",
+    category: "Umum",
+  },
+  {
+    question: "Kenapa harus memilih PADU Printing dibanding percetakan lain?",
+    answer:
+      "Karena kami mengutamakan kecepatan eksekusi tanpa mengorbankan kualitas. Dari kartu nama, banner, undangan, hingga merchandise custom dikerjakan dengan hasil yang konsisten, ditambah pelayanan setiap hari dan konsultasi gratis untuk menentukan spesifikasi yang tepat.",
     category: "Umum",
   },
   {
@@ -1309,7 +1321,19 @@ export const faqs: FAQ[] = [
   {
     question: "Produk apa saja yang dilayani PADU Printing?",
     answer:
-      "Antara lain cetak banner dan spanduk, X-banner, roll banner, kartu nama, stiker dan label, undangan, brosur dan poster, kaos dan seragam, mug, tumbler, tote bag, payung, blocknote, pin, hingga box packaging dan paper bag custom.",
+      "Antara lain cetak banner dan spanduk, X-banner, roll banner, kartu nama, stiker dan label, undangan, kaos dan seragam, mug, tumbler, tote bag, payung, blocknote, pin, hingga box packaging dan paper bag custom.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak banner atau spanduk untuk display pameran dan dekorasi?",
+    answer:
+      "Bisa. Banner vinil indoor maupun outdoor cocok untuk display toko, poster pameran, dan dekorasi acara. Sifatnya ringan dan mudah dipasang, namun tetap kokoh dan tahan lama.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak bendera custom?",
+    answer:
+      "Bisa. Tersedia cetak spanduk bendera custom dengan bahan vinil tebal dan warna tajam, cocok untuk promosi toko, acara, kantor, maupun komunitas.",
     category: "Produk",
   },
   {
@@ -1325,51 +1349,117 @@ export const faqs: FAQ[] = [
     category: "Produk",
   },
   {
+    question: "Bagaimana memilih antara banner, X-banner, atau spanduk untuk promosi?",
+    answer:
+      "Pemilihan tergantung di mana media akan dipasang, berapa lama akan digunakan, dan berapa anggaran yang tersedia. Konsultasikan tujuan promosi Anda ke tim agar mendapat rekomendasi media yang paling efektif.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah harga murah berarti kualitas cetaknya asal-asalan?",
+    answer:
+      "Tidak. Harga terjangkau dan kualitas tajam bisa didapat bersamaan asalkan spesifikasi bahan disesuaikan dengan kebutuhan, bukan asal memilih bahan termurah atau termahal. Tim kami siap membantu memilihkan kombinasi yang tepat.",
+    category: "Produk",
+  },
+  {
     question: "Apakah bisa cetak kartu nama premium?",
     answer:
-      "Bisa. Terdapat berbagai pilihan bahan dan finishing premium, mulai dari art carton, ivory, kertas, hingga kartu nama plastik PVC, serta finishing seperti spot UV agar kartu nama tampil profesional.",
+      "Bisa. Terdapat berbagai pilihan bahan dan finishing premium, mulai dari art carton, ivory, hingga kartu nama plastik PVC, serta finishing seperti spot UV agar kartu nama tampil profesional.",
     category: "Produk",
   },
   {
-    question: "Apakah bisa cetak mug dan tumbler custom?",
+    question: "Apakah bisa cetak kartu PVC atau kartu nama plastik?",
     answer:
-      "Bisa. Mug dan tumbler custom full color bisa dicetak logo, foto, nama, atau ilustrasi. Cocok untuk souvenir, corporate gift, hingga merchandise komunitas.",
+      "Bisa. Kartu PVC dicetak dengan bahan plastik tebal yang tahan lama, cocok untuk kartu nama premium maupun kebutuhan kartu identitas yang awet dengan hasil profesional.",
     category: "Produk",
   },
   {
-    question: "Apakah bisa membuat tote bag dan merchandise custom lainnya?",
+    question: "Apakah bisa cetak blocknote custom?",
     answer:
-      "Bisa. Tote bag kanvas sablon, payung custom, blocknote, dan pin tersedia untuk kebutuhan promosi bisnis, seminar, pameran, hingga acara komunitas.",
+      "Bisa. Blocknote custom dengan cover logo tersedia untuk kebutuhan seperti company profile ringkas, katalog, dan merchandise seminar, dengan hasil cetak yang rapi dan berkualitas.",
     category: "Produk",
   },
   {
-    question: "Apakah bisa cetak kaos dan seragam custom?",
+    question: "Apakah bisa cetak kartu ucapan custom?",
     answer:
-      "Bisa. Kaos polos, kaos tim, kaos distro, jersey, hingga seragam kantor bisa disablon dengan desain custom sesuai kebutuhan, dari jumlah kecil hingga pemesanan besar.",
-    category: "Produk",
-  },
-  {
-    question: "Apakah bisa cetak box packaging dan paper bag custom?",
-    answer:
-      "Bisa. Box custom untuk kemasan produk, box makanan, box gift, hingga paper bag custom logo bisa dikerjakan dengan desain yang disesuaikan dengan identitas brand Anda.",
+      "Bisa. Kartu ucapan A6 dengan berbagai pilihan bahan dan finishing tersedia untuk momen spesial, hadiah korporat, maupun merchandise kenang-kenangan.",
     category: "Produk",
   },
   {
     question: "Apakah bisa cetak undangan custom?",
     answer:
-      "Bisa. Undangan pernikahan, ulang tahun, sunatan, kartu ucapan, dan wedding card tersedia dengan berbagai pilihan bahan dan finishing agar momen spesial terasa lebih berkesan.",
+      "Bisa. Undangan pernikahan, ulang tahun, sunatan, dan wedding card tersedia dengan berbagai pilihan bahan dan finishing agar momen spesial terasa lebih berkesan.",
     category: "Produk",
   },
   {
-    question: "Apakah bisa membuat stiker custom untuk promosi atau packaging?",
+    question: "Apakah bisa cetak stiker dan label custom?",
     answer:
-      "Bisa. Stiker vinyl cutting, stiker kertas, stiker transparan, label botol, dan stiker bulat tersedia untuk kebutuhan packaging produk maupun media promosi.",
+      "Bisa. Stiker vinyl cutting, stiker kertas, label botol, dan stiker bulat tersedia untuk kebutuhan packaging produk maupun media promosi.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak stiker transparan? Untuk apa kegunaannya?",
+    answer:
+      "Bisa. Stiker transparan adalah media cetak tembus pandang yang cocok untuk window display, branding kaca toko, dan dekorasi, karena tetap mempertahankan warna latar tempatnya dipasang dan tampil tajam.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa membuat pin custom untuk identitas komunitas?",
+    answer:
+      "Bisa. Pin custom logam full color tersedia untuk kebutuhan identitas instansi, sekolah, komunitas, hingga souvenir acara, dengan hasil yang presisi dan tahan lama.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak merchandise seperti mug custom?",
+    answer:
+      "Bisa. Mug custom full color bisa dicetak logo, foto, nama, atau ilustrasi. Cocok untuk souvenir, corporate gift, hingga merchandise komunitas.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa branding tumbler custom untuk perusahaan?",
+    answer:
+      "Bisa. Tumbler custom bisa dibranding dengan logo perusahaan melalui beberapa metode pengerjaan. Cocok untuk meningkatkan identitas merek lewat merchandise yang dipakai sehari-hari.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak tote bag atau tas kanvas custom?",
+    answer:
+      "Bisa. Tote bag kanvas sablon ringan, kuat, dan bisa dipakai berulang. Cocok untuk seminar, pameran, event, atau sebagai alternatif ramah lingkungan pengganti tas plastik.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak payung custom untuk acara?",
+    answer:
+      "Bisa. Payung lipat custom full color bisa dicetak logo atau slogan untuk seminar, pameran, konser, pernikahan, dan event lainnya, sekaligus merchandise yang awet dan tetap berguna.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak box custom untuk kemasan?",
+    answer:
+      "Bisa. Tersedia box custom untuk kemasan produk, box makanan, dan box gift dengan hasil kokoh serta desain yang disesuaikan dengan kebutuhan brand Anda.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah tersedia jasa cetak paper bag custom untuk perusahaan?",
+    answer:
+      "Ya, tersedia cetak paper bag custom logo perusahaan dengan eksekusi cepat. Cocok untuk branding, kemasan produk, hingga acara korporat.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak kaos dan seragam custom?",
+    answer:
+      "Bisa. Kaos polos, kaos tim, jersey, hingga seragam kantor bisa disablon dengan desain custom sesuai kebutuhan, dari jumlah kecil hingga pemesanan besar.",
     category: "Produk",
   },
   {
     question: "Apakah tersedia jasa cetak brosur dan poster?",
     answer:
       "Ya, tersedia cetak brosur, poster, dan media promosi cetak lainnya dengan hasil tajam serta pilihan bahan yang dapat disesuaikan dengan kebutuhan dan budget.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak voucher custom yang anti duplikasi atau pemalsuan?",
+    answer:
+      "Bisa. Elemen desain dan fitur keamanan sederhana bisa diterapkan agar voucher promosi tidak mudah dipalsukan, termasuk pola anti-duplikasi sesuai kebutuhan.",
     category: "Produk",
   },
   {
@@ -1387,7 +1477,7 @@ export const faqs: FAQ[] = [
   {
     question: "Bagaimana cara menyiapkan file desain agar hasil cetak tidak pecah dan warna tetap tajam?",
     answer:
-      "Banyak hasil cetak yang kurang maksimal bukan karena mesin, tetapi karena file desain belum sesuai standar cetak. Gunakan resolusi minimal 300 dpi dengan format AI, PSD, PDF, atau PNG, dan sebaiknya konsultasikan dengan tim sebelum mengirim file final.",
+      "Banyak hasil cetak yang kurang maksimal bukan karena mesin, tetapi karena file desain belum sesuai standar cetak. Gunakan resolusi minimal 300 dpi dengan format AI, PSD, PDF, atau PNG, dan konsultasikan dengan tim sebelum mengirim file final.",
     category: "Desain",
   },
   {
@@ -1407,18 +1497,6 @@ export const faqs: FAQ[] = [
     answer:
       "Bisa. Pesanan dapat dikirim melalui ekspedisi ke seluruh Indonesia. Untuk area Jakarta Timur dan sekitarnya, pesanan juga bisa diambil langsung di lokasi.",
     category: "Pengiriman",
-  },
-  {
-    question: "Apa keunggulan PADU Printing?",
-    answer:
-      "Tiga keunggulan utama: hasil cetak tajam dengan warna akurat, pengerjaan cepat dan tepat waktu, serta layanan yang ramah dan siap membantu sejak konsultasi hingga pengiriman.",
-    category: "Umum",
-  },
-  {
-    question: "Kenapa harus memilih PADU Printing dibanding percetakan lain?",
-    answer:
-      "Karena kami mengutamakan kecepatan eksekusi tanpa mengorbankan kualitas. Mulai dari kartu nama, banner, undangan, hingga merchandise custom dikerjakan dengan hasil konsisten, ditambah pelayanan setiap hari dan konsultasi gratis untuk menentukan spesifikasi yang tepat.",
-    category: "Umum",
   },
 ];
 
