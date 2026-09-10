@@ -8,7 +8,7 @@ const KEYS = [
   { key: "whatsapp_phone", label: "Nomor WhatsApp (format internasional)", hint: "Contoh: 6282123496469" },
   { key: "phone", label: "Nomor Telepon", hint: "Contoh: 6282123496469" },
   { key: "email", label: "Email", hint: "Contoh: halo@paduprinting.com" },
-  { key: "address", label: "Alamat", hint: "Contoh: Jl. Otista Raya No. 161A, Jakarta Timur" },
+  { key: "address", label: "Alamat", hint: "Contoh: Jl. Otista Raya No. 170, Jakarta Timur" },
 ];
 
 export default function AdminSettings() {

@@ -678,7 +678,7 @@ export default async function ProfilPage() {
 
             <div className="min-h-[360px] lg:min-h-[500px]">
               <iframe
-                src={`https://www.google.com/maps?q=${encodeURIComponent("Jl. Otto Iskandardinata Raya No. 161A, Bidara Cina, Jatinegara, Jakarta Timur 13330")}&z=16&output=embed`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent("Jl. Otto Iskandardinata Raya No. 170, Bidara Cina, Jatinegara, Jakarta Timur 13330")}&z=16&output=embed`}
                 title="Peta lokasi PADU Printing di Google Maps"
                 width="100%"
                 height="100%"

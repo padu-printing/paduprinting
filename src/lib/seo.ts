@@ -5,7 +5,7 @@ export const INSTAGRAM_URL = "https://instagram.com/paduprinting.id";
 
 export const WHATSAPP_PHONE = "6282123496469";
 export const ADDRESS = {
-  streetAddress: "Jl. Otista Raya No. 161A, RT.2/RW.8",
+  streetAddress: "Jl. Otista Raya No. 170, RT.2/RW.8",
   addressLocality: "Jakarta Timur",
   addressRegion: "DKI Jakarta",
   postalCode: "13330",

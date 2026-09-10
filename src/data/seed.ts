@@ -1247,44 +1247,178 @@ export const articles: Article[] = [
 
 export const faqs: FAQ[] = [
   {
-    question: "Berapa lama proses cetak?",
-    answer: "Waktu proses cetak bervariasi. Kartu nama: 1-2 hari kerja. Banner: 2-3 hari kerja. Kaos: 5-7 hari kerja.",
+    question: "Apa itu PADU Printing?",
+    answer:
+      "PADU Printing adalah jasa percetakan digital di Jakarta Timur yang melayani cetak banner dan spanduk, kartu nama, stiker, undangan, kaos dan seragam, merchandise custom seperti mug, tumbler, dan tote bag, hingga packaging box custom untuk kebutuhan bisnis maupun personal.",
     category: "Umum",
+  },
+  {
+    question: "Di mana lokasi PADU Printing?",
+    answer:
+      "Berlokasi di Jl. Otista Raya No. 170, RT.2/RW.8, Jakarta Timur, DKI Jakarta 13330. Butuh petunjuk arah? Hubungi kami via WhatsApp dan tim akan membantu.",
+    category: "Umum",
+  },
+  {
+    question: "Apakah PADU Printing cocok untuk kebutuhan mendadak atau deadline?",
+    answer:
+      "Cocok. PADU Printing melayani pemesanan setiap hari tanpa henti, jadi kebutuhan cetak mendadak seperti banner acara dadakan atau kelengkapan acara bisa tetap dikerjakan tanpa harus menunggu jam operasional.",
+    category: "Umum",
+  },
+  {
+    question: "Apakah PADU Printing punya artikel atau tips seputar percetakan?",
+    answer:
+      "Ya, tersedia halaman Artikel yang berisi tips seputar percetakan, desain, dan kebutuhan promosi bisnis, mulai dari perbandingan media promosi, panduan memilih produk cetak, hingga cara menyiapkan file desain.",
+    category: "Umum",
+  },
+  {
+    question: "Apakah ada garansi hasil cetak?",
+    answer:
+      "Ada. Jika terjadi kesalahan yang berasal dari pihak kami, seperti salah cetak atau hasil produksi yang rusak, garansi cetak ulang akan kami berikan tanpa biaya tambahan.",
+    category: "Umum",
+  },
+  {
+    question: "Bagaimana cara memesan cetakan?",
+    answer:
+      "Bisa pesan online via WhatsApp atau datang langsung ke lokasi. Prosesnya: pilih produk dan tentukan spesifikasinya, kirim file desain ke tim, lalu lakukan pembayaran setelah pesanan dikonfirmasi admin.",
+    category: "Pemesanan",
+  },
+  {
+    question: "Bagaimana cara menghubungi PADU Printing?",
+    answer:
+      "Bisa melalui WhatsApp di 0821-2349-6469. Tim admin siap membantu mulai dari pemilihan produk hingga proses pemesanan.",
+    category: "Pemesanan",
+  },
+  {
+    question: "Apakah bisa konsultasi produk sebelum memesan?",
+    answer:
+      "Bisa. Tersedia layanan konsultasi gratis via WhatsApp untuk membantu menentukan produk, bahan, dan spesifikasi yang paling sesuai dengan kebutuhan serta budget Anda.",
+    category: "Pemesanan",
   },
   {
     question: "Apakah bisa pesan dalam quantity kecil?",
-    answer: "Tergantung jenis produk. Beberapa produk minimal order 100 pcs, kaos minimal 10 pcs.",
-    category: "Umum",
-  },
-  {
-    question: "Bagaimana cara pemesanan?",
-    answer: "Pilih produk, tentukan spesifikasi, lalu klik 'Pesan via WhatsApp'. Admin akan mengkonfirmasi.",
+    answer:
+      "Tergantung jenis produk. Sebagian produk bisa dipesan dengan quantity kecil, sementara produk merchandise tertentu memiliki jumlah minimal order. Admin akan menginformasikan minimal order sesuai produk yang dipilih.",
     category: "Pemesanan",
-  },
-  {
-    question: "Apakah bisa desain custom?",
-    answer: "Ya! Kirim desain dalam format AI, PSD, PDF, atau PNG dengan resolusi minimal 300dpi.",
-    category: "Desain",
-  },
-  {
-    question: "Metode pembayaran apa yang diterima?",
-    answer: "Transfer bank (BCA, Mandiri, BRI, BNI), e-wallet (GoPay, OVO, Dana), dan tunai.",
-    category: "Pembayaran",
-  },
-  {
-    question: "Apakah ada garansi?",
-    answer: "Ya, garansi cetak ulang jika terjadi kesalahan dari pihak kami.",
-    category: "Umum",
-  },
-  {
-    question: "Bisa kirim ke seluruh Indonesia?",
-    answer: "Ya, via JNE, J&T, SiCepat, dan ekspedisi lainnya.",
-    category: "Pengiriman",
   },
   {
     question: "Apakah bisa urgent order?",
-    answer: "Bisa dengan tambahan biaya 30-50%. Hubungi admin untuk ketersediaan.",
+    answer:
+      "Bisa, dengan menyesuaikan ketersediaan slot produksi. Hubungi admin terlebih dahulu untuk menanyakan ketersediaan dan perkiraan waktu pengerjaan.",
     category: "Pemesanan",
+  },
+  {
+    question: "Produk apa saja yang dilayani PADU Printing?",
+    answer:
+      "Antara lain cetak banner dan spanduk, X-banner, roll banner, kartu nama, stiker dan label, undangan, brosur dan poster, kaos dan seragam, mug, tumbler, tote bag, payung, blocknote, pin, hingga box packaging dan paper bag custom.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak X-Banner dan Roll Up Banner?",
+    answer:
+      "Bisa. Tersedia X-Banner custom untuk kebutuhan promosi yang ekonomis serta Roll Up Banner yang lebih praktis dibawa dan dipasang berulang kali untuk berbagai event.",
+    category: "Produk",
+  },
+  {
+    question: "Apa bedanya X-Banner dengan Roll Up Banner?",
+    answer:
+      "Perbedaannya terletak pada harga, kepraktisan, dan ketahanan. X-Banner umumnya lebih ekonomis, sedangkan Roll Up Banner lebih rapi, praktis dibawa, dan bisa digunakan berulang untuk promosi di banyak tempat.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak kartu nama premium?",
+    answer:
+      "Bisa. Terdapat berbagai pilihan bahan dan finishing premium, mulai dari art carton, ivory, kertas, hingga kartu nama plastik PVC, serta finishing seperti spot UV agar kartu nama tampil profesional.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak mug dan tumbler custom?",
+    answer:
+      "Bisa. Mug dan tumbler custom full color bisa dicetak logo, foto, nama, atau ilustrasi. Cocok untuk souvenir, corporate gift, hingga merchandise komunitas.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa membuat tote bag dan merchandise custom lainnya?",
+    answer:
+      "Bisa. Tote bag kanvas sablon, payung custom, blocknote, dan pin tersedia untuk kebutuhan promosi bisnis, seminar, pameran, hingga acara komunitas.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak kaos dan seragam custom?",
+    answer:
+      "Bisa. Kaos polos, kaos tim, kaos distro, jersey, hingga seragam kantor bisa disablon dengan desain custom sesuai kebutuhan, dari jumlah kecil hingga pemesanan besar.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak box packaging dan paper bag custom?",
+    answer:
+      "Bisa. Box custom untuk kemasan produk, box makanan, box gift, hingga paper bag custom logo bisa dikerjakan dengan desain yang disesuaikan dengan identitas brand Anda.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak undangan custom?",
+    answer:
+      "Bisa. Undangan pernikahan, ulang tahun, sunatan, kartu ucapan, dan wedding card tersedia dengan berbagai pilihan bahan dan finishing agar momen spesial terasa lebih berkesan.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa membuat stiker custom untuk promosi atau packaging?",
+    answer:
+      "Bisa. Stiker vinyl cutting, stiker kertas, stiker transparan, label botol, dan stiker bulat tersedia untuk kebutuhan packaging produk maupun media promosi.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah tersedia jasa cetak brosur dan poster?",
+    answer:
+      "Ya, tersedia cetak brosur, poster, dan media promosi cetak lainnya dengan hasil tajam serta pilihan bahan yang dapat disesuaikan dengan kebutuhan dan budget.",
+    category: "Produk",
+  },
+  {
+    question: "Apakah bisa cetak spanduk bendera atau umbul-umbul untuk acara 17 Agustus dan HUT RI?",
+    answer:
+      "Bisa. Tersedia cetak spanduk bendera dan umbul-umbul untuk kebutuhan instansi, sekolah, RT/RW, maupun kantor. Disarankan memesan lebih awal menjelang 17 Agustus agar tidak kehabisan slot produksi.",
+    category: "Produk",
+  },
+  {
+    question: "Bagaimana cara mengirim file desain untuk dicetak?",
+    answer:
+      "Setelah memilih produk, file desain bisa dikirim melalui WhatsApp atau email lalu dikonfirmasikan ke admin. Tim kami akan memeriksa file agar hasil cetak sesuai dengan kebutuhan Anda.",
+    category: "Desain",
+  },
+  {
+    question: "Bagaimana cara menyiapkan file desain agar hasil cetak tidak pecah dan warna tetap tajam?",
+    answer:
+      "Banyak hasil cetak yang kurang maksimal bukan karena mesin, tetapi karena file desain belum sesuai standar cetak. Gunakan resolusi minimal 300 dpi dengan format AI, PSD, PDF, atau PNG, dan sebaiknya konsultasikan dengan tim sebelum mengirim file final.",
+    category: "Desain",
+  },
+  {
+    question: "Apa saja tips memilih kertas atau bahan cetak yang tepat?",
+    answer:
+      "Pemilihan bahan sangat berpengaruh pada kualitas hasil cetak. Bahan yang cocok untuk brosur belum tentu cocok untuk kartu nama atau undangan. Konsultasikan dengan tim untuk menyesuaikan bahan dengan fungsi produk dan budget Anda.",
+    category: "Desain",
+  },
+  {
+    question: "Bagaimana proses pembayaran?",
+    answer:
+      "Pembayaran dilakukan setelah pesanan dikonfirmasi oleh tim, kemudian proses produksi langsung dikerjakan. Metode pembayaran yang tersedia bisa ditanyakan langsung ke admin.",
+    category: "Pembayaran",
+  },
+  {
+    question: "Apakah bisa kirim ke seluruh Indonesia?",
+    answer:
+      "Bisa. Pesanan dapat dikirim melalui ekspedisi ke seluruh Indonesia. Untuk area Jakarta Timur dan sekitarnya, pesanan juga bisa diambil langsung di lokasi.",
+    category: "Pengiriman",
+  },
+  {
+    question: "Apa keunggulan PADU Printing?",
+    answer:
+      "Tiga keunggulan utama: hasil cetak tajam dengan warna akurat, pengerjaan cepat dan tepat waktu, serta layanan yang ramah dan siap membantu sejak konsultasi hingga pengiriman.",
+    category: "Umum",
+  },
+  {
+    question: "Kenapa harus memilih PADU Printing dibanding percetakan lain?",
+    answer:
+      "Karena kami mengutamakan kecepatan eksekusi tanpa mengorbankan kualitas. Mulai dari kartu nama, banner, undangan, hingga merchandise custom dikerjakan dengan hasil konsisten, ditambah pelayanan setiap hari dan konsultasi gratis untuk menentukan spesifikasi yang tepat.",
+    category: "Umum",
   },
 ];
 
