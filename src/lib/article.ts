@@ -1,5 +1,6 @@
 export function readTime(content: string): number {
-  const words = content.trim().split(/\s+/).length;
+  const plain = content.replace(/<[^>]*>/g, " ").trim();
+  const words = plain.split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
 
@@ -26,18 +27,33 @@ export interface TocHeading {
 }
 
 export function extractHeadings(content: string): TocHeading[] {
-  return content
-    .split("\n")
-    .map((line) => {
-      const m = line.trim().match(/^(#{2,3})\s+(.+)$/);
-      if (!m) return null;
-      const text = m[2].trim();
-      return {
-        id: text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
-        level: m[1].length,
-        text,
-      };
-    })
-    .filter((h): h is TocHeading => h !== null)
-    .map((h, i) => ({ ...h, id: h.id || `section-${i}` }));
+  const headings: TocHeading[] = [];
+  const regex = /<h([23])(?:\s[^>]*)?>([\s\S]*?)<\/h\1>/gi;
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    const level = Number(match[1]);
+    const text = match[2].replace(/<[^>]*>/g, "").trim();
+    if (!text) continue;
+    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    headings.push({ id, level, text });
+  }
+  return headings;
+}
+
+export function addHeadingIds(html: string, headings: TocHeading[]): string {
+  const headingMap = new Map<string, TocHeading>();
+  for (const h of headings) {
+    headingMap.set(h.text, h);
+  }
+
+  return html.replace(
+    /<h([23])(?:\s[^>]*)?>([\s\S]*?)<\/h\1>/gi,
+    (fullMatch, level, inner) => {
+      const text = inner.replace(/<[^>]*>/g, "").trim();
+      const h = headingMap.get(text);
+      if (!h) return fullMatch;
+      if (/id=/.test(fullMatch)) return fullMatch;
+      return fullMatch.replace(/<h([23])/, `<h$1 id="${h.id}"`);
+    }
+  );
 }
