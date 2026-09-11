@@ -3,6 +3,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Plus, Pencil, Trash2, X, Upload, ArrowUp, ArrowDown } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { safeJson } from "@/lib/safe-json";
 import {
   AdminHeader,
   Button,
@@ -92,8 +93,8 @@ export default function AdminSlideshow() {
     const body = new FormData();
     body.append("file", file);
     const res = await fetch("/api/upload", { method: "POST", body });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Gagal upload gambar");
+    const data = await safeJson(res);
+    if (!res.ok) throw new Error((data.error as string) || "Gagal upload gambar");
     return data.url as string;
   }
 
@@ -102,6 +103,11 @@ export default function AdminSlideshow() {
     if (!file) return;
     if (file.type !== "image/webp") {
       setUploadError("Hanya format WebP yang diizinkan.");
+      e.target.value = "";
+      return;
+    }
+    if (file.size > 4 * 1024 * 1024) {
+      setUploadError("Ukuran file maksimal 4MB.");
       e.target.value = "";
       return;
     }

@@ -10,6 +10,7 @@ import {
   ScanLine,
   RotateCcw,
 } from "lucide-react";
+import { safeJson } from "@/lib/safe-json";
 import { formatDateID, formatTimeID, type VerifyResult } from "@/lib/events";
 
 type View =
@@ -189,7 +190,7 @@ export default function EventScanClient() {
         setView({ kind: "error" });
         return;
       }
-      const data = (await res.json()) as VerifyResult;
+      const data = (await safeJson(res)) as VerifyResult;
       setBackground(data.background ?? "");
       setView({ kind: "result", result: data, code: cleaned });
     } catch {
